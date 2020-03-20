@@ -1,8 +1,76 @@
 body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  padding: 116px 0 0 0;
+  margin:0;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;  
 }
 
-a {
-  color: #00B7FF;
+html{
+  margin:0;
+  padding:0;
+  height: 100%;
+  background-color: #0376af;
+}
+
+.navbar-app {
+  background-color: #0376af;  
+}
+
+#navbarSupportedContent a{
+  color: #ffffff;
+  font-weight: bold; 
+}
+
+#navbarSupportedContent a:hover{
+  color: #2c423f;
+  background-color: #ffffff;
+  border-radius: 5px;
+  font-weight: bold; 
+}
+
+.homeintro{
+  background-image: url("/public/images/homebg.png");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 140%;
+  height: 490px;
+  color: #002868;
+  font-weight: bold;
+  font-size: 80px !important;  
+}
+
+.jumbotron{
+  margin-bottom: 0px !important;
+  font-size: 50px;
+}
+
+.linksSection{
+  background-color: #ffffff;
+  padding: 10px;
+  margin-top: 40px;
+}
+
+.linksSection i{
+  font-size: 50px;
+  background-color: #0376af;
+  color: #ffffff !important;
+  padding: 20px;
+  border-radius: 50px;
+}
+
+.footerSection{
+  width: 100%;
+  padding: 20px;  
+}
+
+footer{
+  background-color: #0376af;
+  color: #ffffff !important;
+}
+
+.footerIcon{
+  color: #ffffff !important
+}
+
+.footerCR p{
+  color: #2c423f !important;
 }
