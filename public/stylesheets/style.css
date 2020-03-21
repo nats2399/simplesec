@@ -28,14 +28,22 @@ html{
 }
 
 .homeintro{
-  background-image: url("/public/images/homebg.png");
-  background-position: center;
+  background-image: url("/public/images/homebg.jpg");
+  background-position: top;
   background-repeat: no-repeat;
-  background-size: 140%;
-  height: 490px;
-  color: #002868;
+  background-size: 100%;
+  height: auto;
+  color: #fff;
   font-weight: bold;
   font-size: 80px !important;  
+}
+
+.homeintro p{
+  text-shadow: 2px 2px #2c423f;
+}
+
+.homeintro img{
+  width: 350px;
 }
 
 .jumbotron{
