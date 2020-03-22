@@ -1,0 +1,21 @@
+extends layout
+
+block content
+
+	.div
+		.login-form
+			form(method='post' action='/users/generateKeys/auth' dataType='json')
+				h2.text-center #{title}
+				p Please verify your information
+				.form-group
+					input.form-control(type='text' name='username' placeholder='Username' required='required')
+				.form-group
+					input.form-control(type='password' name='password' placeholder='Password' required='required')
+				.form-group
+					input.form-control(type='password' name='validationNum' placeholder='Validation Number' required='required' autocomplete="off")
+				.form-group
+					button.btn.btn-primary.btn-lg.btn-block(type='submit') Get my Key
+        
+			p.text-center.small
+				a Do not have an account? 
+				a(href='users/registration') Sign up here!

@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var nodemailer = require('nodemailer');
 var rand = require('csprng');
+var rsa = require("jsrsasign");
 
 const mysqlconnection = require("../dbconnection.js");
 
@@ -34,7 +35,10 @@ router.get('/registrationSucc', function(req, res, next) {
   res.render('registrationSucc', { title: 'Registration Successfull' });
 });
 
-
+/* GET Generate Keys page. */
+router.get('/generateKeys', function(req, res, next) {
+  res.render('generateKeys', { title: 'Generate Private Key' , publickey: 'Public Key', privatekey: 'Private Key'});
+});
 
 
 
@@ -56,10 +60,7 @@ router.post('/register', (req, res) => {
   mysqlconnection.query(sql, (err, results, fields)=>{
     if(!err)
     {
-      //res.send({"Success":"Success"}); 
-      //res.render('registrationSucc', { title: 'RegistrationSucc' });   
-      //console.log(results);
-
+      
       if(results.affectedRows == 1){
         
         transporter.sendMail(mailOptions, function(error, info){
@@ -82,6 +83,82 @@ router.post('/register', (req, res) => {
   
 
 })
+
+
+
+router.post('/generateKeys/auth', function(request, response) {
+	var username = request.body.username;
+    var password = request.body.password;
+    var validaitonNum = request.body.validationNum;
+    
+
+	let sql = `CALL AUTH_Number("`+ username + `" , "` + password + `" , "` + validaitonNum + `")`;
+
+	if (username && password && validaitonNum) {
+		mysqlconnection.query(sql, function(err, results, fields) {
+			if(!err)
+    		{
+				if (results.length > 0) {
+            
+          let key = rsa.KEYUTIL.generateKeypair("RSA", 2048);
+          
+          let publicKey = rsa.KEYUTIL.getPEM(key.pubKeyObj);
+          let privateKey = rsa.KEYUTIL.getPEM(key.prvKeyObj, "PKCS1PRV");
+          
+          response.render('generateKeysAuth', { title: 'Download Key' , email: username, publickeyarea: publicKey, privatekeyarea: privateKey});                      
+
+					
+				} else {
+					response.send('Incorrect Username and/or Password and/or Validaiton Number!');
+				}			
+				response.end();
+			}
+			else{
+                response.send({"ERROR":err});
+                return console.error(err.message);
+			}
+		});
+	} else {
+		response.send('Please enter Username, Password, and Validaiton Number!');
+		response.end();
+	}
+});
+
+
+
+
+router.post('/generateKeys/auth/download', function(req, res, next) {
+    
+  //Create the private key file and prepare it to download
+  res.setHeader('Content-disposition', 'attachment; filename=private_key.txt');
+  res.setHeader('Content-type', 'text/plain');
+  res.charset = 'UTF-8';
+  res.write(req.body.privatekeytext);
+  //res.end();
+  
+  //Save public key in DB
+    let sql = `CALL INSERT_PUBLICKEY("`+ req.body.email + `" , "` + req.body.publickeytext + `")`;
+
+    mysqlconnection.query(sql, (err, results, fields)=>{
+      if(!err)
+      {
+        console.log("public key saved")        
+      }
+      else{
+        //res.send({"ERROR":err});
+        return console.error(err.message);
+      }
+    });
+
+    
+
+    res.redirect('/');
+    //res.end();
+    
+
+    
+
+});
 
 
 module.exports = router;

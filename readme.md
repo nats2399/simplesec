@@ -25,3 +25,7 @@ Open it at
 
 # Install mysql
 ``` npm install mysql --save ```
+
+# Install rsa
+``` npm install jsrsasign --save ```
+
