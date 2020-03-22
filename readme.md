@@ -29,3 +29,6 @@ Open it at
 # Install rsa
 ``` npm install jsrsasign --save ```
 
+# Install express-session
+``` npm install express-session --save ```
+

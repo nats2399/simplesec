@@ -20,9 +20,14 @@ const transporter = nodemailer.createTransport({
 
 
 
-/* GET users listing. */
+/* GET users home page */
 router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
+  res.send('Home page');
+});
+
+/* GET login page. */
+router.get('/login', function(req, res, next) {
+  res.render('Login', { title: 'Login' });
 });
 
 /* GET home page. */
@@ -39,6 +44,10 @@ router.get('/registrationSucc', function(req, res, next) {
 router.get('/generateKeys', function(req, res, next) {
   res.render('generateKeys', { title: 'Generate Private Key' , publickey: 'Public Key', privatekey: 'Private Key'});
 });
+
+
+
+
 
 
 
@@ -154,11 +163,60 @@ router.post('/generateKeys/auth/download', function(req, res, next) {
 
     res.redirect('/');
     //res.end();
-    
-
-    
 
 });
+
+
+router.post('/login/auth', function(request, response) {
+	var username = request.body.username;
+	var password = request.body.password;
+	let sql = `CALL LOGIN_USERS("`+ username + `" , "` + password + `")`;
+
+	if (username && password) {
+		mysqlconnection.query(sql, function(err, results, fields) {
+			if(!err)
+    		{
+				if (results.length > 0) {
+					
+					var userFound = (JSON.parse(JSON.stringify(results[0])))[0];
+
+					request.session.valid = null; 
+					request.session.loggedin = true;
+					request.session.username = userFound.oEmail;
+					request.session.role = userFound.oRole;
+
+          // if the roles is admin, deploy admin page
+          
+					if(userFound.oRole=='Supervisor'){
+						response.redirect('/supervisorIndex');
+					}
+					else if(userFound.oRole=='Employee'){
+						response.redirect('/employeeIndex');
+					}
+					
+
+				} else {
+					response.send('Incorrect Username and/or Password!');
+				}			
+				response.end();
+			}
+			else{
+				response.send({"ERROR":err});
+			    return console.error(err.message);
+			}
+		});
+	} else {
+		request.session.valid = null; 
+		request.session.loggedin = false;
+		response.send('Please enter Username and Password!');
+		response.end();
+	}
+});
+
+
+
+
+
 
 
 module.exports = router;
