@@ -15,7 +15,13 @@ Open it at
 
 
 # Install bootstrap
-``` npm install bootstrap ```
+``` npm install bootstrap --save ```
 
-add this line into app.js
-``` app.use('/bootstrap', express.static(__dirname + '/node_modules/bootstrap/dist/')); ```
+# Install nodemailer
+``` npm install nodemailer --save ```
+
+# Install csprng for pseudo random numbers
+``` npm install csprng --save ```
+
+# Install mysql
+``` npm install mysql --save ```

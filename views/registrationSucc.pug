@@ -1,0 +1,21 @@
+extends layout
+
+block content
+  .jumbotron.text-center.registrationTitle
+    .div
+      p #{title}
+
+  .div.text-center
+    h1.display-3 Thank You!
+    p.lead
+        strong Please check your email
+        |  for further instructions on how to complete your account setup.
+    br
+    p
+        | Having trouble? 
+        a(href='') Contact us
+    br
+    p.lead
+        a.btn.btn-primary.btn-sm(href='/generateKeys' role='button') Continue to get Private Key
+    br
+    br

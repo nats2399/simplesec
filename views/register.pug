@@ -1,0 +1,67 @@
+extends layout
+
+block content
+	.jumbotron.text-center.registrationTitle
+		.div
+			p #{title}
+
+	.container.register
+		.row
+			.col-md-3.register-left
+				i.icon-note
+				h3 Register
+				p 
+				a.button(href='/userLogin') Login
+				br
+
+			.col-md-9.register-right
+				#myTabContent.tab-content
+					#home.tab-pane.fade.show.active(role='tabpanel' aria-labelledby='home-tab')
+						h3.register-heading User Registration
+						form(method='post' action='/users/register' dataType='json')
+
+							.row.register-form
+								.col-md-6
+									.form-group
+										input.form-control#firstName(type='text' placeholder='First Name *' name='firstName')
+									.form-group
+										input.form-control#lastName(type='text' placeholder='Last Name *' name='lastName')
+									.form-group
+										input.form-control#email(type='email' placeholder='Corporative Email *' name='email')
+									.form-group
+										input.form-control#pw(type='password' placeholder='Password *' name='pw')
+									.form-group
+										input.form-control#pwConfirmation(type='password' placeholder='Confirm Password *' name='pwconfirmation')
+									
+								.col-md-6
+									.form-group
+										select.form-control#department(name='department')
+											option.hidden(selected='' disabled='') Please select your Department
+											option Contracts
+											option Finance and Accounting
+											option Human Resources
+											option Information Technology
+											option Marketing               
+											option Purchasing
+											option Sales
+									.form-group
+										select.form-control#role(name='role')
+											option.hidden(selected='' disabled='') Please select your Role
+											option Employee
+											option Supervisor
+									.form-group
+										input.form-control#phone(type='phone' placeholder='Phone *' name='phone')
+									.form-group
+										input.form-control#address(type='address' placeholder='Shipping Address *' name='address')
+									.form-group
+										select.form-control#secQuestion(name='secQuestion')
+											option.hidden(selected='' disabled='') Please select your Sequrity Question
+											option What is Your old Phone Number
+											option What is your Pet Name?
+											option What is your mother's Maiden Name?
+									.form-group
+										input.form-control#secAnswer(type='text' placeholder='Enter Your Answer *' value='' name='secAnswer')
+									input.btnRegister(type='submit' value='Register')
+
+									.mssg.bg-danger
+										span#check
