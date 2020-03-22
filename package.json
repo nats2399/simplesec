@@ -6,11 +6,17 @@
     "start": "node ./bin/www"
   },
   "dependencies": {
+    "bootstrap": "^4.4.1",
     "cookie-parser": "~1.4.4",
+    "csprng": "^0.1.2",
     "debug": "~2.6.9",
     "express": "~4.16.1",
+    "express-session": "^1.17.0",
     "http-errors": "~1.6.3",
+    "jsrsasign": "^8.0.12",
     "morgan": "~1.9.1",
-    "pug": "2.0.0-beta11"
+    "mysql": "^2.18.1",
+    "nodemailer": "^6.4.6",
+    "pug": "^2.0.4"
   }
 }

@@ -1,0 +1,32 @@
+extends layout
+
+block content
+	.jumbotron.text-center.registrationTitle
+		.div
+			p #{title}
+
+	.div.linksSection
+		section.features-icons.text-center
+			.container
+				.row
+					.col-lg-4
+						.features-icons-item.mx-auto.mb-5.mb-lg-0.mb-lg-3
+							.features-icons-icon.d-flex
+								a.m-auto.text-primary(href='/Supervisor/View') 
+									i.icon-list.m-auto.d-flex
+							h3 View Orders
+							p.lead.mb-0  
+					.col-lg-4
+						.features-icons-item.mx-auto.mb-5.mb-lg-0.mb-lg-3
+							.features-icons-icon.d-flex
+								a.m-auto.text-primary(href='/Supervisor/Approve') 
+									i.icon-check.m-auto.d-flex
+							h3 Approve Orders
+							p.lead.mb-0  
+					.col-lg-4
+						.features-icons-item.mx-auto.mb-5.mb-lg-0.mb-lg-3
+							.features-icons-icon.d-flex
+								a.m-auto.text-primary(href='/Supervisor/Account') 
+									i.icon-user.m-auto.d-flex
+							h3 Account
+							p.lead.mb-0  

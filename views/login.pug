@@ -1,0 +1,25 @@
+extends layout
+
+block content
+
+  .div.login-div
+    .login-form
+      form(method='post' action='/users/login/auth' dataType='json')
+        .avatar
+          img(src='/public/images/simpleseclogo.png' alt='Logo')
+        h1.text-center Member #{title}
+        .form-group
+          input.form-control(type='text' name='username' placeholder='Username' required='required')
+        .form-group
+          input.form-control(type='password' name='password' placeholder='Password' required='required')
+        .form-group
+          button.btn.btn-primary.btn-lg.btn-block(type='submit') Sign in
+        .div.text-center
+          .clearfix
+            label.pull-left.checkbox-inline
+              input(type='checkbox')
+              |  Remember me            
+          a.pull-right(href='#') Forgot Password?
+      p.text-center.small
+        | Don&apos;t have an account? 
+        a(href='/registration') Sign up here!

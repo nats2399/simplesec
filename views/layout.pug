@@ -2,6 +2,82 @@ doctype html
 html
   head
     title= title
+    
+    //css and js files
     link(rel='stylesheet', href='/stylesheets/style.css')
+    link(rel='stylesheet', href='/bootstrap/css/bootstrap.css')
+    link(rel='stylesheet', href='/bootstrap/css/bootstrap.min.css')
+    //link(rel='stylesheet', href='/bootstrap/css/bootstrap-responsive.min.css')
+    
+    //SimpleIcons
+    link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/simple-line-icons/2.4.1/css/simple-line-icons.css')
+    
+
+    script(src='https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js')
+    script(src='/bootstrap/js/bootstrap.min.js')
+
+    
+
+
+    block navBar
+      .div
+        nav.navbar.navbar-expand-lg.fixed-top.navbar-app
+          a.navbar-brand(href='/') 
+            img(src='/public/images/simpleseclogo.png' alt='SimpleSec logo' height='90' width='90')
+          button.navbar-toggler(type='button', data-toggle='collapse', data-target='#navbarSupportedContent', aria-controls='navbarSupportedContent', aria-expanded='false', aria-label='Toggle navigation')
+            span.navbar-toggler-icon
+          
+          .collapse.navbar-collapse(id='navbarSupportedContent')
+            ul.navbar-nav.mr-auto
+              li.nav-item
+                a.nav-link(href='/') Home
+              li.nav-item
+                a.nav-link(href='/') About
+              li.nav-item
+                a.nav-link(href='/') Resources
+              li.nav-item
+                a.nav-link(href='/') Support
+
+            ul.navbar-nav.float-right
+              li.nav-item.username
+                div #{user}
+              li.nav-item
+                a.nav-link(href='/users/register') Sign up
+              li.nav-item
+                a.nav-link(href='/users/login') Login
+              li.nav-item.dropdown
+                a.nav-link.dropdown-toggle(id='navbarDropdownMenuLink', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false') Account
+                .dropdown-menu.account(aria-labelledby='navbarDropdownMenuLink')
+                  a.dropdown-item(href='/logout') Logout
+              
+                  
   body
+            
     block content
+
+  footer
+    .container.footerSection
+      .row
+        .col-lg-6.h-100.text-center.text-lg-left.my-auto.footerCR
+          ul.list-inline.mb-2
+            li.list-inline-item
+              a.footerIcon(href='#') About
+            li.list-inline-item &sdot;
+            li.list-inline-item
+              a.footerIcon(href='#') Contact
+            li.list-inline-item &sdot;
+            li.list-inline-item
+              a.footerIcon(href='#') Terms of Use
+            li.list-inline-item &sdot;
+            li.list-inline-item
+              a.footerIcon(href='#') Privacy Policy
+          p.small.mb-4.mb-lg-0 &copy; SimpleSec 2020. All Rights Reserved.
+        .col-lg-6.h-100.text-center.text-lg-right.my-auto
+          ul.list-inline.mb-0
+            li.list-inline-item.mr-3
+              a.footerIcon(href='#')
+                i.icon-social-facebook
+            li.list-inline-item.mr-3
+              a.footerIcon(href='#')
+                i.icon-social-twitter
+    

@@ -1,0 +1,23 @@
+extends layout
+
+block content
+  .jumbotron.text-center.registrationTitle
+    .div
+      p Get Your Key Pair
+      
+  .div#keys.text-center    
+    form(method='post' action='/users/generateKeys/auth/download' dataType='json').container.keys-container
+      .row
+        .col-md-6.keys-1
+          h3 Public Key
+          
+          .div          
+            textarea(rows='6' name='publickeytext' value='yo' onkeydown='return false;')
+              | #{publickeyarea}             
+        .col-md-6.keys-2
+          h3 Private Key
+          .div.text-center.form-group            
+              input(type="hidden" name='email' value=`${email}`)
+              textarea(rows='6' name='privatekeytext' value='yo' onkeydown='return false;')
+                | #{privatekeyarea}            
+              button.btn.btn-primary.btn-lg.btn-block(type='submit') Download

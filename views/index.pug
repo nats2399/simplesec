@@ -1,5 +1,31 @@
 extends layout
 
 block content
-  h1= title
-  p Welcome to #{title}
+  .jumbotron.text-center.homeintro
+    .div
+      p Welcome to #{title}
+      img(src='/public/images/simpleseclogo.png')
+  // Icons Grid
+  
+  .div.linksSection
+    section.features-icons.text-center
+      .container
+        .row
+          .col-lg-4
+            .features-icons-item.mx-auto.mb-5.mb-lg-0.mb-lg-3
+              .features-icons-icon.d-flex
+                a.m-auto.text-primary(href='/userLogin') 
+                  i.icon-people.m-auto.d-flex
+              h3 Purchaser
+          .col-lg-4
+            .features-icons-item.mx-auto.mb-5.mb-lg-0.mb-lg-3
+              .features-icons-icon.d-flex
+                a.m-auto.text-primary(href='/userLogin') 
+                  i.icon-briefcase.m-auto.d-flex
+              h3 Supervisor
+          .col-lg-4
+            .features-icons-item.mx-auto.mb-0.mb-lg-3
+              .features-icons-icon.d-flex
+                  a.m-auto.text-primary(href='/userLogin') 
+                    i.icon-bag.m-auto.d-flex
+              h3 Orders Dept
