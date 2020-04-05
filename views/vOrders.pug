@@ -1,0 +1,85 @@
+extends layout
+
+block content
+  .jumbotron.text-center.registrationTitle
+    .div
+      p #{title}
+  - var n=0, orderid=0, totalCost=0, show='show';
+  .row
+    .col-2
+    .col-8
+      #accordionExample.accordion
+        each order in orderdetails
+          .card
+            div(id="headingOne"+n class="card-header")
+              h2.mb-0
+                button.btn.btn-link(type='button' data-toggle='collapse' data-target='#collapse'+n aria-expanded='true' aria-controls='collapse'+n)
+                  b Order #                   
+                  | #{order[0].oOrderID}            &nbsp &nbsp &nbsp &nbsp &nbsp  &nbsp &nbsp &nbsp &nbsp &nbsp 
+                  b By:  
+                  | #{order[0].oFirstName}  #{order[0].oLastName}              &nbsp &nbsp &nbsp &nbsp &nbsp  &nbsp &nbsp &nbsp &nbsp &nbsp
+                  b Status:  
+                  | #{order[0].oOrderStatus}           
+            div(id="collapse"+n class="collapse "+show aria-labelledby="heading"+n data-parent='#accordionExample')
+              .card-body  
+                div.row
+                  div.col 
+                    b Ordered by:
+                  div.col 
+                     | #{order[0].oFirstName}  #{order[0].oLastName} 
+                  div.col 
+                    b Department Name:
+                  div.col 
+                    | #{order[0].oDeptName}
+                div.row
+                  div.col 
+                    b Role Name:
+                  div.col 
+                     | #{order[0].oRoleName} 
+                  div.col 
+                    b Order Status:
+                  div.col 
+                    | #{order[0].oOrderStatus}
+                div.row
+                  div.col 
+                    b Shipping Address:
+                  div.col 
+                     | #{order[0].oShippingAddress} 
+                  div.col 
+                    b Total Amount: 
+                  div.col 
+                    | $ #{order[0].oTotalCost}
+                br
+                - var x=0
+                | List of items in the order
+                table.table.table-striped
+                  thead
+                    tr
+                      th(scope='col') #
+                      th(scope='col') Order ID
+                      th(scope='col') Product ID
+                      th(scope='col') Product Name
+                      th(scope='col') Quantity
+                      th(scope='col') Unit Price
+                      th(scope='col') Supplier Name
+                  tbody
+                    each od in order
+                      tr
+                        th(scope='row') #{++x}
+                        td #{od.oOrderID}  
+                        td #{od.oProductID}  
+                        td #{od.oProductName}  
+                        td #{od.oQuantity}  
+                        td $ #{od.oUnitPrice}  
+                        td #{od.oSupplierName}  
+          - n++
+          -show = '';
+      br
+      br
+  .row
+    .col-2 
+    .col-8
+      
+  br
+ 
+
