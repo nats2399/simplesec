@@ -183,14 +183,15 @@ router.post('/login/auth', function(request, response) {
 					request.session.valid = null; 
 					request.session.loggedin = true;
 					request.session.username = userFound.oEmail;
-					request.session.role = userFound.oRole;
-
+          request.session.role = userFound.oRoleName;
+          
+          
           // if the roles is admin, deploy admin page
           
-					if(userFound.oRole=='Supervisor'){
+					if(userFound.oRoleName=='Supervisor'){
 						response.redirect('/supervisorIndex');
 					}
-					else if(userFound.oRole=='Employee'){
+					else if(userFound.oRoleName=='Employee'){
 						response.redirect('/employeeIndex');
 					}
 					

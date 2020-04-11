@@ -1,0 +1,39 @@
+extends layout
+
+block content
+	.jumbotron.text-center.registrationTitle
+		.div
+			p #{title}
+
+	.div.linksSection
+		section.features-icons.text-center
+			.container
+				.row
+					.col-lg-3
+						.features-icons-item.mx-auto.mb-5.mb-lg-0.mb-lg-3
+							.features-icons-icon.d-flex
+								a.m-auto.text-primary(href='/employee/view') 
+									i.icon-list.m-auto.d-flex
+							h3 View Orders
+							p.lead.mb-0  
+					.col-lg-3
+						.features-icons-item.mx-auto.mb-5.mb-lg-0.mb-lg-3
+							.features-icons-icon.d-flex
+								a.m-auto.text-primary(href='/employee/add') 
+									i.icon-plus.m-auto.d-flex
+							h3 Add Orders
+							p.lead.mb-0 
+					.col-lg-3
+						.features-icons-item.mx-auto.mb-5.mb-lg-0.mb-lg-3
+							.features-icons-icon.d-flex
+								a.m-auto.text-primary(href='/employee/approve') 
+									i.icon-check.m-auto.d-flex
+							h3 Submit Orders
+							p.lead.mb-0  
+					.col-lg-3
+						.features-icons-item.mx-auto.mb-5.mb-lg-0.mb-lg-3
+							.features-icons-icon.d-flex
+								a.m-auto.text-primary(href='/employee/account') 
+									i.icon-user.m-auto.d-flex
+							h3 Account
+							p.lead.mb-0  
