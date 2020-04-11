@@ -85,7 +85,7 @@ footer{
 
 
 .username{
-  color: #007bff !important;
+  color: #2c423f !important;
   font-style: italic;
   align-items: center;  
 }
@@ -375,6 +375,7 @@ footer{
 .addorderform {
   width: 90%;
   margin: auto;
+  margin-bottom: 10%;
   background: #efefef;
   padding: 10px 120px 80px 120px;
   text-align: center;
@@ -466,11 +467,6 @@ footer{
   transition: ease .3s;
 }
 
-.addorderbutton:hover{
-  background: #8BC34A;
-  color: #ffffff;
-}
-
 #addproduct{
   padding: 10px 120px 0px 120px;
 }
@@ -479,3 +475,51 @@ footer{
   background-color: #fff !important;
 }
 
+#ProductSelected{
+  background-color: #0367af;
+  border-color: #0367af;
+  padding: 12px 24px;
+}
+
+#addbutton{
+  background-color: #343a40;
+  color: #fff;
+}
+
+#addbutton:hover{
+  background: #0367af;
+  color: #ffffff;
+}
+
+#savebutton{
+  background-color: #17a2b8;
+  color: #343a40;
+}
+
+#savebutton:hover{
+  background-color: #138496;
+  border-color: #117a8b;
+  color: #ffffff;
+}
+
+#submitbutton{
+  background-color: #8BC34A;
+  color: #343a40;
+}
+
+#submitbutton:hover{
+  background: #218838;
+  border-color: #1e7e34;
+  color: #ffffff;
+}
+
+#cancelbutton{
+  background-color: #dc3545;
+  color: #343a40;
+}
+
+#cancelbutton:hover{
+  background-color: #c82333;
+  border-color: #bd2130;
+  color: #ffffff;
+}

@@ -194,7 +194,7 @@ router.post('/login/auth', function(request, response) {
 					else if(userFound.oRoleName=='Employee'){
 						response.redirect('/employeeIndex');
 					}
-					
+                    
 
 				} else {
 					response.send('Incorrect Username and/or Password!');
@@ -205,7 +205,9 @@ router.post('/login/auth', function(request, response) {
 				response.send({"ERROR":err});
 			    return console.error(err.message);
 			}
-		});
+    });
+        
+
 	} else {
 		request.session.valid = null; 
 		request.session.loggedin = false;

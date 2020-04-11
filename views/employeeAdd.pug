@@ -14,7 +14,7 @@ block content
 
 			label
 				p.label-txt Order Status:
-				input.input(type='text' value='Draft' disabled='')
+				input.input(type='text' value='IN PROGRESS' disabled='')
 
 			label
 				p.label-txt Ordered by:
@@ -65,14 +65,14 @@ block content
 				each product in products
 					option(value=product.ProductID) #{product.ProductName}
 
-			a.addorderbutton(onclick='add()') Add
+			a#addbutton.addorderbutton(onclick='add()') Add
 					
 			br
 			br
 			
-			button.addorderbutton(type='submit') Save
-			button.addorderbutton(type='submit') Submit
-			button.addorderbutton(type='submit') Cancel
+			button#savebutton.addorderbutton(type='submit') Save
+			button#submitbutton.addorderbutton(type='submit') Submit
+			button#cancelbutton.addorderbutton(type='submit') Cancel
 
 	
 		
@@ -99,7 +99,7 @@ block content
 				col1.innerHTML = productsel.ProductName;
 				col2.innerHTML = productsel.SupplierName;
 				col3.innerHTML = productsel.Category;
-				col4.innerHTML = "<input class='input qinput' type='number' min='0' name='barcode'>";
+				col4.innerHTML = "<input class='input qinput' type='number' min='0' value='1' name='barcode'>";
 				col5.innerHTML = productsel.UnitPrice;
 				col6.innerHTML = productsel.StockAvailability;
 				col7.innerHTML = "<input class='addorderbutton btn-danger' type='button' name='Delete' value='Delete' onclick='deleteRow(this)'>";
