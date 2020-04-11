@@ -1,0 +1,118 @@
+extends layout
+
+block content
+	.jumbotron.text-center.registrationTitle
+		.div
+			p #{title}
+
+	.div.addorder
+		form.addorderform#addorderform
+			label
+				p.label-txt Order Number:
+				input.input(type='text' value=order[0].orderNum disabled='')
+				order.orderNum
+
+			label
+				p.label-txt Order Status:
+				input.input(type='text' value='Draft' disabled='')
+
+			label
+				p.label-txt Ordered by:
+				input.input(type='text' value=order[0].orderBy disabled='')
+							
+			label
+				p.label-txt Department:
+				input.input(type='text' value=order[0].orderDpt disabled='')
+							
+			label
+				p.label-txt Shipping Address:
+				input.input(type='text' value=order[0].orderShippingAdd disabled='')
+				
+			label
+				p.label-txt Supervisor:
+				input.input(type='text' value=order[0].orderSupervisor disabled='') 				
+			
+			label
+				p.label-txt Description:
+				input.input(type='text' placeholder='Please write a brief description for this order.')
+				.line-box
+				.line
+
+			table.table.table-striped.table-borderless.table-hover#productstable(style='width:100%', border='1')
+				thead.thead-dark
+					tr
+						th(scope='col') Product
+						th(scope='col') Supplier
+						th(scope='col') Category
+						th(scope='col') Quantity
+						th(scope='col') Unit Price
+						th(scope='col') Available
+						th(scope='col') 
+				tbody
+				each row in rows
+					tr
+						th(scope='row')= row.ProductName
+						td= row.SupplierName
+						td= row.Category
+						td
+							input.input.qinput(type='number' min="0")
+						td= row.UnitPrice
+						td= row.StockAvailability
+						td
+							input.addorderbutton.btn-danger(id= row.ProductID, type='button', value='Delete', onclick='deleteRow()')
+
+			select#ProductSelected.btn.btn-primary.dropdown-toggle(name='ProductSelected')
+				each product in products
+					option(value=product.ProductID) #{product.ProductName}
+
+			a.addorderbutton(onclick='add()') Add
+					
+			br
+			br
+			
+			button.addorderbutton(type='submit') Save
+			button.addorderbutton(type='submit') Submit
+			button.addorderbutton(type='submit') Cancel
+
+	
+		
+		
+		script.
+			var add = function() {
+				var table = document.getElementById("productstable");
+				var newrow = table.insertRow(-1);
+
+				var col1 = newrow.insertCell(0);
+				var col2 = newrow.insertCell(1);
+				var col3 = newrow.insertCell(2);
+				var col4 = newrow.insertCell(3);
+				var col5 = newrow.insertCell(4);
+				var col6 = newrow.insertCell(5);
+				var col7 = newrow.insertCell(6);
+
+				var productselindex = document.getElementById('ProductSelected').selectedIndex;
+				
+				var productlist = !{JSON.stringify(products)};
+
+				var productsel = productlist[productselindex];
+
+				col1.innerHTML = productsel.ProductName;
+				col2.innerHTML = productsel.SupplierName;
+				col3.innerHTML = productsel.Category;
+				col4.innerHTML = "<input class='input qinput' type='number' min='0' name='barcode'>";
+				col5.innerHTML = productsel.UnitPrice;
+				col6.innerHTML = productsel.StockAvailability;
+				col7.innerHTML = "<input class='addorderbutton btn-danger' type='button' name='Delete' value='Delete' onclick='deleteRow(this)'>";
+			
+			}
+
+		script.
+			var deleteRow = function(r) {
+				
+				var i = r.parentNode.parentNode.rowIndex;
+				document.getElementById("productstable").deleteRow(i);
+				console.log("delete");
+			
+			}
+
+			
