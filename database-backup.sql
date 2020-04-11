@@ -70,3 +70,80 @@ BEGIN
     WHERE Email = iEmail AND PasswordHash = MD5(iPassword) AND ValidationNumber = iValidationNumber;
     SELECT oEmail;
 END
+
+
+
+CREATE DEFINER=`admin`@`%` PROCEDURE `ADD_ORDER`(
+	IN iUserEmail varchar(40),
+    IN iDescription varchar(255),
+    IN iStatus varchar(50),
+    IN iproductsArray varchar(500),
+    IN iunitsArray varchar(500)
+)
+BEGIN
+	DECLARE iOrderStatus varchar(50);
+    DECLARE iUserID varchar(50);
+    DECLARE iShippingAddress varchar(500);
+    
+    DECLARE iorderID varchar(50);
+    DECLARE iunitPrice varchar(50);
+    
+    DECLARE Size INT;
+    DECLARE Counter INT;
+    DECLARE pos VARCHAR(10);
+    DECLARE i INT;
+    DECLARE tempProduct VARCHAR(10);
+    DECLARE tempUnits VARCHAR(10);
+    DECLARE str VARCHAR(255);
+    
+    IF iStatus = '0' THEN
+		SET iOrderStatus = "IN PROGRESS";
+	ELSEIF iStatus = '1' THEN
+		SET iOrderStatus = "SUBMITTED";
+	END IF;
+    
+    SELECT UserID, ShippingAddress
+    FROM Users
+    WHERE Email = iUserEmail
+    INTO iUserID, iShippingAddress;
+    
+    /* ------------- CREATE ORDER -------------*/
+    INSERT INTO Orders(UserId, ShippingAddress, Description, OrderStatus, OrderDate)
+    VALUES(iUserID, iShippingAddress, iDescription, iOrderStatus, CURRENT_TIMESTAMP());
+    SELECT LAST_INSERT_ID() INTO iorderID;
+    
+    /* ---------------------------------------*/
+    
+    /* --------------- PRODUCTS ---------------*/
+    
+    SELECT JSON_LENGTH(iproductsArray) INTO Size;
+    
+    SET counter = 1;
+    
+    loop_products: REPEAT                         
+		SET  str = CONCAT(str, counter  ,',');
+		SET tempProduct = "";
+        SET i = counter - 1;
+        
+        SET pos = concat('$[',i,']');
+		SELECT JSON_EXTRACT(iproductsArray, pos) INTO tempProduct;
+        SELECT JSON_EXTRACT(iunitsArray, pos) INTO tempUnits;
+        
+        #Bring Price From Products Table
+        SELECT UnitPrice FROM Products WHERE ProductID=tempProduct INTO iunitPrice;
+        
+        INSERT INTO Order_details(OrderID, ProductID, UnitPrice, Quantity, OrderDate)
+        VALUES(iorderID,tempProduct,iunitPrice,tempUnits,current_timestamp());
+        
+        SELECT tempProduct, tempUnits;
+        
+        
+        SET  counter  = counter  + 1;        
+	UNTIL counter > Size             
+	END REPEAT loop_products;   
+    
+    
+	/* ---------------------------------------*/
+	
+END
+

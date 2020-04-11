@@ -2,9 +2,11 @@ extends layout
 
 block content
 
-	.div
+	.div 
 		.login-form
 			form(method='post' action='/users/generateKeys/auth' dataType='json')
+				.avatar
+					img(src='/public/images/simpleseclogo.png' alt='Logo')
 				h2.text-center #{title}
 				p Please verify your information
 				.form-group
