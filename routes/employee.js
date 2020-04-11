@@ -4,7 +4,7 @@ const mysqlconnection = require("../dbconnection");
 
 
 /* GET add page. */
-router.get('/add', function(req, res, next) {
+router.get('/order/add', function(req, res, next) {
 
 	let sql = `CALL SELECT_ALLPRODUCTS()`;
 	
@@ -56,6 +56,35 @@ router.get('/add', function(req, res, next) {
 });
 
 
+/* GET add page. */
+router.post('/order/accept', function(req, res, next) {
+	
+	console.log(req.body);
+
+	var username = req.session.username;
+	var ordescription = req.body.orderdescription;
+	var oraccept = req.body.accept;
+	var productlist = ''.concat("[",req.body.productID,"]");
+	var quantitylist = ''.concat("[",req.body.quantity,"]");
+	
+	let sql = `CALL ADD_ORDER("`+username+ `","` + ordescription+ `","` +oraccept+ `","` +productlist+ `","` +quantitylist+`")`;
+
+	//console.log(sql);
+
+	mysqlconnection.query(sql, function (err, result, fields) 
+	{
+		if (err) 
+			throw err; 
+		else
+		{
+			//console.log("SUCCESS");
+			response.redirect('/employeeIndex');
+		}
+	});
+
+	
+
+});
 
 
 
