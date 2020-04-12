@@ -31,3 +31,6 @@ Open it at
 
 # Install express-session
 ``` npm install express-session --save ```
+
+# Install crypto module
+``` npm install crypto-js --save ```

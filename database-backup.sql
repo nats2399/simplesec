@@ -72,6 +72,7 @@ BEGIN
 END
 
 
+/* CALL `ADD_ORDER`( 'jiridaj888@sweatmail.com', 'Description', 'SAVE', '[8,7,6]', '[10,20,50]') */
 
 CREATE DEFINER=`admin`@`%` PROCEDURE `ADD_ORDER`(
 	IN iUserEmail varchar(40),
@@ -88,6 +89,8 @@ BEGIN
     DECLARE iorderID varchar(50);
     DECLARE iunitPrice varchar(50);
     
+	DECLARE iTotalCost DECIMAL(13, 2);
+	
     DECLARE Size INT;
     DECLARE Counter INT;
     DECLARE pos VARCHAR(10);
@@ -96,9 +99,11 @@ BEGIN
     DECLARE tempUnits VARCHAR(10);
     DECLARE str VARCHAR(255);
     
-    IF iStatus = '0' THEN
+    SET iTotalCost = 0;
+    
+    IF iStatus = 'SAVE' THEN
 		SET iOrderStatus = "IN PROGRESS";
-	ELSEIF iStatus = '1' THEN
+	ELSEIF iStatus = 'SUBMIT' THEN
 		SET iOrderStatus = "SUBMITTED";
 	END IF;
     
@@ -135,7 +140,8 @@ BEGIN
         INSERT INTO Order_details(OrderID, ProductID, UnitPrice, Quantity, OrderDate)
         VALUES(iorderID,tempProduct,iunitPrice,tempUnits,current_timestamp());
         
-        SELECT tempProduct, tempUnits;
+        SET iTotalCost = iTotalCost + (tempUnits * iunitPrice);
+        #SELECT tempProduct, tempUnits, iunitPrice, iTotalCost;
         
         
         SET  counter  = counter  + 1;        
@@ -144,6 +150,66 @@ BEGIN
     
     
 	/* ---------------------------------------*/
+    # UPDATE TOTAL COST
+    #SELECT iTotalCost;
+    
+    UPDATE Orders
+	SET TotalCost = iTotalCost
+	WHERE iorderID = OrderID;    
+    
 	
 END
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* -----------ABY-------------- */
+CREATE DEFINER=`admin`@`%` PROCEDURE `ADD_ORDER_DETAILS`(
+   IN iOrderID varchar(50),
+   IN iProductID varchar(50),
+   IN iUnitPrice varchar(50),
+   IN iQuantity varchar(50)   
+)
+BEGIN
+  INSERT INTO Products (OrderID, ProductID, UnitPrice, Quantity, OrderDate)
+  VALUE (iOrderID, iProductID, iUnitPrice, iQuantity, sysdate);
+    
+END
+
+
+CREATE DEFINER=`admin`@`%` PROCEDURE `ADD_ORDERS`(
+        IN iUserID varchar(50), 
+        IN iShippingAddress varchar(500), 
+        IN iCategory varchar(50), 
+        IN iDigitalSign LONGTEXT,
+        IN iOrderStatus varchar(50), 
+        IN iOrderHash varchar(50)   
+)
+BEGIN
+  INSERT INTO Products (UserID, ShippingAddress, Category, DigitalSign, OrderStatus, OrderHash, OrderDate)
+  VALUE (iUserID, iShippingAddress, iCategory, iDigitalSign, iOrderStatus, iOrderHash, sysdate);
+    
+END
+
+
+
+
+
+
+
 

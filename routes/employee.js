@@ -67,6 +67,21 @@ router.post('/order/accept', function(req, res, next) {
 	var productlist = ''.concat("[",req.body.productID,"]");
 	var quantitylist = ''.concat("[",req.body.quantity,"]");
 	
+	
+	/* Calculate HASH */
+	var ordernumber = req.body.ordernumber;
+	var orderstatus = req.body.orderstatus;
+	var orderedby = req.body.orderedby;
+	var orderdepartment = req.body.orderdepartment;
+	var shipping = req.body.shipping;
+	var supervisor = req.body.supervisor;
+	var orderdescription = req.body.orderdescription;
+	var productID = req.body.productID;
+	var quantity = req.body.quantity;
+	
+	
+
+
 	let sql = `CALL ADD_ORDER("`+username+ `","` + ordescription+ `","` +oraccept+ `","` +productlist+ `","` +quantitylist+`")`;
 
 	//console.log(sql);
@@ -78,7 +93,7 @@ router.post('/order/accept', function(req, res, next) {
 		else
 		{
 			//console.log("SUCCESS");
-			response.redirect('/employeeIndex');
+			res.redirect('/employeeIndex');
 		}
 	});
 
