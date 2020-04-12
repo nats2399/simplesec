@@ -7,7 +7,13 @@ var session = require('express-session');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+
 var ordersRouter = require('./routes/orders');
+
+var employeeRouter = require('./routes/employee');
+var supervisorRouter = require('./routes/supervisor');
+var ordersdptRouter = require('./routes/ordersdpt');
+
 
 var app = express();
 
@@ -35,7 +41,13 @@ app.use('/bootstrap', express.static(__dirname + '/node_modules/bootstrap/dist/'
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+
 app.use('/orders', ordersRouter);
+
+app.use('/employee', employeeRouter);
+app.use('/supervisor', supervisorRouter);
+app.use('/ordersdpt', ordersdptRouter);
+
 app.use("/public", express.static(__dirname + '/public'));
 
 
