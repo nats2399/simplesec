@@ -24,7 +24,7 @@ router.get('/vOrders', function(req, res, next) {
 });
 
 router.get('/getOrders', function(request, response) {
-  var email = '';
+  var email = request.session.username;
   var orderid='';
 	let sql = 'call FEATCH_ORDER_DETAILS("'+orderid+'","'+email+'")';
   mysqlconnection.query(sql, function(err, results, fields) {
