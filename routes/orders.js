@@ -138,6 +138,12 @@ router.get('/viewOrder', function(request, response) {
   });
 });
 
+/* GET viewOrder page. */
+router.get('/verifyOrder', function(request, response) {
+  var orderid = request.query.orderID;
+  console.log(orderid);
+  response.send("WHEEE");
+});
 
 
 
