@@ -66,7 +66,7 @@ app.use(function(err, req, res, next) {
   // render the error page
   res.status(err.status || 500);
   //res.render('error');
-  res.render('errormsg', { title: 'ATTENTION!' , errormessage: 'There was a problem processing your order. Please try again.' , user: req.session.username});
+  res.render('errormsg', { title: 'ATTENTION!' , errormessage: 'There was a problem processing your request. Please try again.' , user: req.session.username});
 });
 
 module.exports = app;

@@ -43,7 +43,10 @@ block content
 					
 			label
 				p.label-txt Description:
-				input.input(type='text' name='orderdescription' placeholder='Please write a brief description for this order.')
+				if !order[0].orderDescription 
+					input.input(type='text' name='orderdescription' placeholder='Please write a brief description for this order.')
+				if order[0].orderDescription
+					input.input(type='text' name='orderdescription' value=order[0].orderDescription)
 				.line-box
 				.line
 
@@ -60,15 +63,17 @@ block content
 				tbody
 				each row in rows
 					tr
-						th(scope='row')= row.ProductName
+						th(scope='row')
+							input(type="hidden" name="productID" value=row.ProductID) 
+							=row.ProductName	
 						td= row.SupplierName
 						td= row.Category
 						td
-							input.input.qinput(type='number' min="0")
+							input.input.qinput(name='quantity' type='number' min="0" value=row.Quantity)
 						td= row.UnitPrice
 						td= row.StockAvailability
 						td
-							input.addorderbutton.btn-danger(id= row.ProductID, type='button', value='Delete', onclick='deleteRow()')
+							input.addorderbutton.btn-danger(type='button', value='Delete', onclick='deleteRow(this)')
 
 			select#ProductSelected.btn.btn-primary.dropdown-toggle(name='ProductSelected')
 				each product in products
@@ -96,9 +101,15 @@ block content
 							lablel.privatekeyinstructions
 								| Copy and Paste your Private Key here. Please include all the text in your TXT file. You can use CTRL+A in your private key file, and then CTRL+V here.
 			.div
-				button#savebutton.addorderbutton(name='accept' type='submit' value='save') Save
-				button#submitbutton.addorderbutton(name='accept' type='submit' value='submit') Submit
-				a#cancelbutton.addorderbutton(href='/order/cancel') Cancel
+				if order[0].oOrderStatus
+					button#savebutton.addorderbutton(name='accept' type='submit' value='saveedit') Save
+					button#submitbutton.addorderbutton(name='accept' type='submit' value='submitedit') Submit
+					a#cancelbutton.addorderbutton(href='/order/cancel') Cancel
+				
+				if !order[0].oOrderStatus
+					button#savebutton.addorderbutton(name='accept' type='submit' value='save') Save
+					button#submitbutton.addorderbutton(name='accept' type='submit' value='submit') Submit
+					a#cancelbutton.addorderbutton(href='/order/cancel') Cancel
 
 	
 		

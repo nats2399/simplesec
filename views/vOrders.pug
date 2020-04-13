@@ -68,7 +68,7 @@ block content
                     each od in order
                       tr
                         th(scope='row') #{++x}
-                        td #{od.oOrderID}  
+                        td(id='orderid') #{od.oOrderID}  
                         td #{od.oProductID}  
                         td #{od.oProductName}  
                         td #{od.oQuantity}  
@@ -91,8 +91,8 @@ block content
                 .row
                   .col-4
                   .col-4
-                    if order[0].oOrderStatus == 'In Process'
-                      a(class='btn btn-' + btnType + ' btn-' + btnSize  href='/order/add?orderId='+order[0].oOrderID) Edit Order 
+                    if order[0].oOrderStatus == 'In Progress'
+                      a(class='btn btn-' + btnType + ' btn-' + btnSize  href='/employee/order/edit/'+order[0].oOrderID) Edit Order 
                   .col-4 
                     a(class='btn btn-' + btnType + ' btn-' + btnSize  href='/orders/viewOrder?orderId='+order[0].oOrderID) View order 
               br
