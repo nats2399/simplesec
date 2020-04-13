@@ -43,7 +43,7 @@ router.get('/order/add', function(req, res, next) {
 							{
 								var orderInfo= JSON.parse(JSON.stringify(result2[0]));
 
-								console.log(orderInfo);
+								//console.log(orderInfo);
 								
 								res.render('employeeAdd', { title: 'Add New Order', order:orderInfo, products:productlist, rows:initialrow, user: req.session.username, publickeyarea: orderInfo[0].userpublicKey});
 
@@ -84,7 +84,7 @@ router.get('/order/edit/:iordernumber', function(req, res, next) {
 	
 	let sql2 = `CALL SELECT_ORDERINFOTOEDIT("`+req.session.username+`","`+ordernumber+`")`;
 
-	console.log("SQL "+sql2);
+	//console.log("SQL "+sql2);
 
 	if(!req.session.username)
 	{
@@ -117,7 +117,7 @@ router.get('/order/edit/:iordernumber', function(req, res, next) {
 								var orderDetails = JSON.parse(JSON.stringify(result2[1]));
 
 								//console.log("RESULTS");
-								console.log(orderInfo);
+								//console.log(orderInfo);
 
 								//console.log("orderInfo");
 								//console.log(orderInfo);
@@ -194,23 +194,23 @@ router.post('/order/accept', function(req, res, next) {
 		orderstring = ''.concat(username, shipping, orderdescription, productID, quantity, ordertime);
 		orderhash = CryptoJS.SHA3(orderstring, { outputLength: 512 });
 
-		if(oraccept=='submit'){
+		if(oraccept=='submit' || oraccept=='submitedit'){
 			// Calculate signature
 
 			// 1. SIGN
 			var plaintext = orderstring;
 
-			console.log('----SEARCH-----');
-			console.log(plaintext.search("-----BEGIN RSA PRIVATE KEY-----"));
+			//console.log('----SEARCH-----');
+			//console.log(plaintext.search("-----BEGIN RSA PRIVATE KEY-----"));
 
 			// Remove unnecessary strings
 			var privatekeyform = iprivatekey.replace(/\\n/g, '\n');
 			var publickeyform = ipublickey.replace(/\\n/g, '\n');
 			
-			console.log('----PRIVATE KEY FORM-----');
-			console.log(privatekeyform);
-			console.log('----PRIVATE KEY SIZE-----');
-			console.log(privatekeyform.length);
+			//console.log('----PRIVATE KEY FORM-----');
+			//console.log(privatekeyform);
+			//console.log('----PRIVATE KEY SIZE-----');
+			//console.log(privatekeyform.length);
 		
 			// Read the keys
 			var prvHex = rsa.KEYUTIL.getKey(privatekeyform);
@@ -240,26 +240,80 @@ router.post('/order/accept', function(req, res, next) {
 				console.log("the keys DONT pair match");
 				res.render('employeeIndex', { title: 'Welcome Employee', messagee: 'OOPS! Your keys does not match. Please try again.'});
 			}
-			
 
 		}
 
+		
 		/* ADD ORDER TO DB*/
 
-		let sql = `CALL ADD_ORDER("`+username+ `","` + ordescription+ `","` +oraccept+ `","` +productlist+ `","` +quantitylist+ `","` +ordertime+ `","` +orderhash+ `","` +dsignEmployee+`")`;
-
-		//console.log(sql);
-
-		mysqlconnection.query(sql, function (err, result, fields) 
+		if(isValid==true && oraccept=='submit')
 		{
-			if (err) 
-				throw err; 
-			else
+			let sql = `CALL ADD_ORDER("`+username+ `","` + ordescription+ `","` +oraccept+ `","` +productlist+ `","` +quantitylist+ `","` +ordertime+ `","` +orderhash+ `","` +dsignEmployee+`")`;
+			//console.log(sql);
+
+			mysqlconnection.query(sql, function (err, result, fields) 
 			{
-				console.log("SUCCESS");
-				res.render('employeeIndex', { title: 'Welcome Employee', message: 'Your order was saved succesfully!'});
-			}
-		});
+				if (err) 
+					throw err; 
+				else
+				{
+					console.log("SUCCESS");
+					res.render('employeeIndex', { title: 'Welcome Employee', message: 'Your order was saved succesfully!'});
+				}
+			});
+		}
+		else if(oraccept=='save')
+		{
+			let sql = `CALL ADD_ORDER("`+username+ `","` + ordescription+ `","` +oraccept+ `","` +productlist+ `","` +quantitylist+ `","` +ordertime+ `","` +orderhash+ `","` +dsignEmployee+`")`;
+			//console.log(sql);
+
+			mysqlconnection.query(sql, function (err, result, fields) 
+			{
+				if (err) 
+					throw err; 
+				else
+				{
+					console.log("SUCCESS");
+					res.render('employeeIndex', { title: 'Welcome Employee', message: 'Your order was submitted succesfully!'});
+				}
+			});
+		}
+		else if(oraccept=='saveedit')
+		{
+			let sql3 = `CALL UPDATE_ORDER("`+username+ `","` + ordescription+ `","` +oraccept+ `","` +productlist+ `","` +quantitylist+ `","` +ordertime+ `","` +orderhash+ `","` +dsignEmployee+`")`;
+			//console.log(sql);
+
+			mysqlconnection.query(sql3, function (err, result, fields) 
+			{
+				if (err) 
+					throw err; 
+				else
+				{
+					console.log("SUCCESS");
+					res.render('employeeIndex', { title: 'Welcome Employee', message: 'Your order was submitted succesfully!'});
+				}
+			});
+		}
+		else if(oraccept=='submitedit')
+		{
+			let sql4 = `CALL UPDATE_ORDER("`+username+ `","` + ordescription+ `","` +oraccept+ `","` +productlist+ `","` +quantitylist+ `","` +ordertime+ `","` +orderhash+ `","` +dsignEmployee+`")`;
+			//console.log(sql);
+
+			mysqlconnection.query(sql, function (err, result, fields) 
+			{
+				if (err) 
+					throw err; 
+				else
+				{
+					console.log("SUCCESS");
+					res.render('employeeIndex', { title: 'Welcome Employee', message: 'Your order was submitted succesfully!'});
+				}
+			});
+		}
+
+		
+		
+
 	}
 	
 	
