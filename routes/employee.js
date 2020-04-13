@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 const mysqlconnection = require("../dbconnection");
+var CryptoJS = require("crypto-js");
 
 
 /* GET add page. */
@@ -66,7 +67,7 @@ router.post('/order/accept', function(req, res, next) {
 	var oraccept = req.body.accept;
 	var productlist = ''.concat("[",req.body.productID,"]");
 	var quantitylist = ''.concat("[",req.body.quantity,"]");
-	
+	var ordertime = require('moment')().format('YYYY-MM-DD HH:mm:ss');
 	
 	/* Calculate HASH */
 	var ordernumber = req.body.ordernumber;
@@ -79,10 +80,14 @@ router.post('/order/accept', function(req, res, next) {
 	var productID = req.body.productID;
 	var quantity = req.body.quantity;
 	
+	orderstring = ''.concat(username, shipping, orderdescription, productID, quantity, ordertime);
 	
+	orderhash = CryptoJS.SHA3(orderstring, { outputLength: 512 });
 
+	
+	/* ADD ORDER TO DB*/
 
-	let sql = `CALL ADD_ORDER("`+username+ `","` + ordescription+ `","` +oraccept+ `","` +productlist+ `","` +quantitylist+`")`;
+	let sql = `CALL ADD_ORDER("`+username+ `","` + ordescription+ `","` +oraccept+ `","` +productlist+ `","` +quantitylist+ `","` +ordertime+ `","` +orderhash+`")`;
 
 	//console.log(sql);
 

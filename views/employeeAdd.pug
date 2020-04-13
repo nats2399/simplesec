@@ -7,31 +7,35 @@ block content
 
 	.div.addorder
 		form.addorderform#addorderform(method='post' action='/employee/order/accept' dataType='json')
-			label
-				p.label-txt Order Number:
-				input.input(type='text' name='ordernumber' value=order[0].orderNum onkeydown='return false;')
-				order.orderNum
-
-			label
-				p.label-txt Order Status:
-				input.input(type='text' name='orderstatus' value='IN PROGRESS' onkeydown='return false;')
-
-			label
-				p.label-txt Ordered by:
-				input.input(type='text' name='orderedby' value=order[0].orderBy onkeydown='return false;')
-							
-			label
-				p.label-txt Department:
-				input.input(type='text' name='orderdepartment' value=order[0].orderDpt onkeydown='return false;')
-							
-			label
-				p.label-txt Shipping Address:
-				input.input(type='text' name='shipping' value=order[0].orderShippingAdd onkeydown='return false;')
-				
-			label
-				p.label-txt Supervisor:
-				input.input(type='text' name='supervisor' value=order[0].orderSupervisor onkeydown='return false;') 				
-			
+			div.row
+				div.col
+					label
+						p.label-txt Order Number:
+						input.input(type='text' name='ordernumber' value=order[0].orderNum onkeydown='return false;')
+						order.orderNum
+				div.col
+					label
+						p.label-txt Order Status:
+						input.input(type='text' name='orderstatus' value='IN PROGRESS' onkeydown='return false;')
+			div.row
+				div.col
+					label
+						p.label-txt Ordered by:
+						input.input(type='text' name='orderedby' value=order[0].orderBy onkeydown='return false;')
+				div.col
+					label
+						p.label-txt Department:
+						input.input(type='text' name='orderdepartment' value=order[0].orderDpt onkeydown='return false;')
+			div.row
+				div.col
+					label
+						p.label-txt Shipping Address:
+						input.input(type='text' name='shipping' value=order[0].orderShippingAdd onkeydown='return false;')
+				div.col
+					label
+						p.label-txt Supervisor:
+						input.input(type='text' name='supervisor' value=order[0].orderSupervisor onkeydown='return false;') 				
+					
 			label
 				p.label-txt Description:
 				input.input(type='text' name='orderdescription' placeholder='Please write a brief description for this order.')

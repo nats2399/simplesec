@@ -13,6 +13,11 @@ npm start
 Open it at 
 > http://localhost:3000/
 
+# Install nodemon
+``` npm install -g nodemon ```
+
+# Install moment
+``` npm install moment --save ```
 
 # Install bootstrap
 ``` npm install bootstrap --save ```
