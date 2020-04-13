@@ -584,3 +584,10 @@ footer{
   border-color: #bd2130;
   color: #ffffff;
 }
+
+.orderdisplay{
+  border: 1px solid #051153;
+  /*box-shadow: 6px 6px 7px #abacaf;*/
+  box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.2), 0 8px 20px 0 rgba(0, 0, 0, 0.19);
+  padding: 10px;
+}
