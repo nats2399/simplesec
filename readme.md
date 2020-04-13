@@ -16,6 +16,9 @@ Open it at
 # Install nodemon
 ``` npm install -g nodemon ```
 
+# Install express validator
+``` npm install --save express-validator ```
+
 # Install moment
 ``` npm install moment --save ```
 

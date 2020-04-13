@@ -5,6 +5,11 @@ block content
 		.div
 			p #{title}
 
+	.container
+		ul.errors
+			if errors
+					each error, i in errors
+						li.alert.alert-danger #{error.msg}
 	.div.addorder
 		form.addorderform#addorderform(method='post' action='/employee/order/accept' dataType='json')
 			div.row
