@@ -78,10 +78,27 @@ block content
 					
 			br
 			br
+
 			
-			button#savebutton.addorderbutton(name='accept' type='submit' value='save') Save
-			button#submitbutton.addorderbutton(name='accept' type='submit' value='submit') Submit
-			a#cancelbutton.addorderbutton(href='/order/cancel') Cancel
+
+			.row.keysrow
+					.col-md-6.vote-1
+						h3 Public Key
+						
+						.div.form-group
+							textarea(rows='3' name='publickeytext' onkeydown='return false;')
+								| #{publickeyarea}
+					.col-md-6.vote-2
+						h3 Private Key
+						.div.text-center.form-group
+							textarea(rows='3' name='privatekeytext')
+								| #{privatekeyarea}
+							lablel.privatekeyinstructions
+								| Copy and Paste your Private Key here. Please include all the text in your TXT file. You can use CTRL+A in your private key file, and then CTRL+V here.
+			.div
+				button#savebutton.addorderbutton(name='accept' type='submit' value='save') Save
+				button#submitbutton.addorderbutton(name='accept' type='submit' value='submit') Submit
+				a#cancelbutton.addorderbutton(href='/order/cancel') Cancel
 
 	
 		

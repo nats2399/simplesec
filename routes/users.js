@@ -143,7 +143,7 @@ router.post('/generateKeys/auth/download', function(req, res, next) {
   res.setHeader('Content-type', 'text/plain');
   res.charset = 'UTF-8';
   res.write(req.body.privatekeytext);
-  //res.end();
+  res.end();
   
   //Save public key in DB
     let sql = `CALL INSERT_PUBLICKEY("`+ req.body.email + `" , "` + req.body.publickeytext + `")`;
@@ -161,7 +161,7 @@ router.post('/generateKeys/auth/download', function(req, res, next) {
 
     
 
-    res.redirect('/');
+    //res.redirect('/');
     //res.end();
 
 });

@@ -20,7 +20,7 @@ const transporter = nodemailer.createTransport({
 
 /* GET View orders page. */
 router.get('/vOrders', function(req, res, next) {
-  res.render('vOrders', { title: 'View Order' });
+  res.render('vOrders', { title: 'View Order' , user: request.session.username});
 });
 
 router.get('/getOrders', function(request, response) {
@@ -66,7 +66,7 @@ router.get('/getOrders', function(request, response) {
           }     
         });
         
-        response.render('vOrders', { title: 'View Order',orderdetails: orderlist, session: request.session});
+        response.render('vOrders', { title: 'View Order',orderdetails: orderlist, session: request.session, user: request.session.username});
         //response.redirect('/orders/vOrders');
       } else {
         response.render('vOrders', { title: 'No Orders Found'});
