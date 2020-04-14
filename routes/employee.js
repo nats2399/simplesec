@@ -1,6 +1,8 @@
 var express = require('express');
 var router = express.Router();
 const mysqlconnection = require("../dbconnection");
+var CryptoJS = require("crypto-js");
+const { check, validationResult } = require('express-validator');
 
 
 /* GET add page. */
@@ -56,8 +58,20 @@ router.get('/order/add', function(req, res, next) {
 });
 
 
+
+
+
+
+
+
+
+
+
 /* GET add page. */
-router.post('/order/accept', function(req, res, next) {
+router.post('/order/accept',[
+    check('orderby').not().isEmpty().withMessage('Name must have more than 5 characters'),
+    check('description', 'Description can NOT be empty').not().isEmpty(),    
+  ], function(req, res, next) {
 	
 	console.log(req.body);
 
@@ -66,9 +80,8 @@ router.post('/order/accept', function(req, res, next) {
 	var oraccept = req.body.accept;
 	var productlist = ''.concat("[",req.body.productID,"]");
 	var quantitylist = ''.concat("[",req.body.quantity,"]");
+	var ordertime = require('moment')().format('YYYY-MM-DD HH:mm:ss');
 	
-	
-	/* Calculate HASH */
 	var ordernumber = req.body.ordernumber;
 	var orderstatus = req.body.orderstatus;
 	var orderedby = req.body.orderedby;
@@ -79,24 +92,40 @@ router.post('/order/accept', function(req, res, next) {
 	var productID = req.body.productID;
 	var quantity = req.body.quantity;
 	
-	
+	const errors = validationResult(req);
 
+	if (!errors.isEmpty()) {
+		
+		/*
+		res.render('employeeAdd', {
+            errors: errors
+        });
+		*/
 
-	let sql = `CALL ADD_ORDER("`+username+ `","` + ordescription+ `","` +oraccept+ `","` +productlist+ `","` +quantitylist+`")`;
+	} else {
+		/* Calculate HASH */
+		orderstring = ''.concat(username, shipping, orderdescription, productID, quantity, ordertime);
+		orderhash = CryptoJS.SHA3(orderstring, { outputLength: 512 });
 
-	//console.log(sql);
+		
+		/* ADD ORDER TO DB*/
 
-	mysqlconnection.query(sql, function (err, result, fields) 
-	{
-		if (err) 
-			throw err; 
-		else
+		let sql = `CALL ADD_ORDER("`+username+ `","` + ordescription+ `","` +oraccept+ `","` +productlist+ `","` +quantitylist+ `","` +ordertime+ `","` +orderhash+`")`;
+
+		//console.log(sql);
+
+		mysqlconnection.query(sql, function (err, result, fields) 
 		{
-			//console.log("SUCCESS");
-			res.redirect('/employeeIndex');
-		}
-	});
-
+			if (err) 
+				throw err; 
+			else
+			{
+				//console.log("SUCCESS");
+				res.redirect('/employeeIndex');
+			}
+		});
+	}
+	
 	
 
 });

@@ -13,6 +13,14 @@ npm start
 Open it at 
 > http://localhost:3000/
 
+# Install nodemon
+``` npm install -g nodemon ```
+
+# Install express validator
+``` npm install --save express-validator ```
+
+# Install moment
+``` npm install moment --save ```
 
 # Install bootstrap
 ``` npm install bootstrap --save ```
