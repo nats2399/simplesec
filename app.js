@@ -39,6 +39,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 
 app.use('/bootstrap', express.static(__dirname + '/node_modules/bootstrap/dist/'));
+app.use('/glyphicons-only-bootstrap', express.static(__dirname + '/node_modules/glyphicons-only-bootstrap/'));
+
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
@@ -65,8 +67,8 @@ app.use(function(err, req, res, next) {
 
   // render the error page
   res.status(err.status || 500);
-  //res.render('error');
-  res.render('errormsg', { title: 'ATTENTION!' , errormessage: 'There was a problem processing your request. Please try again.' , user: req.session.username});
+  res.render('error');
+  //res.render('errormsg', { title: 'ATTENTION!' , errormessage: 'There was a problem processing your request. Please try again.' , user: req.session.username});
 });
 
 module.exports = app;

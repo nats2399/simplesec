@@ -25,6 +25,9 @@ Open it at
 # Install bootstrap
 ``` npm install bootstrap --save ```
 
+# Install glyphicons
+``` npm install glyphicons-only-bootstrap --save ```
+
 # Install nodemailer
 ``` npm install nodemailer --save ```
 

@@ -3,10 +3,29 @@ extends layout
 block content
   .jumbotron.text-center.registrationTitle
     .div
-      p #{title} #{session.role}      
+      p #{title} #{session.role}
+    .div.dashboardbutton
+      if session.role=='Employee'
+        .btn-group.btn-groupe_2
+          a.btn.btn-honey_flower(type='button' href="/employeeIndex") Dashboard
+          a.btn.btn-honey_flower_2(type='button')
+            span.glyphicon.glyphicon-dashboard
+      else if session.role=='Supervisor'
+        .btn-group.btn-groupe_2
+          a.btn.btn-honey_flower(type='button' href="/supervisorIndex") Dashboard
+          a.btn.btn-honey_flower_2(type='button')
+            span.glyphicon.glyphicon-dashboard
+      else if session.role=='ordersupervisor'
+        .btn-group.btn-groupe_2
+          a.btn.btn-honey_flower(type='button' href="/ordersDeptIndex") Dashboard
+          a.btn.btn-honey_flower_2(type='button')
+            span.glyphicon.glyphicon-dashboard
+
+
   - var n=0, orderid=0, totalCost=0, show='show';
   - var btnType = 'info';
   - var btnSize = 'lg';
+    
   .row
     .col-2
     .col-8

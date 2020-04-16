@@ -4,6 +4,24 @@ block content
 	.jumbotron.text-center.registrationTitle
 		.div
 			p #{title}
+		.div.dashboardbutton
+			if session.role=='Employee'
+				.btn-group.btn-groupe_2
+					a.btn.btn-honey_flower(type='button' href="/employeeIndex") Dashboard
+					a.btn.btn-honey_flower_2(type='button')
+						span.glyphicon.glyphicon-dashboard
+			else if session.role=='Supervisor'
+				.btn-group.btn-groupe_2
+					a.btn.btn-honey_flower(type='button' href="/supervisorIndex") Dashboard
+					a.btn.btn-honey_flower_2(type='button')
+						span.glyphicon.glyphicon-dashboard
+			else if session.role=='ordersupervisor'
+				.btn-group.btn-groupe_2
+					a.btn.btn-honey_flower(type='button' href="/ordersDeptIndex") Dashboard
+					a.btn.btn-honey_flower_2(type='button')
+						span.glyphicon.glyphicon-dashboard
+				
+				
 
 	.container
 		ul.errors

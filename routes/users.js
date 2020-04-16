@@ -97,8 +97,8 @@ router.post('/register', (req, res) => {
 
 router.post('/generateKeys/auth', function(request, response) {
 	var username = request.body.username;
-    var password = request.body.password;
-    var validaitonNum = request.body.validationNum;
+  var password = request.body.password;
+  var validaitonNum = request.body.validationNum;
     
 
 	let sql = `CALL AUTH_Number("`+ username + `" , "` + password + `" , "` + validaitonNum + `")`;
@@ -189,10 +189,14 @@ router.post('/login/auth', function(request, response) {
           // if the roles is admin, deploy admin page
           
 					if(userFound.oRoleName=='Supervisor'){
-						response.redirect('/supervisorIndex');
+            response.redirect('/supervisorIndex');
+            console.log('SUPERVISOR LOG');
 					}
 					else if(userFound.oRoleName=='Employee'){
 						response.redirect('/employeeIndex');
+          }
+          else if(userFound.oRoleName=='ordersupervisor'){
+						response.redirect('/ordersDeptIndex');
 					}
                     
 
