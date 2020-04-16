@@ -4,6 +4,16 @@ block content
 	.jumbotron.text-center.registrationTitle
 		.div
 			p #{title}
+	
+	.container
+		ul.errors
+			if errors
+					each error, i in errors
+						li.alert.alert-danger #{error.msg}
+			if message
+				li.alert.alert-success #{message}
+			if messagee
+				li.alert.alert-danger #{messagee}
 
 	.div.linksSection
 		section.features-icons.text-center

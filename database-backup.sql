@@ -161,6 +161,47 @@ BEGIN
 END
 
 
+CREATE DEFINER=`admin`@`%` PROCEDURE `SELECT_ORDERINFOTOEDIT`(IN iUserEmail VARCHAR(40),IN iorderID INT)
+BEGIN
+	DECLARE orderNum INT(11);
+    DECLARE oOrderStatus VARCHAR(50);
+    DECLARE orderBy VARCHAR(50);
+    DECLARE orderDpt VARCHAR(50);
+    DECLARE orderShippingAdd VARCHAR(50);
+    DECLARE orderSupervisor VARCHAR(50);
+    DECLARE orderDescription VARCHAR(50);
+    DECLARE userpublicKey longtext;
+		
+    SELECT OrderID, orderStatus, Description
+    FROM Orders
+    WHERE OrderID = iorderID
+    INTO orderNum, oOrderStatus, orderDescription;
+    
+    SELECT CONCAT(FirstName, " ", LastName), DeptName , ShippingAddress, PublicKey
+    FROM Users
+    WHERE Email = iUserEmail
+    INTO orderBy, orderDpt, orderShippingAdd, userpublicKey;
+    
+    SELECT CONCAT(FirstName, " ", LastName) as Supervisor
+    FROM Users
+    WHERE RoleName = 'Supervisor' AND DeptName = orderDpt
+    INTO orderSupervisor;
+    
+    SELECT orderNum, oOrderStatus, orderDescription, orderBy, orderDpt, orderShippingAdd, orderSupervisor, userpublicKey;
+    
+    SELECT OD.ProductID, OD.Quantity, P.ProductName, P.SupplierName, P.Category, P.UnitPrice, P.StockAvailability
+    FROM Order_details AS OD 
+    INNER JOIN Products As P
+    ON OD.ProductID = P.ProductID
+    WHERE OD.OrderID = iorderID;       
+       
+    
+END
+
+
+
+
+
 
 
 
@@ -205,6 +246,11 @@ BEGIN
   VALUE (iUserID, iShippingAddress, iCategory, iDigitalSign, iOrderStatus, iOrderHash, sysdate);
     
 END
+
+
+
+
+
 
 
 

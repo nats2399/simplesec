@@ -1,0 +1,32 @@
+extends layout
+
+block content
+    .jumbotron.text-center.registrationTitle
+        .div
+            p #{title}
+
+    .error-content
+        .container
+            .row
+                .col-md-12
+                    .error-text
+                        h1.error #{title2}
+                        .im-sheep
+                        .top
+                            .body
+                            .head
+                            .im-eye.one
+                            .im-eye.two
+                            .im-ear.one
+                            .im-ear.two
+                        .im-legs
+                            .im-leg
+                            .im-leg
+                            .im-leg
+                            .im-leg
+                        h4
+                        p
+                        | #{errormessage}
+                        br
+                        br
+                        a.btn.btn-primary.btn-round(href='/') Go to homepage
