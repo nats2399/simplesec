@@ -565,6 +565,17 @@ footer{
   color: #ffffff;
 }
 
+.savebutton{
+  background-color: #17a2b8 !important;
+  color: #343a40 !important;
+}
+
+.savebutton:hover{
+  background-color: #138496 !important;
+  border-color: #117a8b !important;
+  color: #ffffff !important;
+}
+
 #submitbutton{
   background-color: #8BC34A;
   color: #343a40;
@@ -576,6 +587,18 @@ footer{
   color: #ffffff;
 }
 
+.submitbutton{
+  background-color: #8BC34A !important;
+  color: #343a40 !important;
+}
+
+.submitbutton:hover{
+  background: #218838 !important;
+  border-color: #1e7e34 !important;
+  color: #ffffff !important;
+}
+
+
 #cancelbutton{
   background-color: #dc3545;
   color: #343a40;
@@ -585,6 +608,17 @@ footer{
   background-color: #c82333;
   border-color: #bd2130;
   color: #ffffff;
+}
+
+.cancelbutton{
+  background-color: #dc3545 !important;
+  color: #343a40 !important;
+}
+
+.cancelbutton:hover{
+  background-color: #c82333 !important;
+  border-color: #bd2130 !important;
+  color: #ffffff !important;
 }
 
 .orderdisplay{
