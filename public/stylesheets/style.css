@@ -523,7 +523,7 @@ footer{
   outline: none;
   border-radius: 3px;
   cursor: pointer;
-  transition: ease .3s;
+  transition: ease .3s;  
 }
 
 .addorderform > div{

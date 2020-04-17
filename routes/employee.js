@@ -184,6 +184,7 @@ router.post('/order/accept', function(req, res, next) {
 	
 	var dsignEmployee = "";
 	
+	var isValid ="";
 
 	if (!username || !productlist || !quantitylist) {
 		
@@ -195,6 +196,7 @@ router.post('/order/accept', function(req, res, next) {
 		
 		/* Calculate HASH */
 		orderstring = ''.concat(username, shipping, orderdescription, productID, quantity, ordertime);
+		console.log(orderstring);
 		orderhash = CryptoJS.SHA3(orderstring, { outputLength: 512 });
 
 		if(oraccept=='submit' || oraccept=='submitedit'){
@@ -230,9 +232,10 @@ router.post('/order/accept', function(req, res, next) {
 			let sig1 = new rsa.KJUR.crypto.Signature({"alg":"SHA256withRSA"});
 			sig1.init(pubObj);
 			sig1.updateString(plaintext);
-			let isValid = sig1.verify(sigValueHex);
+			isValid = sig1.verify(sigValueHex);
 			
 			console.log("SIGNATURE "+sigValueHex);
+			console.log("isValid "+isValid);
 
 			if(isValid==true){
 				console.log("the keys pair match");
