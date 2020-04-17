@@ -122,12 +122,12 @@ block content
 				if order[0].oOrderStatus
 					button#savebutton.addorderbutton(name='accept' type='submit' value='saveedit') Save
 					button#submitbutton.addorderbutton(name='accept' type='submit' value='submitedit') Submit
-					a#cancelbutton.addorderbutton(href='/order/cancel') Cancel
+					a#cancelbutton.addorderbutton(href='/dashboard') Cancel
 				
 				if !order[0].oOrderStatus
 					button#savebutton.addorderbutton(name='accept' type='submit' value='save') Save
 					button#submitbutton.addorderbutton(name='accept' type='submit' value='submit') Submit
-					a#cancelbutton.addorderbutton(href='/order/cancel') Cancel
+					a#cancelbutton.addorderbutton(href='/dashboard') Cancel
 
 	
 		
