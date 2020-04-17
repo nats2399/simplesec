@@ -5,10 +5,27 @@ block content
     script(src="/utils.js")
     .jumbotron.text-center.registrationTitle
         .div
-        p #{title} #{session.role}
+            p #{title} #{session.role}
+        .div.dashboardbutton
+            if session.role=='Employee'
+                .btn-group.btn-groupe_2
+                    a.btn.btn-honey_flower(type='button' href="/employeeIndex") Dashboard
+                    a.btn.btn-honey_flower_2(type='button')
+                        span.glyphicon.glyphicon-dashboard
+            else if session.role=='Supervisor'
+                .btn-group.btn-groupe_2
+                    a.btn.btn-honey_flower(type='button' href="/supervisorIndex") Dashboard
+                    a.btn.btn-honey_flower_2(type='button')
+                        span.glyphicon.glyphicon-dashboard
+            else if session.role=='ordersupervisor'
+                .btn-group.btn-groupe_2
+                    a.btn.btn-honey_flower(type='button' href="/ordersDeptIndex") Dashboard
+                    a.btn.btn-honey_flower_2(type='button')
+                        span.glyphicon.glyphicon-dashboard
     - var n=0, orderid=0, totalCost=0, show='show';
     - var btnType = 'info';
     - var btnSize = 'lg';
+   
     .row
         .col-2
         .col-8.orderdisplay
@@ -76,12 +93,13 @@ block content
                     div#results
                     if session.role == 'Supervisor'
                         .row
-                            .col-3
-                            .col-3
-                                a(class='btn btn-' + btnType + ' btn-' + btnSize  href='/orders/getOrders') Go Back 
-                            .col-3 
-                                button#verifyUpdate(class='btn btn-' + btnType + ' btn-' + btnSize  onClick='verifyNupdate('+order[0].oOrderID+')') Verify and Update 
-                            .col-3 
+                            .col-4.text-center
+                                
+                            .col-4.text-center
+                                a(class='btn submitbutton btn-' + btnType + ' btn-' + btnSize  href='/supervisor/order/approve/'+order[0].oOrderID) Verify and Sign 
+                            .col-4.text-center
+                                a(class='btn cancelbutton btn-' + btnType + ' btn-' + btnSize  href='/orders/getOrders') Go Back
+                             
                     if session.role == 'ordersupervisor'
                         .row
                             .col-3
@@ -109,5 +127,7 @@ block content
         .col-8
         
     br
+
+    
 
 

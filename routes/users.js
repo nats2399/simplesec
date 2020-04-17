@@ -97,8 +97,8 @@ router.post('/register', (req, res) => {
 
 router.post('/generateKeys/auth', function(request, response) {
 	var username = request.body.username;
-    var password = request.body.password;
-    var validaitonNum = request.body.validationNum;
+  var password = request.body.password;
+  var validaitonNum = request.body.validationNum;
     
 
 	let sql = `CALL AUTH_Number("`+ username + `" , "` + password + `" , "` + validaitonNum + `")`;
@@ -185,15 +185,20 @@ router.post('/login/auth', function(request, response) {
           request.session.username = userFound.oEmail;
           request.session.deptName = userFound.oDeptName;
           request.session.role = userFound.oRoleName;
+          request.session.dept = userFound.oDeptName;
           
           
           // if the roles is admin, deploy admin page
           
 					if(userFound.oRoleName=='Supervisor'){
-						response.redirect('/supervisorIndex');
+            response.redirect('/supervisorIndex');
+            console.log('SUPERVISOR LOG');
 					}
 					else if(userFound.oRoleName=='Employee'){
 						response.redirect('/employeeIndex');
+          }
+          else if(userFound.oRoleName=='ordersupervisor'){
+						response.redirect('/ordersDeptIndex');
 					}
 				} else {
 					response.send('Incorrect Username and/or Password!');
@@ -214,6 +219,36 @@ router.post('/login/auth', function(request, response) {
 		response.end();
 	}
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* LOGOUT  */
+router.get('/logout', function(req, res, next) {
+  if (req.session) {
+    // delete session object
+    req.session.destroy(function(err) {
+      if(err) {
+        return next(err);
+      } else {
+        return res.redirect('/');
+      }
+    });
+  }
+});
+
+
+
+
 
 
 

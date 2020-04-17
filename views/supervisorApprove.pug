@@ -29,7 +29,7 @@ block content
 					each error, i in errors
 						li.alert.alert-danger #{error.msg}
 	.div.addorder
-		form.addorderform#addorderform(method='post' action='/employee/order/accept' dataType='json')
+		form.addorderform#addorderform(method='post' action='/supervisor/order/accept' dataType='json')
 			div.row
 				div.col
 					label
@@ -39,7 +39,7 @@ block content
 				div.col
 					label
 						p.label-txt Order Status:
-						input.input(type='text' name='orderstatus' value='IN PROGRESS' onkeydown='return false;')
+						input.input(type='text' name='orderstatus' value=order[0].oOrderStatus onkeydown='return false;')
 			div.row
 				div.col
 					label
@@ -60,13 +60,12 @@ block content
 						input.input(type='text' name='supervisor' value=order[0].orderSupervisor onkeydown='return false;') 				
 					
 			label
-				p.label-txt Description:
-				if !order[0].orderDescription 
-					input.input(type='text' name='orderdescription' placeholder='Please write a brief description for this order.')
-				if order[0].orderDescription
-					input.input(type='text' name='orderdescription' value=order[0].orderDescription)
-				.line-box
-				.line
+				label
+					p.label-txt Description:
+					input.input(type='text' name='orderdescription' value=order[0].orderDescription onkeydown='return false;')
+					input.input(type="hidden" name='oOrderHash' value=order[0].oOrderHash onkeydown='return false;')
+					input.input(type="hidden" name='orderByEmail' value=order[0].orderByEmail onkeydown='return false;')
+					input.input(type="hidden" name='orderTime' value=order[0].orderTime onkeydown='return false;')
 
 			table.table.table-striped.table-borderless.table-hover#productstable(style='width:100%', border='1' name='productsdetail')
 				thead.thead-dark
@@ -77,7 +76,6 @@ block content
 						th(scope='col') Quantity
 						th(scope='col') Unit Price
 						th(scope='col') Available
-						th(scope='col') 
 				tbody
 				each row in rows
 					tr
@@ -87,18 +85,10 @@ block content
 						td= row.SupplierName
 						td= row.Category
 						td
-							input.input.qinput(name='quantity' type='number' min="0" value=row.Quantity)
+							input(type="hidden" name="quantity" value=row.Quantity)
+							= row.Quantity							
 						td= row.UnitPrice
 						td= row.StockAvailability
-						td
-							input.addorderbutton.btn-danger(type='button', value='Delete', onclick='deleteRow(this)')
-
-			select#ProductSelected.btn.btn-primary.dropdown-toggle(name='ProductSelected')
-				each product in products
-					option(value=product.ProductID) #{product.ProductName}
-
-			a#addbutton.addorderbutton(onclick='add()') Add
-					
 			br
 			br
 
@@ -118,56 +108,8 @@ block content
 								| #{privatekeyarea}
 							lablel.privatekeyinstructions
 								| Copy and Paste your Private Key here. Please include all the text in your TXT file. You can use CTRL+A in your private key file, and then CTRL+V here.
+			br
 			.div
-				if order[0].oOrderStatus
-					button#savebutton.addorderbutton(name='accept' type='submit' value='saveedit') Save
-					button#submitbutton.addorderbutton(name='accept' type='submit' value='submitedit') Submit
-					a#cancelbutton.addorderbutton(href='/dashboard') Cancel
+				button#savebutton.addorderbutton(name='accept' type='submit' value='approve') Approve
+				button#cancelbutton.addorderbutton(name='accept' type='submit' value='reject') Reject
 				
-				if !order[0].oOrderStatus
-					button#savebutton.addorderbutton(name='accept' type='submit' value='save') Save
-					button#submitbutton.addorderbutton(name='accept' type='submit' value='submit') Submit
-					a#cancelbutton.addorderbutton(href='/dashboard') Cancel
-
-	
-		
-		
-		script.
-			var add = function() {
-				var table = document.getElementById("productstable");
-				var newrow = table.insertRow(-1);
-
-				var col1 = newrow.insertCell(0);
-				var col2 = newrow.insertCell(1);
-				var col3 = newrow.insertCell(2);
-				var col4 = newrow.insertCell(3);
-				var col5 = newrow.insertCell(4);
-				var col6 = newrow.insertCell(5);
-				var col7 = newrow.insertCell(6);
-
-				var productselindex = document.getElementById('ProductSelected').selectedIndex;
-				
-				var productlist = !{JSON.stringify(products)};
-
-				var productsel = productlist[productselindex];
-
-				col1.innerHTML = "<input class='input' type='hidden'name='productID' value='"+productsel.ProductID+"'>"+productsel.ProductName;
-				col2.innerHTML = productsel.SupplierName;
-				col3.innerHTML = productsel.Category;
-				col4.innerHTML = "<input class='input qinput' type='number' min='0' value='1' name='quantity'>";
-				col5.innerHTML = productsel.UnitPrice;
-				col6.innerHTML = productsel.StockAvailability;
-				col7.innerHTML = "<input class='addorderbutton btn-danger' type='button' name='Delete' value='Delete' onclick='deleteRow(this)'>";
-			
-			}
-
-		script.
-			var deleteRow = function(r) {
-				
-				var i = r.parentNode.parentNode.rowIndex;
-				document.getElementById("productstable").deleteRow(i);
-				console.log("delete");
-			
-			}
-
-			

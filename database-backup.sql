@@ -259,3 +259,33 @@ END
 
 
 
+
+
+
+
+
+
+
+
+CREATE DEFINER=`admin`@`%` PROCEDURE `FEATCH_ORDER_DETAILS`(
+   IN iOrderID varchar(50),
+   IN iEmail varchar(50),
+   IN iOrderStatus varchar(50),
+   IN iDeptName varchar(50)
+)
+BEGIN
+  select p.Category oCategory, u.DeptName oDeptName, o.DigitalSignEmployee oDigitalSign, u.Email oEmail, u.FirstName oFirstName, u.LastName oLastName, 
+o.OrderDate oOrderDate, d.OrderDetailsID oOrderDetailsID, o.OrderHash oOrderHash, o.OrderID oOrderID, p.OrderInFlight oOrderInFlight, 
+o.OrderStatus oOrderStatus, p.ProductID oProductID, p.ProductName oProductName, u.PublicKey oPublicKey, d.Quantity oQuantity, o.TotalCost oTotalCost,
+u.RoleName oRoleName, o.ShippingAddress oShippingAddress, p.SupplierName oSupplierName, p.UnitPrice oUnitPrice, u.UserID oUserID, u.ValidationNumber oValidationNumber
+from 
+Users u , Products p, Orders o, Order_details d
+where  u.userID=o.UserID
+and d.ProductID =p.ProductID
+and o.OrderID = d.OrderID
+ and  (u.Email = iEmail or iEmail is null Or iEmail ='')
+ and  (o.OrderID = iOrderID or iOrderID is null Or iOrderID ='')
+ and  (o.OrderStatus = iOrderStatus or iOrderStatus is null Or iOrderStatus ='')
+ and  (u.DeptName = iDeptName or iDeptName is null Or iDeptName ='')
+ order by o.OrderID;
+END

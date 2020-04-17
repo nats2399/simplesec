@@ -11,8 +11,9 @@ var rsa = require("jsrsasign");
 router.get('/order/add', function(req, res, next) {
 
 	let sql = `CALL SELECT_ALLPRODUCTS()`;
-	
 	let sql2 = `CALL SELECT_ORDERINFOTOCREATE("`+req.session.username+`")`;
+
+	var session = req.session;
 
 	if(!req.session.username)
 	{
@@ -45,7 +46,9 @@ router.get('/order/add', function(req, res, next) {
 
 								//console.log(orderInfo);
 								
-								res.render('employeeAdd', { title: 'Add New Order', order:orderInfo, products:productlist, rows:initialrow, user: req.session.username, publickeyarea: orderInfo[0].userpublicKey});
+								res.render('employeeAdd', { title: 'Add New Order', order:orderInfo, products:productlist, rows:initialrow, user: req.session.username, publickeyarea: orderInfo[0].userpublicKey, session: req.session});
+
+								console.log(session);
 
 
 							} else {
@@ -122,7 +125,7 @@ router.get('/order/edit/:iordernumber', function(req, res, next) {
 								//console.log("orderInfo");
 								//console.log(orderInfo);
 								
-								res.render('employeeAdd', { title: 'Edit Order', order:orderInfo, products:productlist, rows:orderDetails, user: req.session.username, publickeyarea: orderInfo[0].userpublicKey});
+								res.render('employeeAdd', { title: 'Edit Order', order:orderInfo, products:productlist, rows:orderDetails, user: req.session.username, publickeyarea: orderInfo[0].userpublicKey, session: req.session});
 
 
 							} else {
@@ -181,6 +184,7 @@ router.post('/order/accept', function(req, res, next) {
 	
 	var dsignEmployee = "";
 	
+	var isValid ="";
 
 	if (!username || !productlist || !quantitylist) {
 		
@@ -192,6 +196,7 @@ router.post('/order/accept', function(req, res, next) {
 		
 		/* Calculate HASH */
 		orderstring = ''.concat(username, shipping, orderdescription, productID, quantity, ordertime);
+		console.log(orderstring);
 		orderhash = CryptoJS.SHA3(orderstring, { outputLength: 512 });
 
 		if(oraccept=='submit' || oraccept=='submitedit'){
@@ -227,9 +232,10 @@ router.post('/order/accept', function(req, res, next) {
 			let sig1 = new rsa.KJUR.crypto.Signature({"alg":"SHA256withRSA"});
 			sig1.init(pubObj);
 			sig1.updateString(plaintext);
-			let isValid = sig1.verify(sigValueHex);
+			isValid = sig1.verify(sigValueHex);
 			
 			console.log("SIGNATURE "+sigValueHex);
+			console.log("isValid "+isValid);
 
 			if(isValid==true){
 				console.log("the keys pair match");
