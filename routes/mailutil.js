@@ -19,8 +19,29 @@ if (os.platform() == 'win32') {
 }
 var express = require('express');
 var router = express.Router();
+const mysqlconnection = require("../dbconnection.js");
+function chilkatExample(email,subject, body, to) {
+    var pubkey = '';
+    let sql = 'call SELECT_USERS("'+email+'")';
+    
+    mysqlconnection.query(sql, function(err, results, fields) {
+        console.log('1');
+            if(!err)
+        {console.log('2');
+        if (results.length > 0) {
+              
+            var userFound = (JSON.parse(JSON.stringify(results[0])))[0];
+            console.log(userFound);
+            pubkey = userFound.oPublicKey;
+        }
+    } else {
+        
+      }			
 
-function chilkatExample(subject, body, to) {
+    });
+
+
+
 
     // This example requires the Chilkat API to have been previously unlocked.
     // See Global Unlock Sample for sample code.
@@ -39,6 +60,8 @@ function chilkatExample(subject, body, to) {
     mailman.SmtpPort = 465;
 
     var cert = new chilkat.Cert();
+    console.log('H ahahahahaha');
+   // var success = cert.SetSslClientCert ('');
     var success = cert.LoadFromFile("google.cer");
     if (success !== true) {
         console.log(cert.LastErrorText);
@@ -100,7 +123,13 @@ function chilkatExample(subject, body, to) {
     console.log("Mail Sent!");
 
 }
-
-chilkatExample("HEllo THere","Encrypted Message","mifidoor@gmail.com");
+router.get('/sendmail', function(request, response) {
+    var orderid = request.query.orderId;
+    console.log(orderid);  
+    // need to add the code to create the message
+    var message ="Encrypted Message";
+    chilkatExample( request.session.username, "Hello There",message ,"mifidoor@gmail.com");
+    response.end();
+});
 
 module.exports = router;
