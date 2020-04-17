@@ -184,6 +184,7 @@ router.post('/login/auth', function(request, response) {
 					request.session.loggedin = true;
 					request.session.username = userFound.oEmail;
           request.session.role = userFound.oRoleName;
+          request.session.dept = userFound.oDeptName;
           
           
           // if the roles is admin, deploy admin page
