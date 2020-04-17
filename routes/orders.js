@@ -26,28 +26,17 @@ router.get('/vOrders', function(req, res, next) {
 router.get('/getOrders', function(request, response) {
   var email = '';
   var orderStatus = '';
-  var deptName = '';
-  if( request.session.role=='Employee')
-    {
-      email = request.session.username;
-    }
-    if( request.session.role=='Supervisor'){
-      orderStatus = 'Submitted';
-      deptName = request.session.deptName;
-    } 
-    if( request.session.role=='ordersupervisor'){
-      orderStatus = 'Approved';
-    }  
-  
-  var orderid='';
-	let sql = 'call FEATCH_ORDER_DETAILS("'+orderid+'","'+email+'","'+orderStatus+'","'+deptName+'")';
-  mysqlconnection.query(sql, function(err, results, fields) {
-    if(!err)
+  var orderdepartment = '';
+
+  if(request.session.username)
+  {
+    if( request.session.role=='Employee')
       {
         email = request.session.username;
       }
       if( request.session.role=='Supervisor'){
         orderStatus = 'Submitted';
+        orderdepartment = request.session.dept;
       } 
       if( request.session.role=='ordersupervisor'){
         orderStatus = 'Approved';
@@ -103,30 +92,26 @@ router.get('/getOrders', function(request, response) {
 
 /* GET viewOrder page. */
 router.get('/viewOrder', function(request, response) {
-  var orderid = request.query.orderId;
-  console.log(orderid);  
-  var email = '';
-  var orderStatus = '';
-  var deptName = '';
-  if( request.session.role=='Employee')
-    {
-      email = request.session.username;
-    }
-    if( request.session.role=='Supervisor'){
-      orderStatus = 'Submitted';
-      deptName = request.session.deptName;
-    } 
-    if( request.session.role=='ordersupervisor'){
-      orderStatus = 'Approved';
-    }
-	let sql = 'call FEATCH_ORDER_DETAILS("'+orderid+'","'+email+'","'+orderStatus+'","'+deptName+'")';
-  mysqlconnection.query(sql, function(err, results, fields) {
-    if(!err)
+
+  if(!request.session.username)
+	{
+		response.redirect('/users/login');
+	}
+	else
+	{
+    var orderid = request.query.orderId;
+    console.log(orderid);  
+    var email = '';
+    var orderStatus = '';
+    var orderdepartment = '';
+    
+    if( request.session.role=='Employee')
       {
         email = request.session.username;
       }
       if( request.session.role=='Supervisor'){
         orderStatus = 'Submitted';
+        orderdepartment = request.session.dept;
       } 
       if( request.session.role=='ordersupervisor'){
         orderStatus = 'Approved';
@@ -175,12 +160,6 @@ router.get('/viewOrder', function(request, response) {
   }
 });
 
-/* GET viewOrder page. */
-router.get('/verifyOrder', function(request, response) {
-  var orderid = request.query.orderID;
-  console.log(orderid);
-  response.send("WHEEE");
-});
 
 
 
