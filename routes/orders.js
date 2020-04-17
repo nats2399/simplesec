@@ -26,19 +26,21 @@ router.get('/vOrders', function(req, res, next) {
 router.get('/getOrders', function(request, response) {
   var email = '';
   var orderStatus = '';
+  var deptName = '';
   if( request.session.role=='Employee')
     {
       email = request.session.username;
     }
     if( request.session.role=='Supervisor'){
       orderStatus = 'Submitted';
+      deptName = request.session.deptName;
     } 
     if( request.session.role=='ordersupervisor'){
       orderStatus = 'Approved';
     }  
   
   var orderid='';
-	let sql = 'call FEATCH_ORDER_DETAILS("'+orderid+'","'+email+'","'+orderStatus+'")';
+	let sql = 'call FEATCH_ORDER_DETAILS("'+orderid+'","'+email+'","'+orderStatus+'","'+deptName+'")';
   mysqlconnection.query(sql, function(err, results, fields) {
     if(!err)
       {
@@ -86,17 +88,19 @@ router.get('/viewOrder', function(request, response) {
   console.log(orderid);  
   var email = '';
   var orderStatus = '';
+  var deptName = '';
   if( request.session.role=='Employee')
     {
       email = request.session.username;
     }
     if( request.session.role=='Supervisor'){
       orderStatus = 'Submitted';
+      deptName = request.session.deptName;
     } 
     if( request.session.role=='ordersupervisor'){
       orderStatus = 'Approved';
-    }  
-	let sql = 'call FEATCH_ORDER_DETAILS("'+orderid+'","'+email+'","'+orderStatus+'")';
+    }
+	let sql = 'call FEATCH_ORDER_DETAILS("'+orderid+'","'+email+'","'+orderStatus+'","'+deptName+'")';
   mysqlconnection.query(sql, function(err, results, fields) {
     if(!err)
       {

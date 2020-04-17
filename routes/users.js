@@ -179,10 +179,11 @@ router.post('/login/auth', function(request, response) {
 				if (results.length > 0) {
 					
 					var userFound = (JSON.parse(JSON.stringify(results[0])))[0];
-
+          console.log(userFound);
 					request.session.valid = null; 
 					request.session.loggedin = true;
-					request.session.username = userFound.oEmail;
+          request.session.username = userFound.oEmail;
+          request.session.deptName = userFound.oDeptName;
           request.session.role = userFound.oRoleName;
           
           
@@ -194,8 +195,6 @@ router.post('/login/auth', function(request, response) {
 					else if(userFound.oRoleName=='Employee'){
 						response.redirect('/employeeIndex');
 					}
-                    
-
 				} else {
 					response.send('Incorrect Username and/or Password!');
 				}			
