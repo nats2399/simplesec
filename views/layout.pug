@@ -33,11 +33,11 @@ html
               li.nav-item
                 a.nav-link(href='/') Home
               li.nav-item
-                a.nav-link(href='/') About
+                a.nav-link(href='/about') About
               li.nav-item
-                a.nav-link(href='/') Resources
+                a.nav-link(href='/resources') Resources
               li.nav-item
-                a.nav-link(href='/') Support
+                a.nav-link(href='/support') Support
 
             ul.navbar-nav.float-right
               li.nav-item.username
@@ -49,6 +49,7 @@ html
               li.nav-item.dropdown
                 a.nav-link.dropdown-toggle(id='navbarDropdownMenuLink', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false') Account
                 .dropdown-menu.account(aria-labelledby='navbarDropdownMenuLink')
+                  a.btn.btn-primary.btn-sm(href='/users/generateKeys' role='button') New Private Key
                   a.dropdown-item(href='/users/logout') Logout
               
                   

@@ -29,6 +29,17 @@ router.get('/dashboard', function(req, res, next) {
     res.redirect('/users/login');
 
 });
-
+/* GET about. */
+router.get('/about', function(req, res, next) {
+  res.render('about', { title: 'SimpleSec About'});
+});
+/* GET Resources. */
+router.get('/resources', function(req, res, next) {
+  res.render('resources', { title: 'SimpleSec Resources'});
+});
+/* GET Support. */
+router.get('/support', function(req, res, next) {
+  res.render('support', { title: 'SimpleSec Support'});
+});
 
 module.exports = router;
