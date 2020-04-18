@@ -1,6 +1,8 @@
 extends layout
 
 block content
+    script(src="http://code.jquery.com/jquery-3.1.0.min.js")
+    script(src="/utils.js")
     .jumbotron.text-center.registrationTitle
         .div
             p #{title} #{session.role}
@@ -88,6 +90,7 @@ block content
                                     td #{od.oQuantity}  
                                     td $ #{od.oUnitPrice}  
                                     td #{od.oSupplierName}  
+                    div#results
                     if session.role == 'Supervisor'
                         .row
                             .col-4.text-center

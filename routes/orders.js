@@ -26,7 +26,7 @@ router.get('/vOrders', function(req, res, next) {
 router.get('/getOrders', function(request, response) {
   var email = '';
   var orderStatus = '';
-  var orderdepartment = request.session.dept;
+  var orderdepartment = '';
 
   if(request.session.username)
   {
@@ -36,6 +36,7 @@ router.get('/getOrders', function(request, response) {
       }
       if( request.session.role=='Supervisor'){
         orderStatus = 'Submitted';
+        orderdepartment = request.session.dept;
       } 
       if( request.session.role=='ordersupervisor'){
         orderStatus = 'Approved';
@@ -102,7 +103,7 @@ router.get('/viewOrder', function(request, response) {
     console.log(orderid);  
     var email = '';
     var orderStatus = '';
-    var orderdepartment = request.session.dept;
+    var orderdepartment = '';
     
     if( request.session.role=='Employee')
       {
@@ -110,6 +111,7 @@ router.get('/viewOrder', function(request, response) {
       }
       if( request.session.role=='Supervisor'){
         orderStatus = 'Submitted';
+        orderdepartment = request.session.dept;
       } 
       if( request.session.role=='ordersupervisor'){
         orderStatus = 'Approved';

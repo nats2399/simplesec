@@ -6,6 +6,9 @@
     "start": "node ./bin/www"
   },
   "dependencies": {
+    "@chilkat/ck-electron8-win64": "^9.50.82",
+    "@chilkat/ck-node11-win64": "^9.50.82",
+    "@chilkat/ck-node13-win64": "^9.50.82",
     "bootstrap": "^4.4.1",
     "cookie-parser": "~1.4.4",
     "crypto-js": "^4.0.0",

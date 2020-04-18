@@ -14,6 +14,8 @@ var employeeRouter = require('./routes/employee');
 var supervisorRouter = require('./routes/supervisor');
 var ordersdptRouter = require('./routes/ordersdpt');
 
+var mailRouter = require('./routes/mailutil');
+
 
 var app = express();
 
@@ -37,9 +39,9 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-
 app.use('/bootstrap', express.static(__dirname + '/node_modules/bootstrap/dist/'));
 app.use('/glyphicons-only-bootstrap', express.static(__dirname + '/node_modules/glyphicons-only-bootstrap/'));
+
 
 
 app.use('/', indexRouter);
@@ -50,9 +52,9 @@ app.use('/orders', ordersRouter);
 app.use('/employee', employeeRouter);
 app.use('/supervisor', supervisorRouter);
 app.use('/ordersdpt', ordersdptRouter);
+app.use('/mail', mailRouter);
 
 app.use("/public", express.static(__dirname + '/public'));
-
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
