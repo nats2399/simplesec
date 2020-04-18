@@ -42,7 +42,7 @@ router.get('/order/approve/:iordernumber', function(req, res, next) {
 
 								var orderDetails = JSON.parse(JSON.stringify(result2[1]));
 
-								res.render('supervisorApprove', { title: 'Approve Order', order:orderInfo, products:productlist, rows:orderDetails, user: req.session.username, publickeyarea: orderInfo[0].emppublicKey, session: req.session});
+								res.render('supervisorApprove', { title: 'Approve Order', order:orderInfo, products:productlist, rows:orderDetails, user: req.session.username, publickeyarea: orderInfo[0].suppublicKey, session: req.session});
 
 
 							} else {
@@ -89,12 +89,15 @@ router.post('/order/accept', function(req, res, next) {
     var ordertime = require('moment')(req.body.orderTime).format('YYYY-MM-DD HH:mm:ss');
     
 	var ipublickey = req.body.publickeytext;
-	var iprivatekey = req.body.privatekeytext;
+    var iprivatekey = req.body.privatekeytext;
+    
+    var employeepublickey = req.body.emppubkeytext;
 	
 	var ordernumber = req.body.ordernumber;
 	var orderstatus = req.body.orderstatus;
     var orderedby = req.body.orderedby;
     var orderHashIN = req.body.oOrderHash;
+    var orderSignEmpIN = req.body.digitalSignEmployee;
     var orderByEmail = req.body.orderByEmail;
 	var orderdepartment = req.body.orderdepartment;
 	var shipping = req.body.shipping;
@@ -103,148 +106,128 @@ router.post('/order/accept', function(req, res, next) {
 	var productID = req.body.productID;
 	var quantity = req.body.quantity;
 	
-	var dsignEmployee = "";
-	
+    var dsignSupervisor = "";
+    var oOrderstatus = '';
+    var oOrderDetails = '';
+    
+    
+    var errMsg = '';
+    var SuccMsg = '';
+    var caseNo = '';
 
 	if (!username || !productlist || !quantitylist || !iprivatekey) {
 		console.log("USER NOT FOUND");
 		res.render('supervisorIndex', { title: 'Welcome Supervisor', messagee: 'OOPS! There was a problem processing your order. Please try again.'});
 	} else {
 		
-		/* Calculate ^ Compare HASH */
+		/* 1. Calculate & Compare HASH */
 		orderstring = ''.concat(orderByEmail, shipping, orderdescription, productID, quantity, ordertime);
         orderhash = CryptoJS.SHA3(orderstring, { outputLength: 512 });
         
         if(orderHashIN==orderhash)
         {
+            // 2. Verify Employee Signature
+            var emppublickeyform = employeepublickey.replace(/\\n/g, '\n');
+            
+            var emppubHex = rsa.KEYUTIL.getKey(emppublickeyform);
+            var emppubObj = rsa.KEYUTIL.getKey(emppubHex, '', "PKCS1PRV");
+            
+            let sigEmp = new rsa.KJUR.crypto.Signature({"alg":"SHA256withRSA"});
+			sigEmp.init(emppubObj);
+            sigEmp.updateString(orderstring);
+            let sigValueHexIn = orderSignEmpIN;
+            let sigEmpisValid = sigEmp.verify(sigValueHexIn);
 
+            if (sigEmpisValid==true){
+                // 3. Sign order by Supervisor
+                // Calculate signature
+
+                var plaintext = orderstring;
+
+                // Remove unnecessary strings
+                var privatekeyform = iprivatekey.replace(/\\n/g, '\n');
+                var publickeyform = ipublickey.replace(/\\n/g, '\n');
+                
+                // Read the keys
+                var prvHex = rsa.KEYUTIL.getKey(privatekeyform);
+                var prvObj = rsa.KEYUTIL.getKey(prvHex, '', "PKCS1PRV");
+                
+                var pubHex = rsa.KEYUTIL.getKey(publickeyform);
+                var pubObj = rsa.KEYUTIL.getKey(pubHex, '', "PKCS1PRV");
+
+                let sig = new rsa.KJUR.crypto.Signature({"alg":"SHA256withRSA"});
+                sig.init(prvObj);
+                var sigValueHex = sig.signString(plaintext)
+
+                // 2. VERIFY
+                let sig1 = new rsa.KJUR.crypto.Signature({"alg":"SHA256withRSA"});
+                sig1.init(pubObj);
+                sig1.updateString(plaintext);
+                let isValid = sig1.verify(sigValueHex);
+                
+                //console.log("isValid "+isValid);
+                if(isValid==true){
+                    console.log("the keys pair match for supervisor");
+                    dsignSupervisor = sigValueHex;
+
+                    caseNo = '4'
+                }
+                else
+                {
+                    caseNo = '3'
+                    errMsg = 'OOPS! Your keys does not match. Please try again.';
+                }
+            }
+            else{
+                caseNo = '2'
+                errMsg = 'OOPS! The order signature from the employee is not valid. Please try again.';
+            }
         }
         else{
-            console.log("HASH NOT EQUAL");
-    		res.render('supervisorIndex', { title: 'Welcome Supervisor', messagee: 'OOPS! The order has been altered. Please try again.'});
+            caseNo = '1'
+            errMsg = 'OOPS! The order has been altered. Please try again.'
+            //console.log("HASH NOT EQUAL");
+    		//res.render('supervisorIndex', { title: 'Welcome Supervisor', messagee: 'OOPS! The order has been altered. Please try again.'});
         }
 
+        if(caseNo=='1')
+        {
+            oOrderstatus = 'INVALID';
+            oOrderDetails = 'The order has been altered.';
+        }
+        else if(caseNo=='2')
+        {
+            oOrderstatus = 'INVALID';
+            oOrderDetails = 'The order signature from the employee is not valid.';
+        }
+        else if(caseNo=='3')
+        {
+            oOrderstatus = orderstatus;
+            oOrderDetails = 'The private key from the supervisor is not valid.';
+        }
+        else if(caseNo=='4')
+        {
+            if(oraccept=='approve')
+                oOrderstatus = 'Approved';
+            if(oraccept=='reject')
+                oOrderstatus = 'Rejected';
+            oOrderDetails = 'The order was '+oOrderstatus+' succesfully!';            
+            SuccMsg = 'The order was '+oOrderstatus+' succesfully!';
+        }
 
-        /*
-		if(oraccept=='submit' || oraccept=='submitedit'){
-			// Calculate signature
+        let sql = `CALL UPDATE_ORDER("`+ordernumber+ `","` + oOrderstatus+ `","` +oOrderDetails+ `","` +dsignSupervisor+`")`;
 
-			// 1. SIGN
-			var plaintext = orderstring;
+        console.log(sql);
+        mysqlconnection.query(sql, function (err, result, fields) 
+        {
+            if (err) 
+                throw err; 
+            else
+            {
+                res.render('supervisorIndex', { title: 'Welcome Supervisor', message: SuccMsg, messagee:errMsg});
+            }
+        });
 
-			//console.log('----SEARCH-----');
-			//console.log(plaintext.search("-----BEGIN RSA PRIVATE KEY-----"));
-
-			// Remove unnecessary strings
-			var privatekeyform = iprivatekey.replace(/\\n/g, '\n');
-			var publickeyform = ipublickey.replace(/\\n/g, '\n');
-			
-			//console.log('----PRIVATE KEY FORM-----');
-			//console.log(privatekeyform);
-			//console.log('----PRIVATE KEY SIZE-----');
-			//console.log(privatekeyform.length);
-		
-			// Read the keys
-			var prvHex = rsa.KEYUTIL.getKey(privatekeyform);
-			var prvObj = rsa.KEYUTIL.getKey(prvHex, '', "PKCS1PRV");
-			
-			var pubHex = rsa.KEYUTIL.getKey(publickeyform);
-			var pubObj = rsa.KEYUTIL.getKey(pubHex, '', "PKCS1PRV");
-
-			let sig = new rsa.KJUR.crypto.Signature({"alg":"SHA256withRSA"});
-			sig.init(prvObj);
-			var sigValueHex = sig.signString(plaintext)
-
-			// 2. VERIFY
-			let sig1 = new rsa.KJUR.crypto.Signature({"alg":"SHA256withRSA"});
-			sig1.init(pubObj);
-			sig1.updateString(plaintext);
-			let isValid = sig1.verify(sigValueHex);
-			
-			console.log("SIGNATURE "+sigValueHex);
-
-			if(isValid==true){
-				console.log("the keys pair match");
-				dsignEmployee = sigValueHex;
-			}
-			else
-			{
-				console.log("the keys DONT pair match");
-				res.render('employeeIndex', { title: 'Welcome Employee', messagee: 'OOPS! Your keys does not match. Please try again.'});
-			}
-
-		}
-
-		
-		/* ADD ORDER TO DB
-
-		if(isValid==true && oraccept=='submit')
-		{
-			let sql = `CALL ADD_ORDER("`+username+ `","` + ordescription+ `","` +oraccept+ `","` +productlist+ `","` +quantitylist+ `","` +ordertime+ `","` +orderhash+ `","` +dsignEmployee+`")`;
-			//console.log(sql);
-
-			mysqlconnection.query(sql, function (err, result, fields) 
-			{
-				if (err) 
-					throw err; 
-				else
-				{
-					console.log("SUCCESS");
-					res.render('employeeIndex', { title: 'Welcome Employee', message: 'Your order was saved succesfully!'});
-				}
-			});
-		}
-		else if(oraccept=='save')
-		{
-			let sql = `CALL ADD_ORDER("`+username+ `","` + ordescription+ `","` +oraccept+ `","` +productlist+ `","` +quantitylist+ `","` +ordertime+ `","` +orderhash+ `","` +dsignEmployee+`")`;
-			//console.log(sql);
-
-			mysqlconnection.query(sql, function (err, result, fields) 
-			{
-				if (err) 
-					throw err; 
-				else
-				{
-					console.log("SUCCESS");
-					res.render('employeeIndex', { title: 'Welcome Employee', message: 'Your order was submitted succesfully!'});
-				}
-			});
-		}
-		else if(oraccept=='saveedit')
-		{
-			let sql3 = `CALL UPDATE_ORDER("`+username+ `","` + ordescription+ `","` +oraccept+ `","` +productlist+ `","` +quantitylist+ `","` +ordertime+ `","` +orderhash+ `","` +dsignEmployee+`")`;
-			//console.log(sql);
-
-			mysqlconnection.query(sql3, function (err, result, fields) 
-			{
-				if (err) 
-					throw err; 
-				else
-				{
-					console.log("SUCCESS");
-					res.render('employeeIndex', { title: 'Welcome Employee', message: 'Your order was submitted succesfully!'});
-				}
-			});
-		}
-		else if(oraccept=='submitedit')
-		{
-			let sql4 = `CALL UPDATE_ORDER("`+username+ `","` + ordescription+ `","` +oraccept+ `","` +productlist+ `","` +quantitylist+ `","` +ordertime+ `","` +orderhash+ `","` +dsignEmployee+`")`;
-			//console.log(sql);
-
-			mysqlconnection.query(sql, function (err, result, fields) 
-			{
-				if (err) 
-					throw err; 
-				else
-				{
-					console.log("SUCCESS");
-					res.render('employeeIndex', { title: 'Welcome Employee', message: 'Your order was submitted succesfully!'});
-				}
-			});
-		}
-
-		
-		*/
 
 	}
 	
