@@ -875,3 +875,24 @@ footer{
 .btn-groupe_2 .btn-honey_flower_2 .glyphicon {
   color: #fff;
 }
+
+
+.contact-us {
+  text-align: center;
+}
+.content {
+  width: 80%;
+  max-width: 1300px;
+  margin: auto;
+}
+.contact-us p i {
+  color: #FE4066;
+}
+
+.iconfont_hp, .iconfont {
+  font-family: "iconfont_hp" !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
