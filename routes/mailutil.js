@@ -2,20 +2,20 @@
 var os = require('os');
 if (os.platform() == 'win32') {  
     if (os.arch() == 'ia32') {
-        var chilkat = require('@chilkat/ck-node11-win-ia32');
+        var chilkat = require('@chilkat/ck-node12-win-ia32');
     } else {
-        var chilkat = require('@chilkat/ck-node11-win64'); 
+        var chilkat = require('@chilkat/ck-node12-win64'); 
     }
 } else if (os.platform() == 'linux') {
     if (os.arch() == 'arm') {
-        var chilkat = require('@chilkat/ck-node11-arm');
+        var chilkat = require('@chilkat/ck-node12-arm');
     } else if (os.arch() == 'x86') {
-        var chilkat = require('@chilkat/ck-node11-linux32');
+        var chilkat = require('@chilkat/ck-node12-linux32');
     } else {
-        var chilkat = require('@chilkat/ck-node11-linux64');
+        var chilkat = require('@chilkat/ck-node12-linux64');
     }
 } else if (os.platform() == 'darwin') {
-    var chilkat = require('@chilkat/ck-node11-macosx');
+    var chilkat = require('@chilkat/ck-node12-macosx');
 }
 var express = require('express');
 var router = express.Router();
@@ -123,13 +123,21 @@ function chilkatExample(email,subject, body, to) {
     console.log("Mail Sent!");
 
 }
+
+
 router.get('/sendmail', function(request, response) {
+
+    // if Approved/Rejected redirect to supervisorIndex 
+
     var orderid = request.query.orderId;
     console.log(orderid);  
     // need to add the code to create the message
     var message ="Encrypted Message";
     chilkatExample( request.session.username, "Hello There",message ,"mifidoor@gmail.com");
     response.end();
+    
+    //res.render('employeeIndex', { title: 'Welcome Employee', message: 'Your order was saved succesfully!'});
+    //res.render('supervisorIndex', { title: 'Welcome Supervisor', message: SuccMsg, messagee:errMsg});
 });
 
 module.exports = router;

@@ -224,7 +224,9 @@ router.post('/order/accept', function(req, res, next) {
                 throw err; 
             else
             {
+                //call to send email
                 res.render('supervisorIndex', { title: 'Welcome Supervisor', message: SuccMsg, messagee:errMsg});
+
             }
         });
 
