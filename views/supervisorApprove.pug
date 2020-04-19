@@ -66,6 +66,8 @@ block content
 					input.input(type="hidden" name='oOrderHash' value=order[0].oOrderHash onkeydown='return false;')
 					input.input(type="hidden" name='orderByEmail' value=order[0].orderByEmail onkeydown='return false;')
 					input.input(type="hidden" name='orderTime' value=order[0].orderTime onkeydown='return false;')
+					input(type="hidden" name="emppubkeytext" value=order[0].emppublicKey)
+					input(type="hidden" name="digitalSignEmployee" value=order[0].oDigitalSignEmployee)
 
 			table.table.table-striped.table-borderless.table-hover#productstable(style='width:100%', border='1' name='productsdetail')
 				thead.thead-dark
@@ -101,6 +103,7 @@ block content
 						.div.form-group
 							textarea(rows='3' name='publickeytext' onkeydown='return false;')
 								| #{publickeyarea}
+													
 					.col-md-6.vote-2
 						h3 Private Key
 						.div.text-center.form-group

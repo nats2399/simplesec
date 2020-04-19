@@ -45,3 +45,7 @@ Open it at
 
 # Install crypto module
 ``` npm install crypto-js --save ```
+
+# Install ck-node11-win64
+``` npm uninstall @chilkat/ck-node11-win64 --save ```
+``` npm install @chilkat/ck-node12-win64 --save ```

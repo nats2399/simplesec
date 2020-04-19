@@ -7,7 +7,7 @@
   },
   "dependencies": {
     "@chilkat/ck-electron8-win64": "^9.50.82",
-    "@chilkat/ck-node11-win64": "^9.50.82",
+    "@chilkat/ck-node12-win64": "^9.50.82",
     "@chilkat/ck-node13-win64": "^9.50.82",
     "bootstrap": "^4.4.1",
     "cookie-parser": "~1.4.4",
@@ -17,6 +17,7 @@
     "express": "~4.16.1",
     "express-session": "^1.17.0",
     "express-validator": "^6.4.0",
+    "glyphicons-only-bootstrap": "^1.0.1",
     "http-errors": "~1.6.3",
     "jsrsasign": "^8.0.14",
     "moment": "^2.24.0",

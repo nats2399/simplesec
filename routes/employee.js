@@ -264,7 +264,9 @@ router.post('/order/accept', function(req, res, next) {
 				else
 				{
 					console.log("SUCCESS");
-					res.render('employeeIndex', { title: 'Welcome Employee', message: 'Your order was saved succesfully!'});
+					//orderNo, emailSupervisor, orderSupervisorEmail, status
+					
+					//res.render('employeeIndex', { title: 'Welcome Employee', message: 'Your order was saved succesfully!'});
 				}
 			});
 		}
