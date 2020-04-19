@@ -1,0 +1,42 @@
+extends layout
+
+block content
+	.jumbotron.text-center.registrationTitle 
+		.div
+			p #{title}
+
+	.container
+		ul.errors
+			if errors
+					each error, i in errors
+						li.alert.alert-danger #{error.msg}
+			if message
+				li.alert.alert-success #{message}
+			if messagee
+				li.alert.alert-danger #{messagee}
+
+	.div.linksSection
+		section.features-icons.text-center
+			.container
+				.row
+					.col-lg-4
+						.features-icons-item.mx-auto.mb-5.mb-lg-0.mb-lg-3
+							.features-icons-icon.d-flex
+								a.m-auto.text-primary(href='/orders/getOrders') 
+									i.icon-list.m-auto.d-flex
+							h3 View Orders
+							p.lead.mb-0  
+					.col-lg-4
+						.features-icons-item.mx-auto.mb-5.mb-lg-0.mb-lg-3
+							.features-icons-icon.d-flex
+								a.m-auto.text-primary(href='/orders/getOrders?status=todo') 
+									i.icon-check.m-auto.d-flex
+							h3 Verify and Complete Orders
+							p.lead.mb-0  
+					.col-lg-4
+						.features-icons-item.mx-auto.mb-5.mb-lg-0.mb-lg-3
+							.features-icons-icon.d-flex
+								a.m-auto.text-primary(href='/ordersSupervisor/Account') 
+									i.icon-user.m-auto.d-flex
+							h3 Account
+							p.lead.mb-0  

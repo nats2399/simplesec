@@ -50,11 +50,16 @@ router.get('/getOrders', function(request, response) {
         orderdepartment = request.session.dept;
       } 
       if( request.session.role=='ordersupervisor'){
-        orderStatus = 'Approved';
+        email = request.session.username;
+        if(status=='todo')
+        {
+          orderStatus = 'Approved';
+        }
       }  
     var orderid='';
     let sql = 'call FEATCH_ORDER_DETAILS("","'+email+'","'+orderStatus+'","'+orderdepartment+'")';
-    
+    console.log(sql);
+
     mysqlconnection.query(sql, function(err, results, fields) {
       if(!err)
         {

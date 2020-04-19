@@ -1,0 +1,120 @@
+extends layout
+
+block content
+	.jumbotron.text-center.registrationTitle
+		.div
+			p #{title}
+		.div.dashboardbutton
+			if session.role=='Employee'
+				.btn-group.btn-groupe_2
+					a.btn.btn-honey_flower(type='button' href="/employeeIndex") Dashboard
+					a.btn.btn-honey_flower_2(type='button')
+						span.glyphicon.glyphicon-dashboard
+			else if session.role=='Supervisor'
+				.btn-group.btn-groupe_2
+					a.btn.btn-honey_flower(type='button' href="/supervisorIndex") Dashboard
+					a.btn.btn-honey_flower_2(type='button')
+						span.glyphicon.glyphicon-dashboard
+			else if session.role=='ordersupervisor'
+				.btn-group.btn-groupe_2
+					a.btn.btn-honey_flower(type='button' href="/ordersDeptIndex") Dashboard
+					a.btn.btn-honey_flower_2(type='button')
+						span.glyphicon.glyphicon-dashboard
+				
+				
+
+	.container
+		ul.errors
+			if errors
+					each error, i in errors
+						li.alert.alert-danger #{error.msg}
+	.div.addorder
+		form.addorderform#addorderform(method='post' action='/ordersdpt/order/accept' dataType='json')
+			div.row
+				div.col
+					label
+						p.label-txt Order Number:
+						input.input(type='text' name='ordernumber' value=order[0].orderNum onkeydown='return false;')
+						order.orderNum
+				div.col
+					label
+						p.label-txt Order Status:
+						input.input(type='text' name='orderstatus' value=order[0].oOrderStatus onkeydown='return false;')
+			div.row
+				div.col
+					label
+						p.label-txt Ordered by:
+						input.input(type='text' name='orderedby' value=order[0].orderBy onkeydown='return false;')
+				div.col
+					label
+						p.label-txt Department:
+						input.input(type='text' name='orderdepartment' value=order[0].orderDpt onkeydown='return false;')
+			div.row
+				div.col
+					label
+						p.label-txt Shipping Address:
+						input.input(type='text' name='shipping' value=order[0].orderShippingAdd onkeydown='return false;')
+				div.col
+					label
+						p.label-txt Supervisor:
+						input.input(type='text' name='supervisor' value=order[0].orderSupervisor onkeydown='return false;') 				
+					
+			label
+				label
+					p.label-txt Description:
+					input.input(type='text' name='orderdescription' value=order[0].orderDescription onkeydown='return false;')
+					input.input(type="hidden" name='oOrderHash' value=order[0].oOrderHash onkeydown='return false;')
+					input.input(type="hidden" name='orderByEmail' value=order[0].orderByEmail onkeydown='return false;')
+					input.input(type="hidden" name='orderTime' value=order[0].orderTime onkeydown='return false;')
+					input(type="hidden" name="emppubkeytext" value=order[0].emppublicKey)
+					input(type="hidden" name="suppubkeytext" value=order[0].suppublicKey)
+					input(type="hidden" name="digitalSignEmployee" value=order[0].oDigitalSignEmployee)
+					input(type="hidden" name="digitalSignSupervisor" value=order[0].oDigitalSignSupervisor)
+
+			table.table.table-striped.table-borderless.table-hover#productstable(style='width:100%', border='1' name='productsdetail')
+				thead.thead-dark
+					tr
+						th(scope='col') Product
+						th(scope='col') Supplier
+						th(scope='col') Category
+						th(scope='col') Quantity
+						th(scope='col') Unit Price
+						th(scope='col') Available
+				tbody
+				each row in rows
+					tr
+						th(scope='row')
+							input(type="hidden" name="productID" value=row.ProductID) 
+							=row.ProductName	
+						td= row.SupplierName
+						td= row.Category
+						td
+							input(type="hidden" name="quantity" value=row.Quantity)
+							= row.Quantity							
+						td= row.UnitPrice
+						td= row.StockAvailability
+			br
+			br
+
+			
+
+			.row.keysrow
+					.col-md-6.vote-1
+						h3 Public Key
+						
+						.div.form-group
+							textarea(rows='3' name='publickeytext' onkeydown='return false;')
+								| #{publickeyarea}
+													
+					.col-md-6.vote-2
+						h3 Private Key
+						.div.text-center.form-group
+							textarea(rows='3' name='privatekeytext')
+								| #{privatekeyarea}
+							lablel.privatekeyinstructions
+								| Copy and Paste your Private Key here. Please include all the text in your TXT file. You can use CTRL+A in your private key file, and then CTRL+V here.
+			br
+			.div
+				button#savebutton.addorderbutton(name='accept' type='submit' value='complete') Complete
+				button#cancelbutton.addorderbutton(name='accept' type='submit' value='decline') Decline
+				

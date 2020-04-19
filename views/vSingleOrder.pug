@@ -102,13 +102,14 @@ block content
                              
                     if session.role == 'ordersupervisor'
                         .row
-                            .col-3
-                            .col-3
-                                a(class='btn btn-' + btnType + ' btn-' + btnSize  href='/orders/getOrders') Go Back 
-                            .col-3 
-                                a(class='btn btn-' + btnType + ' btn-' + btnSize  href='/orders/change?orderId='+order[0].oOrderID) Verify and Shipped 
-                            .col-3 
-
+                            .col-4.text-center
+                                
+                            .col-4.text-center
+                                if order[0].oOrderStatus == 'Approved'
+                                    a(class='btn submitbutton btn-' + btnType + ' btn-' + btnSize  href='/ordersdpt/order/complete/'+order[0].oOrderID) Verify and Complete
+                            .col-4.text-center
+                                a(class='btn cancelbutton btn-' + btnType + ' btn-' + btnSize  href='/orders/getOrders') Go Back
+                             
                     if session.role == 'Employee'
                         .row
                             .col-3

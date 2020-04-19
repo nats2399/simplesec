@@ -102,10 +102,11 @@ block content
                     a(class='btn btn-' + btnType + ' btn-' + btnSize  href='/orders/viewOrder?orderId='+order[0].oOrderID) Review Order
               if session.role == 'ordersupervisor'
                 .row
-                  .col-4
-                  .col-4
-                  .col-8 
-                    a(class='btn btn-' + btnType + ' btn-' + btnSize  href='/orders/viewOrder?orderId='+order[0].oOrderID) Review Order 
+                  .col-6.text-center
+                    if order[0].oOrderStatus == 'Approved'
+                      a(class='btn submitbutton btn-' + btnType + ' btn-' + btnSize  href='/ordersdpt/order/complete/'+order[0].oOrderID) Verify and Complete 
+                  .col-6.text-center
+                    a(class='btn btn-' + btnType + ' btn-' + btnSize  href='/orders/viewOrder?orderId='+order[0].oOrderID) Review Order
               if session.role == 'Employee'
                 .row
                   .col-4

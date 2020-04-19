@@ -179,6 +179,7 @@ router.post('/login/auth', function(request, response) {
 				if (results.length > 0) {
 					
 					var userFound = (JSON.parse(JSON.stringify(results[0])))[0];
+          console.log("userFound");
           console.log(userFound);
 					request.session.valid = null; 
 					request.session.loggedin = true;
@@ -199,9 +200,16 @@ router.post('/login/auth', function(request, response) {
           }
           else if(userFound.oRoleName=='ordersupervisor'){
 						response.redirect('/ordersDeptIndex');
-					}
+          }
+          else if(!userFound.oEmail){
+            response.render('Login', { title: 'Login', messagee:"Incorrect Username and/or Password!"});
+          }
+          else{
+            response.render('Login', { title: 'Login' });
+          }
 				} else {
-					response.send('Incorrect Username and/or Password!');
+          //response.send('Incorrect Username and/or Password!');
+          response.render('errormsg', { title: 'ATTENTION!' , errormessage: 'Incorrect Username and/or Password! Please try againg later.'});
 				}			
 				response.end();
 			}
