@@ -263,6 +263,10 @@ router.post('/order/accept', function(req, res, next) {
 					throw err; 
 				else
 				{
+					infoEmail = JSON.parse(JSON.stringify(result[0]))[0];
+					
+					iorderID = infoEmail.iorderID;
+					
 					res.redirect('/mail/sendmail/'+iorderID);
 
 					//res.render('employeeIndex', { title: 'Welcome Employee', message: 'Your order was saved succesfully!'});

@@ -125,19 +125,43 @@ function chilkatExample(email,subject, body, to) {
 }
 
 
-router.get('/sendmail', function(request, response) {
+router.get('/sendmail/:iorderID', function(request, response) {
 
-    // if Approved/Rejected redirect to supervisorIndex 
-
-    var orderid = request.query.orderId;
-    console.log(orderid);  
-    // need to add the code to create the message
-    var message ="Encrypted Message";
-    chilkatExample( request.session.username, "Hello There",message ,"mifidoor@gmail.com");
-    response.end();
+    var ordernumber = request.params.iorderID;
     
-    //res.render('employeeIndex', { title: 'Welcome Employee', message: 'Your order was saved succesfully!'});
-    //res.render('supervisorIndex', { title: 'Welcome Supervisor', message: SuccMsg, messagee:errMsg});
+    let sql = `CALL GET_INFOEMAIL("`+ordernumber+`")`;
+			
+    mysqlconnection.query(sql, function (err, result, fields) 
+    {
+        if (err) 
+            throw err; 
+        else
+        {
+            infoEmail = JSON.parse(JSON.stringify(result[0]))[0];
+            console.log(infoEmail)
+            iorderID = infoEmail.iorderID;
+            emailEmployee = infoEmail.oemailEmployee;
+            emailSupervisor = infoEmail.iOrderStatus;
+            orderSupervisorEmail = infoEmail.oemailSupervisor;
+            orderStatus = infoEmail.oemailOrderSupervisor;
+
+            // if Approved/Rejected redirect to supervisorIndex 
+
+            var orderid = request.query.orderId;
+            console.log(orderid);  
+            // need to add the code to create the message
+            var message ="Encrypted Message";
+            chilkatExample( request.session.username, "Hello There",message ,"mifidoor@gmail.com");
+            
+            //response.end();
+            
+            response.render('employeeIndex', { title: 'Welcome Employee', message: 'Your order was saved succesfully!'});
+            //res.render('supervisorIndex', { title: 'Welcome Supervisor', message: SuccMsg, messagee:errMsg});
+        }
+    });
+
+
+        
 });
 
 module.exports = router;
