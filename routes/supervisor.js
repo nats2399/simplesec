@@ -225,7 +225,11 @@ router.post('/order/accept', function(req, res, next) {
             else
             {
                 //call to send email
-                res.render('supervisorIndex', { title: 'Welcome Supervisor', message: SuccMsg, messagee:errMsg});
+                if(caseNo=='4')
+                    res.redirect('/mail/sendmail/'+ordernumber);
+                else
+                    res.render('supervisorIndex', { title: 'Welcome Supervisor', message: SuccMsg, messagee:errMsg});
+                
 
             }
         });

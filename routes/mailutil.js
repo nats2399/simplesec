@@ -139,11 +139,12 @@ router.get('/sendmail/:iorderID', function(request, response) {
         {
             infoEmail = JSON.parse(JSON.stringify(result[0]))[0];
             console.log(infoEmail)
+
             iorderID = infoEmail.iorderID;
             emailEmployee = infoEmail.oemailEmployee;
-            emailSupervisor = infoEmail.iOrderStatus;
-            orderSupervisorEmail = infoEmail.oemailSupervisor;
-            orderStatus = infoEmail.oemailOrderSupervisor;
+            orderStatus = infoEmail.oOrderStatus;
+            supervisorEmail = infoEmail.oemailSupervisor;
+            orderSupervisorEmail = infoEmail.oemailOrderSupervisor;
 
             // if Approved/Rejected redirect to supervisorIndex 
 
@@ -155,8 +156,13 @@ router.get('/sendmail/:iorderID', function(request, response) {
             
             //response.end();
             
-            response.render('employeeIndex', { title: 'Welcome Employee', message: 'Your order was saved succesfully!'});
-            //res.render('supervisorIndex', { title: 'Welcome Supervisor', message: SuccMsg, messagee:errMsg});
+            let SuccMsg = 'The order was '+orderStatus+' succesfully!';
+
+            if(orderStatus=='Submitted')
+                response.render('employeeIndex', { title: 'Welcome Employee', message: 'Your order was saved succesfully!'});
+            if(orderStatus=='Approved'||orderStatus=='Rejected')
+                response.render('supervisorIndex', { title: 'Welcome Supervisor', message: SuccMsg});
+                
         }
     });
 
