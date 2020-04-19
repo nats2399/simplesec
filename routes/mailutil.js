@@ -114,16 +114,35 @@ router.get('/sendmail', function(request, response) {
     var emailObj = new chilkat.Email();
     var iorderID = request.query.iorderID;
     var email = 'mifidoor@gmail.com';
-    var emailSupervisor = request.query.emailSupervisor;
-    var orderSupervisorEmail = request.query.orderSupervisorEmail;
-    var orderStatus = request.query.orderStatus;
     var subject = 'SimpleSec Order ';
     console.log(iorderID);  
     emailObj.AddTo("",email);
-    emailObj.AddTo("",emailSupervisor);
-    emailObj.AddTo("",orderSupervisorEmail);
-    let sql = 'call FEATCH_ORDER_DETAILS("'+iorderID+'","","","")';
-    
+
+    let sql = `CALL GET_INFOEMAIL("`+iorderID+`")`;
+    mysqlconnection.query(sql, function (err, result, fields) 
+    {
+        if (err) 
+            throw err; 
+        else
+        {
+            infoEmail = JSON.parse(JSON.stringify(result[0]))[0];
+            console.log(infoEmail)
+
+            iorderID = infoEmail.iorderID;
+            emailEmployee = infoEmail.oemailEmployee;
+            orderStatus = infoEmail.oOrderStatus;
+            supervisorEmail = infoEmail.oemailSupervisor;
+            orderSupervisorEmail = infoEmail.oemailOrderSupervisor;
+            emailObj.AddTo("",supervisorEmail);
+            emailObj.AddTo("",orderSupervisorEmail);
+            
+                
+        }
+    });
+
+
+
+    sql = 'call FEATCH_ORDER_DETAILS("'+iorderID+'","","","")';
     mysqlconnection.query(sql, function(err, results, fields) {
       if(!err)
         {
@@ -183,16 +202,12 @@ router.get('/sendmail', function(request, response) {
             message += "</body></html>";
             console.log('message '+message);
             chilkatExample( request.session.username, subject,message ,emailObj );
-            if(orderStatus=='Submitted'){
-                response.render('employeeIndex', { title: 'Welcome Employee', message: 'Your order was saved succesfully!'});
-            }
-            else if(orderStatus=='Approved'){
-                response.render('supervisorIndex', { title: 'Welcome Supervisor', message: 'Your order was Approved succesfully!', messagee:''});
-            }
-            else {
-                response.render('employeeIndex', { title: 'Welcome Employee', message: 'Notification sent successfully'});
-            }
+            let SuccMsg = 'The order was '+orderStatus+' succesfully!';
 
+            if(orderStatus=='Submitted')
+                response.render('employeeIndex', { title: 'Welcome Employee', message: 'Your order was saved succesfully!'});
+            if(orderStatus=='Approved'||orderStatus=='Rejected')
+                response.render('supervisorIndex', { title: 'Welcome Supervisor', message: SuccMsg});
 
         } else {        }
       }
