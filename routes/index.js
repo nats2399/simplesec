@@ -54,4 +54,8 @@ router.get('/support', function(req, res, next) {
   res.render('support', { title: 'SimpleSec Support'});
 });
 
+router.get('/profile', function(req, res, next) {
+  res.render('userProfile', { title: 'SimpleSec'});
+});
+
 module.exports = router;
