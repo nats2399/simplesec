@@ -27,23 +27,33 @@ router.get('/getOrders', function(request, response) {
   var email = '';
   var orderStatus = '';
   var orderdepartment = '';
-
+  var status = request.query.status;
   if(request.session.username)
   {
     if( request.session.role=='Employee')
       {
         email = request.session.username;
+        if(status=='todo')
+        {
+          orderStatus = 'In Progress';
+        }
       }
       if( request.session.role=='Supervisor'){
-        orderStatus = 'Submitted';
+        if(status=='todo')
+        {
+          orderStatus = 'Submitted';
+        }
+        else
+        {
+          //orderStatus = 'Submitted,Rejected';
+        }
         orderdepartment = request.session.dept;
       } 
       if( request.session.role=='ordersupervisor'){
         orderStatus = 'Approved';
       }  
-    
     var orderid='';
-    let sql = 'call FEATCH_ORDER_DETAILS("'+orderid+'","'+email+'","'+orderStatus+'","'+orderdepartment+'")';
+    let sql = 'call FEATCH_ORDER_DETAILS("","'+email+'","'+orderStatus+'","'+orderdepartment+'")';
     
     mysqlconnection.query(sql, function(err, results, fields) {
       if(!err)
