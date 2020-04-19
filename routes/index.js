@@ -38,6 +38,13 @@ router.get('/dashboard', function(req, res, next) {
 router.get('/about', function(req, res, next) {
   res.render('about', { title: 'SimpleSec About'});
 });
+
+/* GET Team. */
+router.get('/team', function(req, res, next) {
+  res.render('team', { title: 'Meet Our Experts'});
+});
+
+
 /* GET Resources. */
 router.get('/resources', function(req, res, next) {
   res.render('resources', { title: 'SimpleSec Resources'});
