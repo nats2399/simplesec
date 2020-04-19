@@ -263,9 +263,8 @@ router.post('/order/accept', function(req, res, next) {
 					throw err; 
 				else
 				{
-					console.log("SUCCESS");
-					//orderNo, emailSupervisor, orderSupervisorEmail, status
-					
+					res.redirect('/mail/sendmail/'+iorderID);
+
 					//res.render('employeeIndex', { title: 'Welcome Employee', message: 'Your order was saved succesfully!'});
 				}
 			});
