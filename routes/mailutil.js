@@ -1,10 +1,9 @@
-
 var os = require('os');
 if (os.platform() == 'win32') {  
     if (os.arch() == 'ia32') {
         var chilkat = require('@chilkat/ck-node12-win-ia32');
     } else {
-        var chilkat = require('@chilkat/ck-node12-win64'); 
+        var chilkat = require('@chilkat/ck-node11-win64'); 
     }
 } else if (os.platform() == 'linux') {
     if (os.arch() == 'arm') {
@@ -20,28 +19,9 @@ if (os.platform() == 'win32') {
 var express = require('express');
 var router = express.Router();
 const mysqlconnection = require("../dbconnection.js");
-function chilkatExample(email,subject, body, to) {
-    var pubkey = '';
-    let sql = 'call SELECT_USERS("'+email+'")';
+function chilkatExample(email,subject, body, emailobj) {
     
-    mysqlconnection.query(sql, function(err, results, fields) {
-        console.log('1');
-            if(!err)
-        {console.log('2');
-        if (results.length > 0) {
-              
-            var userFound = (JSON.parse(JSON.stringify(results[0])))[0];
-            console.log(userFound);
-            pubkey = userFound.oPublicKey;
-        }
-    } else {
-        
-      }			
-
-    });
-
-
-
+    console.log('H2222 '+subject);
 
     // This example requires the Chilkat API to have been previously unlocked.
     // See Global Unlock Sample for sample code.
@@ -60,7 +40,7 @@ function chilkatExample(email,subject, body, to) {
     mailman.SmtpPort = 465;
 
     var cert = new chilkat.Cert();
-    console.log('H ahahahahaha');
+    
    // var success = cert.SetSslClientCert ('');
     var success = cert.LoadFromFile("google.cer");
     if (success !== true) {
@@ -68,13 +48,13 @@ function chilkatExample(email,subject, body, to) {
         return;
     }
 
-    // Create a new email object
-    var email = new chilkat.Email();
+    
 
-    email.Subject = subject;
-    email.Body = body;
-    email.From = "SimpleSec Support <simplesec.info@gmail.com>";
-    var success = email.AddTo("Chilkat Admin",to);
+    emailobj.Subject = subject;
+    emailobj.Body = body;
+    emailobj.From = "SimpleSec Support <simplesec.info@gmail.com>";
+   // var success = email.AddTo("Chilkat Admin",to);
+    //email.AddTo("Chilkat Admin",'tino.aby@gmail.com')
     // To add more recipients, call AddTo, AddCC, or AddBcc once per recipient.
 
     // Call SendEmail to connect to the SMTP server and send.
@@ -98,12 +78,12 @@ function chilkatExample(email,subject, body, to) {
     }
 
     //Indicate that the email is to be sent encrypted.
-    email.SendEncrypted = true;
+    emailobj.SendEncrypted = true;
 
     // Specify the certificate to be used for encryption.
-    success = email.SetEncryptCert(cert);
+    success = emailobj.SetEncryptCert(cert);
 
-    success = mailman.SendEmail(email);
+    success = mailman.SendEmail(emailobj);
     if (success !== true) {
         console.log(mailman.LastErrorText);
         return;
@@ -125,12 +105,19 @@ function chilkatExample(email,subject, body, to) {
 }
 
 
-router.get('/sendmail/:iorderID', function(request, response) {
+router.get('/sendmail', function(request, response) {
 
-    var ordernumber = request.params.iorderID;
-    
-    let sql = `CALL GET_INFOEMAIL("`+ordernumber+`")`;
-			
+    // if Approved/Rejected redirect to supervisorIndex 
+    // Create a new email object
+    //iorderID, emailSupervisor, orderSupervisorEmail, orderStatus
+    var emailObj = new chilkat.Email();
+    var iorderID = request.query.iorderID;
+    var email = 'mifidoor@gmail.com';
+    var subject = 'SimpleSec Order ';
+    console.log(iorderID);  
+    emailObj.AddTo("",email);
+
+    let sql = `CALL GET_INFOEMAIL("`+iorderID+`")`;
     mysqlconnection.query(sql, function (err, result, fields) 
     {
         if (err) 
@@ -145,29 +132,93 @@ router.get('/sendmail/:iorderID', function(request, response) {
             orderStatus = infoEmail.oOrderStatus;
             supervisorEmail = infoEmail.oemailSupervisor;
             orderSupervisorEmail = infoEmail.oemailOrderSupervisor;
+            emailObj.AddTo("",supervisorEmail);
+            emailObj.AddTo("",orderSupervisorEmail);
+            
+                
+        }
+    });
 
-            // if Approved/Rejected redirect to supervisorIndex 
 
-            var orderid = request.query.orderId;
-            console.log(orderid);  
+
+    sql = 'call FEATCH_ORDER_DETAILS("'+iorderID+'","","","")';
+    mysqlconnection.query(sql, function(err, results, fields) {
+      if(!err)
+        {
+        if (results.length > 0) {
+            var empName = '';
+            var deptName = '';
+            var roleName = '';
+            var orderStatus = '';
+            var shipAddr = '';
+            var TotalAmt = '';
+            var oOrderDate = '';
+          var orderdetails = (JSON.parse(JSON.stringify(results)))[0];
+         
+          request.session.orderdetails = orderdetails;
+          var orderlist=new Map(),i=0,  orderid=0;
+          var singleOrder = new Array();
+          orderdetails.forEach(order => {
+            if(orderid!=order.oOrderID){
+                i=0;
+                singleOrder =  new Array();
+                emailObj.AddTo("",order.oEmail);
+                subject = subject + order.oOrderID+'- '+order.oOrderStatus;
+                console.log('H ahahahahaha '+subject);
+                empName = order.oFirstName+' '+order.oLastName;
+                deptName = order.oDeptName;
+                roleName = order.oRoleName;
+                orderStatus = order.oOrderStatus;
+                shipAddr = order.oShippingAddress;
+                TotalAmt = order.oTotalCost;
+                oOrderDate = new Date(order.oOrderDate).toDateString();
+            }            
+            singleOrder[i++]=order; 
+            
+            if(orderid!=order.oOrderID){
+              orderid=order.oOrderID;
+            }      
+            if(orderid!=0){
+              orderlist[orderid]=singleOrder;
+            }     
+          });
+          
             // need to add the code to create the message
-            var message ="Encrypted Message";
-            chilkatExample( request.session.username, "Hello There",message ,"mifidoor@gmail.com");
+            var message ="<!doctype html><html lang=\"en\"><head><meta charset=\"utf-8\"><title>The HTML5 Herald</title></head> <body>";
+            message += "<div> <div class=\"row\"><div class=\"col\">Thanks for your order on "+oOrderDate+".";
+            message += "<br>Below is a summary of your purchase. Please be sure to review below section for important details about your order.<br>";
             
-            //response.end();
-            
+            message += "<br><b>Ordered by:</b></div><div class=\"col\">";
+            message += empName+" </div><div class=\"col\"> <b>Department Name:</b></div><div class=\"col\">";
+            message += deptName+"</div></div><div class=\"row\"><div class=\"col\"> <b>Role Name:</b></div><div class=\"col\">";
+            message += roleName+" </div><div class=\"col\"> <b>Order Status:</b></div><div class=\"col\"> ";
+            message += orderStatus+"</div></div><div class=\"row\"><div class=\"col\"> <b>Shipping Address:</b></div><div class=\"col\"> ";
+            message += shipAddr +"</div><div class=\"col\"> <b>Total Amount: </b></div><div class=\"col\"> $";
+            message += TotalAmt+"</div><br><br>";
+            message += "Thank you for shopping at SimpleSec. We appreciate your business and look forward to seeing you soon.<br> Sincerely,<br>";
+            message += "<br>Your Customer Care Team.<br> <b>SimpleSec</b></div><br>";
+            message +="<i>Vist our website for additional information</i></div>";
+            message += "</body></html>";
+            console.log('message '+message);
+            chilkatExample( request.session.username, subject,message ,emailObj );
             let SuccMsg = 'The order was '+orderStatus+' succesfully!';
 
             if(orderStatus=='Submitted')
                 response.render('employeeIndex', { title: 'Welcome Employee', message: 'Your order was saved succesfully!'});
             if(orderStatus=='Approved'||orderStatus=='Rejected')
                 response.render('supervisorIndex', { title: 'Welcome Supervisor', message: SuccMsg});
-                
-        }
+
+        } else {        }
+      }
+      else{
+        response.send({"ERROR":err});
+          return console.error(err.message);
+      }
+      response.end();
     });
 
 
-        
+    
 });
 
 module.exports = router;
