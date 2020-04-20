@@ -27,7 +27,7 @@ router.get('/', function(req, res, next) {
 
 /* GET login page. */
 router.get('/login', function(req, res, next) {
-  res.render('Login', { title: 'Login' });
+  res.render('login', { title: 'Login' });
 });
 
 /* GET home page. */
