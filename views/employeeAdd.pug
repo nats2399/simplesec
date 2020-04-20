@@ -1,0 +1,173 @@
+extends layout
+
+block content
+	.jumbotron.text-center.registrationTitle
+		.div
+			p #{title}
+		.div.dashboardbutton
+			if session.role=='Employee'
+				.btn-group.btn-groupe_2
+					a.btn.btn-honey_flower(type='button' href="/employeeIndex") Dashboard
+					a.btn.btn-honey_flower_2(type='button')
+						span.glyphicon.glyphicon-dashboard
+			else if session.role=='Supervisor'
+				.btn-group.btn-groupe_2
+					a.btn.btn-honey_flower(type='button' href="/supervisorIndex") Dashboard
+					a.btn.btn-honey_flower_2(type='button')
+						span.glyphicon.glyphicon-dashboard
+			else if session.role=='ordersupervisor'
+				.btn-group.btn-groupe_2
+					a.btn.btn-honey_flower(type='button' href="/ordersDeptIndex") Dashboard
+					a.btn.btn-honey_flower_2(type='button')
+						span.glyphicon.glyphicon-dashboard
+				
+				
+
+	.container
+		ul.errors
+			if errors
+					each error, i in errors
+						li.alert.alert-danger #{error.msg}
+	.div.addorder
+		form.addorderform#addorderform(method='post' action='/employee/order/accept' dataType='json')
+			div.row
+				div.col
+					label
+						p.label-txt Order Number:
+						input.input(type='text' name='ordernumber' value=order[0].orderNum onkeydown='return false;')
+						order.orderNum
+				div.col
+					label
+						p.label-txt Order Status:
+						input.input(type='text' name='orderstatus' value='IN PROGRESS' onkeydown='return false;')
+			div.row
+				div.col
+					label
+						p.label-txt Ordered by:
+						input.input(type='text' name='orderedby' value=order[0].orderBy onkeydown='return false;')
+				div.col
+					label
+						p.label-txt Department:
+						input.input(type='text' name='orderdepartment' value=order[0].orderDpt onkeydown='return false;')
+			div.row
+				div.col
+					label
+						p.label-txt Shipping Address:
+						input.input(type='text' name='shipping' value=order[0].orderShippingAdd onkeydown='return false;')
+				div.col
+					label
+						p.label-txt Supervisor:
+						input.input(type='text' name='supervisor' value=order[0].orderSupervisor onkeydown='return false;') 				
+					
+			label
+				p.label-txt Description:
+				if !order[0].orderDescription 
+					input.input(type='text' name='orderdescription' placeholder='Please write a brief description for this order.')
+				if order[0].orderDescription
+					input.input(type='text' name='orderdescription' value=order[0].orderDescription)
+				.line-box
+				.line
+
+			table.table.table-striped.table-borderless.table-hover#productstable(style='width:100%', border='1' name='productsdetail')
+				thead.thead-dark
+					tr
+						th(scope='col') Product
+						th(scope='col') Supplier
+						th(scope='col') Category
+						th(scope='col') Quantity
+						th(scope='col') Unit Price
+						th(scope='col') Available
+						th(scope='col') 
+				tbody
+				each row in rows
+					tr
+						th(scope='row')
+							input(type="hidden" name="productID" value=row.ProductID) 
+							=row.ProductName	
+						td= row.SupplierName
+						td= row.Category
+						td
+							input.input.qinput(name='quantity' type='number' min="0" value=row.Quantity)
+						td= row.UnitPrice
+						td= row.StockAvailability
+						td
+							input.addorderbutton.btn-danger(type='button', value='Delete', onclick='deleteRow(this)')
+
+			select#ProductSelected.btn.btn-primary.dropdown-toggle(name='ProductSelected')
+				each product in products
+					option(value=product.ProductID) #{product.ProductName}
+
+			a#addbutton.addorderbutton(onclick='add()') Add
+					
+			br
+			br
+
+			
+
+			.row.keysrow
+					.col-md-6.vote-1
+						h3 Public Key
+						
+						.div.form-group
+							textarea(rows='3' name='publickeytext' onkeydown='return false;')
+								| #{publickeyarea}
+					.col-md-6.vote-2
+						h3 Private Key
+						.div.text-center.form-group
+							textarea(rows='3' name='privatekeytext')
+								| #{privatekeyarea}
+							lablel.privatekeyinstructions
+								| Copy and Paste your Private Key here. Please include all the text in your TXT file. You can use CTRL+A in your private key file, and then CTRL+V here.
+			.div
+				if order[0].oOrderStatus
+					button#savebutton.addorderbutton(name='accept' type='submit' value='saveedit') Save
+					button#submitbutton.addorderbutton(name='accept' type='submit' value='submitedit') Submit
+					a#cancelbutton.addorderbutton(href='/dashboard') Cancel
+				
+				if !order[0].oOrderStatus
+					button#savebutton.addorderbutton(name='accept' type='submit' value='save') Save
+					button#submitbutton.addorderbutton(name='accept' type='submit' value='submit') Submit
+					a#cancelbutton.addorderbutton(href='/dashboard') Cancel
+
+	
+		
+		
+		script.
+			var add = function() {
+				var table = document.getElementById("productstable");
+				var newrow = table.insertRow(-1);
+
+				var col1 = newrow.insertCell(0);
+				var col2 = newrow.insertCell(1);
+				var col3 = newrow.insertCell(2);
+				var col4 = newrow.insertCell(3);
+				var col5 = newrow.insertCell(4);
+				var col6 = newrow.insertCell(5);
+				var col7 = newrow.insertCell(6);
+
+				var productselindex = document.getElementById('ProductSelected').selectedIndex;
+				
+				var productlist = !{JSON.stringify(products)};
+
+				var productsel = productlist[productselindex];
+
+				col1.innerHTML = "<input class='input' type='hidden'name='productID' value='"+productsel.ProductID+"'>"+productsel.ProductName;
+				col2.innerHTML = productsel.SupplierName;
+				col3.innerHTML = productsel.Category;
+				col4.innerHTML = "<input class='input qinput' type='number' min='0' value='1' name='quantity'>";
+				col5.innerHTML = productsel.UnitPrice;
+				col6.innerHTML = productsel.StockAvailability;
+				col7.innerHTML = "<input class='addorderbutton btn-danger' type='button' name='Delete' value='Delete' onclick='deleteRow(this)'>";
+			
+			}
+
+		script.
+			var deleteRow = function(r) {
+				
+				var i = r.parentNode.parentNode.rowIndex;
+				document.getElementById("productstable").deleteRow(i);
+				console.log("delete");
+			
+			}
+
+			

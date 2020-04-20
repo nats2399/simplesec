@@ -1,10 +1,10 @@
 extends layout
 
 block content
-	.jumbotron.text-center.registrationTitle 
+	.jumbotron.text-center.registrationTitle
 		.div
 			p #{title}
-
+	
 	.container
 		ul.errors
 			if errors
@@ -19,24 +19,31 @@ block content
 		section.features-icons.text-center
 			.container
 				.row
-					.col-lg-4
+					.col-lg-3
 						.features-icons-item.mx-auto.mb-5.mb-lg-0.mb-lg-3
 							.features-icons-icon.d-flex
 								a.m-auto.text-primary(href='/orders/getOrders?status=all') 
 									i.icon-list.m-auto.d-flex
 							h3 View Orders
 							p.lead.mb-0  
-					.col-lg-4
+					.col-lg-3
+						.features-icons-item.mx-auto.mb-5.mb-lg-0.mb-lg-3
+							.features-icons-icon.d-flex
+								a.m-auto.text-primary(href='/employee/order/add') 
+									i.icon-plus.m-auto.d-flex
+							h3 Add Orders
+							p.lead.mb-0 
+					.col-lg-3
 						.features-icons-item.mx-auto.mb-5.mb-lg-0.mb-lg-3
 							.features-icons-icon.d-flex
 								a.m-auto.text-primary(href='/orders/getOrders?status=todo') 
 									i.icon-check.m-auto.d-flex
-							h3 Approve Orders
+							h3 Submit Orders
 							p.lead.mb-0  
-					.col-lg-4
+					.col-lg-3
 						.features-icons-item.mx-auto.mb-5.mb-lg-0.mb-lg-3
 							.features-icons-icon.d-flex
-								a.m-auto.text-primary(href='/Supervisor/Account') 
+								a.m-auto.text-primary(href='/employee/account') 
 									i.icon-user.m-auto.d-flex
 							h3 Account
 							p.lead.mb-0  

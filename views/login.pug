@@ -3,6 +3,17 @@ extends layout
 block content
 
   .div.login-div
+    .container
+      br
+      div.errors
+        if errors
+            each error, i in errors
+              li.alert.alert-danger #{error.msg}
+        if message
+          p.alert.alert-success #{message}
+        if messagee
+          p.alert.alert-danger #{messagee}
+
     .login-form
       form(method='post' action='/users/login/auth' dataType='json')
         .avatar

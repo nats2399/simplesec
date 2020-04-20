@@ -1,0 +1,57 @@
+extends layout
+
+block content
+  .jumbotron.text-center.registrationTitle
+    .div
+      p #{title}
+
+  .div
+    .col-md-12
+        .row
+            .col-md-4
+                .portlet.light.profile-sidebar-portlet.bordered
+                    .profile-userpic.text-center
+                        img.img-responsive(src='https://bootdey.com/img/Content/avatar/avatar6.png' alt='')
+                    .profile-usertitle
+                        .profile-usertitle-name  Marcus Doe 
+                        .profile-usertitle-job  Developer 
+                    .profile-userbuttons
+                        button.btn.btn-info.btn-sm(type='button') Follow
+                        button.btn.btn-info.btn-sm(type='button') Message
+                    br
+                    br
+            .col-md-8
+                .portlet.light.bordered
+                    .portlet-title.tabbable-line
+                        .caption.caption-md
+                            i.icon-globe.theme-font.hide
+                            span.caption-subject.font-blue-madison.bold.uppercase Your info
+                    .portlet-body
+                        div
+                            // Tab panes
+                            .tab-content
+                                #home.tab-pane.active(role='tabpanel')
+                                    form
+                                        .form-group
+                                            label(for='inputName') Name
+                                            input#inputName.form-control(type='text' placeholder='Name')
+                                        .form-group
+                                            label(for='inputLastName') Last Name
+                                            input#inputLastName.form-control(type='text' placeholder='Last Name')
+                                        .form-group
+                                            label(for='exampleInputEmail1') Email address
+                                            input#exampleInputEmail1.form-control(type='email' placeholder='Email')
+                                        .form-group
+                                            label(for='exampleInputPassword1') Password
+                                            input#exampleInputPassword1.form-control(type='password' placeholder='Password')
+                                        .form-group
+                                            label(for='exampleInputFile') File input
+                                            input#exampleInputFile(type='file')
+                                            p.help-block Example block-level help text here.
+                                        .checkbox
+                                            label
+                                                input(type='checkbox')
+                                                |  Check me out
+                                        button.btn.btn-default.btn-success(type='submit') Submit
+                                        button.btn.btn-default.btn-danger(type='submit') Cancel
+                                    

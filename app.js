@@ -8,6 +8,15 @@ var session = require('express-session');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
+var ordersRouter = require('./routes/orders');
+
+var employeeRouter = require('./routes/employee');
+var supervisorRouter = require('./routes/supervisor');
+var ordersdptRouter = require('./routes/ordersdpt');
+
+var mailRouter = require('./routes/mailutil');
+
+
 var app = express();
 
 
@@ -15,7 +24,7 @@ app.use(session({
   secret: 'keyboard cat',
   resave: false,
   saveUninitialized: true,
-  cookie: { maxAge: 60000 }
+  cookie: { maxAge: 24 * 60 * 60 * 100 } // 24 hours
 }))
 
 
@@ -31,11 +40,21 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/bootstrap', express.static(__dirname + '/node_modules/bootstrap/dist/'));
+app.use('/glyphicons-only-bootstrap', express.static(__dirname + '/node_modules/glyphicons-only-bootstrap/'));
+
+
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-app.use("/public", express.static(__dirname + '/public'));
 
+app.use('/orders', ordersRouter);
+
+app.use('/employee', employeeRouter);
+app.use('/supervisor', supervisorRouter);
+app.use('/ordersdpt', ordersdptRouter);
+app.use('/mail', mailRouter);
+
+app.use("/public", express.static(__dirname + '/public'));
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -51,6 +70,7 @@ app.use(function(err, req, res, next) {
   // render the error page
   res.status(err.status || 500);
   res.render('error');
+  //res.render('errormsg', { title: 'ATTENTION!' , errormessage: 'There was a problem processing your request. Please try again.' , user: req.session.username});
 });
 
 module.exports = app;

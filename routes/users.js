@@ -97,8 +97,8 @@ router.post('/register', (req, res) => {
 
 router.post('/generateKeys/auth', function(request, response) {
 	var username = request.body.username;
-    var password = request.body.password;
-    var validaitonNum = request.body.validationNum;
+  var password = request.body.password;
+  var validaitonNum = request.body.validationNum;
     
 
 	let sql = `CALL AUTH_Number("`+ username + `" , "` + password + `" , "` + validaitonNum + `")`;
@@ -143,7 +143,7 @@ router.post('/generateKeys/auth/download', function(req, res, next) {
   res.setHeader('Content-type', 'text/plain');
   res.charset = 'UTF-8';
   res.write(req.body.privatekeytext);
-  //res.end();
+  res.end();
   
   //Save public key in DB
     let sql = `CALL INSERT_PUBLICKEY("`+ req.body.email + `" , "` + req.body.publickeytext + `")`;
@@ -161,7 +161,7 @@ router.post('/generateKeys/auth/download', function(req, res, next) {
 
     
 
-    res.redirect('/');
+    //res.redirect('/');
     //res.end();
 
 });
@@ -179,24 +179,37 @@ router.post('/login/auth', function(request, response) {
 				if (results.length > 0) {
 					
 					var userFound = (JSON.parse(JSON.stringify(results[0])))[0];
-
+          console.log("userFound");
+          console.log(userFound);
 					request.session.valid = null; 
 					request.session.loggedin = true;
-					request.session.username = userFound.oEmail;
-					request.session.role = userFound.oRole;
-
+          request.session.username = userFound.oEmail;
+          request.session.deptName = userFound.oDeptName;
+          request.session.role = userFound.oRoleName;
+          request.session.dept = userFound.oDeptName;
+          
+          
           // if the roles is admin, deploy admin page
           
-					if(userFound.oRole=='Supervisor'){
-						response.redirect('/supervisorIndex');
+					if(userFound.oRoleName=='Supervisor'){
+            response.redirect('/supervisorIndex');
+            console.log('SUPERVISOR LOG');
 					}
-					else if(userFound.oRole=='Employee'){
+					else if(userFound.oRoleName=='Employee'){
 						response.redirect('/employeeIndex');
-					}
-					
-
+          }
+          else if(userFound.oRoleName=='ordersupervisor'){
+						response.redirect('/ordersDeptIndex');
+          }
+          else if(!userFound.oEmail){
+            response.render('Login', { title: 'Login', messagee:"Incorrect Username and/or Password!"});
+          }
+          else{
+            response.render('Login', { title: 'Login' });
+          }
 				} else {
-					response.send('Incorrect Username and/or Password!');
+          //response.send('Incorrect Username and/or Password!');
+          response.render('errormsg', { title: 'ATTENTION!' , errormessage: 'Incorrect Username and/or Password! Please try againg later.'});
 				}			
 				response.end();
 			}
@@ -204,7 +217,9 @@ router.post('/login/auth', function(request, response) {
 				response.send({"ERROR":err});
 			    return console.error(err.message);
 			}
-		});
+    });
+        
+
 	} else {
 		request.session.valid = null; 
 		request.session.loggedin = false;
@@ -212,6 +227,36 @@ router.post('/login/auth', function(request, response) {
 		response.end();
 	}
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* LOGOUT  */
+router.get('/logout', function(req, res, next) {
+  if (req.session) {
+    // delete session object
+    req.session.destroy(function(err) {
+      if(err) {
+        return next(err);
+      } else {
+        return res.redirect('/');
+      }
+    });
+  }
+});
+
+
+
+
 
 
 
