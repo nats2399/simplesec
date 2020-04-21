@@ -181,7 +181,22 @@ router.post('/order/accept', function(req, res, next) {
 	var orderdescription = req.body.orderdescription;
 	var productID = req.body.productID;
 	var quantity = req.body.quantity;
-	
+	console.log("ordernumber "+ordernumber);
+	console.log("username "+username);
+	console.log("ordescription "+ordescription);
+	console.log("oraccept "+oraccept);
+	console.log("productlist "+productlist);
+	console.log("quantitylist "+quantitylist);
+	console.log("ordertime "+ordertime);
+	console.log("iprivatekey "+iprivatekey);
+	console.log("orderstatus "+orderstatus);
+	console.log("orderedby "+orderedby);
+	console.log("orderdepartment "+orderdepartment);
+	console.log("shipping "+shipping);
+	console.log("supervisor "+supervisor);
+	console.log("orderdescription "+orderdescription);
+	console.log("productID "+productID);
+	console.log("quantity "+quantity);
 	var dsignEmployee = "";
 	
 	var isValid ="";
@@ -291,7 +306,7 @@ router.post('/order/accept', function(req, res, next) {
 		}
 		else if(oraccept=='saveedit')
 		{
-			let sql3 = `CALL UPDATE_ORDER("`+username+ `","` + ordescription+ `","` +oraccept+ `","` +productlist+ `","` +quantitylist+ `","` +ordertime+ `","` +orderhash+ `","` +dsignEmployee+`")`;
+			let sql3 = `CALL UPDATE_ORDER("`+ordernumber+`","`+username+ `","` + ordescription+ `","` +oraccept+ `","` +productlist+ `","` +quantitylist+ `","` +ordertime+ `","` +orderhash+ `","` +dsignEmployee+`")`;
 			//console.log(sql);
 
 			mysqlconnection.query(sql3, function (err, result, fields) 
@@ -307,10 +322,10 @@ router.post('/order/accept', function(req, res, next) {
 		}
 		else if(oraccept=='submitedit')
 		{
-			let sql4 = `CALL UPDATE_ORDER("`+username+ `","` + ordescription+ `","` +oraccept+ `","` +productlist+ `","` +quantitylist+ `","` +ordertime+ `","` +orderhash+ `","` +dsignEmployee+`")`;
+			let sql4 = `CALL UPDATE_ORDER("`+ordernumber+`","`+username+ `","` + ordescription+ `","` +oraccept+ `","` +productlist+ `","` +quantitylist+ `","` +ordertime+ `","` +orderhash+ `","` +dsignEmployee+`")`;
 			//console.log(sql);
 
-			mysqlconnection.query(sql, function (err, result, fields) 
+			mysqlconnection.query(sql4, function (err, result, fields) 
 			{
 				if (err) 
 					throw err; 
