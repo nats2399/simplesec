@@ -215,7 +215,7 @@ router.post('/order/accept', function(req, res, next) {
             SuccMsg = 'The order was '+oOrderstatus+' succesfully!';
         }
 
-        let sql = `CALL UPDATE_ORDER("`+ordernumber+ `","` + oOrderstatus+ `","` +oOrderDetails+ `","` +dsignSupervisor+`","/")`;
+        let sql = `CALL UPDATE_ORDER_SUP("`+ordernumber+ `","` + oOrderstatus+ `","` +oOrderDetails+ `","` +dsignSupervisor+`","/")`;
 
         console.log(sql);
         mysqlconnection.query(sql, function (err, result, fields) 
