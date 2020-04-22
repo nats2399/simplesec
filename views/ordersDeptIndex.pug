@@ -4,6 +4,7 @@ block content
 	.jumbotron.text-center.registrationTitle 
 		.div
 			p #{title}
+			p.lead #{session.oFirstName} #{session.oLastName}
 
 	.container
 		ul.errors
@@ -15,28 +16,52 @@ block content
 			if messagee
 				li.alert.alert-danger #{messagee}
 
-	.div.linksSection
-		section.features-icons.text-center
-			.container
-				.row
-					.col-lg-4
-						.features-icons-item.mx-auto.mb-5.mb-lg-0.mb-lg-3
-							.features-icons-icon.d-flex
-								a.m-auto.text-primary(href='/orders/getOrders') 
-									i.icon-list.m-auto.d-flex
-							h3 View Orders
-							p.lead.mb-0  
-					.col-lg-4
-						.features-icons-item.mx-auto.mb-5.mb-lg-0.mb-lg-3
-							.features-icons-icon.d-flex
-								a.m-auto.text-primary(href='/orders/getOrders?status=todo') 
-									i.icon-check.m-auto.d-flex
-							h3 Verify and Complete Orders
-							p.lead.mb-0  
-					.col-lg-4
-						.features-icons-item.mx-auto.mb-5.mb-lg-0.mb-lg-3
-							.features-icons-icon.d-flex
-								a.m-auto.text-primary(href='/users/account') 
-									i.icon-user.m-auto.d-flex
-							h3 Account
-							p.lead.mb-0  
+	.div
+		.container
+			.row
+				.col-lg-4.col-sm-6
+					.card-box.bg-blue
+						.inner
+							if (session.oOrdersTOS)
+								h3=session.oOrdersTOS
+							else
+								h3 0
+							p  Total Orders 
+						.icon
+							i.fa.fa-list-alt(aria-hidden='true')
+						a.card-box-footer(href='/orders/getOrders')
+							| View Orders 
+							i.fa.fa-arrow-circle-right
+				.col-lg-4.col-sm-6
+					.card-box.bg-green
+						.inner
+							if (session.oOrdersCOS)
+								h3=session.oOrdersCOS
+							else
+								h3 0
+							p  Orders to Complete 
+						.icon
+							i.fa.fa-check(aria-hidden='true')
+						a.card-box-footer(href='/orders/getOrders?status=todo')
+							| Verify and Complete Orders
+							i.fa.fa-check-circle
+				.col-lg-4.col-sm-6
+					.card-box.bg-red
+						.inner
+							h3 Hi  
+							p=session.oFirstName+" "+session.oLastName
+						.icon
+							i.fa.fa-user
+						a.card-box-footer(href='/users/account')
+							| My Account 
+							i.fa.fa-arrow-circle-right
+
+		br
+		br
+		br
+		br
+		br
+		br
+	
+	
+	

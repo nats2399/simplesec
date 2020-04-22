@@ -251,6 +251,10 @@ router.post('/login/auth', function(request, response) {
           
           request.session.ordersA = userFound.oOrdersA;
           request.session.ordersS = userFound.oOrdersS;
+          request.session.oOrdersTS = userFound.oOrdersTS;
+          request.session.oOrdersAS = userFound.oOrdersAS;
+          request.session.oOrdersTOS = userFound.oOrdersTOS;
+          request.session.oOrdersCOS = userFound.oOrdersCOS;
           request.session.oFirstName = userFound.oFirstName;
           request.session.oLastName = userFound.oLastName;
           
