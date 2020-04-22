@@ -4,7 +4,7 @@ block content
 	.jumbotron.text-center.registrationTitle
 		.div
 			p #{title}
-	
+			p.lead #{session.oFirstName} #{session.oLastName}
 	.container
 		ul.errors
 			if errors
@@ -21,8 +21,8 @@ block content
 				.col-lg-3.col-sm-6
 					.card-box.bg-blue
 						.inner
-							if (ordersA)
-								h3=ordersA
+							if (session.ordersA)
+								h3=session.ordersA
 							else
 								h3 0
 							p  Orders Approved 
@@ -44,8 +44,8 @@ block content
 				.col-lg-3.col-sm-6
 					.card-box.bg-orange
 						.inner
-							if (ordersS)
-								h3=ordersS
+							if (session.ordersS)
+								h3=session.ordersS
 							else
 								h3 0
 							p  Orders to Submit 
@@ -58,7 +58,7 @@ block content
 					.card-box.bg-red
 						.inner
 							h3 Hi  
-							p=session.username  
+							p=session.oFirstName+" "+session.oLastName
 						.icon
 							i.fa.fa-user
 						a.card-box-footer(href='/users/account')

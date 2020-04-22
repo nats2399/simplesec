@@ -39,6 +39,13 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+
+app.use(function(req,res,next){
+  res.locals.session = req.session;
+  next();
+});
+
+
 app.use('/bootstrap', express.static(__dirname + '/node_modules/bootstrap/dist/'));
 app.use('/glyphicons-only-bootstrap', express.static(__dirname + '/node_modules/glyphicons-only-bootstrap/'));
 

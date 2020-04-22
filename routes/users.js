@@ -249,6 +249,11 @@ router.post('/login/auth', function(request, response) {
           request.session.role = userFound.oRoleName;
           request.session.dept = userFound.oDeptName;
           
+          request.session.ordersA = userFound.oOrdersA;
+          request.session.ordersS = userFound.oOrdersS;
+          request.session.oFirstName = userFound.oFirstName;
+          request.session.oLastName = userFound.oLastName;
+          
           
           // if the roles is admin, deploy admin page
           
