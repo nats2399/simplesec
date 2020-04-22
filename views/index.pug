@@ -3,29 +3,157 @@ extends layout
 block content
   .jumbotron.text-center.homeintro
     .div
-      p Welcome to #{title}
+      p#indexWelcome Welcome to #{title}
       img(src='/public/images/simpleseclogo.png')
   // Icons Grid
   
-  .div.linksSectionHome
-    section.features-icons.text-center
-      .container
-        .row
-          .col-lg-4
-            .features-icons-item.mx-auto.mb-5.mb-lg-0.mb-lg-3
-              .features-icons-icon.d-flex
-                a.m-auto.text-primary(href='/users/login/') 
-                  i.icon-people.m-auto.d-flex
-              h3 Purchaser
-          .col-lg-4
-            .features-icons-item.mx-auto.mb-5.mb-lg-0.mb-lg-3
-              .features-icons-icon.d-flex
-                a.m-auto.text-primary(href='/users/login/') 
-                  i.icon-briefcase.m-auto.d-flex
-              h3 Supervisor
-          .col-lg-4
-            .features-icons-item.mx-auto.mb-0.mb-lg-3
-              .features-icons-icon.d-flex
-                  a.m-auto.text-primary(href='/users/login/') 
-                    i.icon-bag.m-auto.d-flex
-              h3 Orders Dept
+
+  section.pt-5.pb-5
+    .container
+      .row.justify-content-center
+        .col.col-md-8.text-center.aos-init(data-aos='fade-up' data-aos-offset='300')
+          h2.font-weight-bold  Control and Cut Spending Now
+          p.text-h3
+            | Our mission is to help businesses spend efficiently and save resources. SimpleSec fully eliminates manual work in purchasing, streamlines approval workflow and gives you the insights to cut the spending, even while working remotely.
+            br 
+            br
+            br
+            a.btn.btn-danger.btn-lg.btn-primary(href='/users/register') Start here!
+            | .
+
+  section.pt-5.pb-5
+    .container
+      .row.align-items-center.justify-content-center
+        .col-12.col-md-6.mt-4.mt-md-0
+          img.img-fluid.rounded.d-block.mx-auto.shadow.aos-init(alt='image' data-aos='fade-right' data-aos-offset='300' src='https://cdn.pixabay.com/photo/2018/01/14/23/05/visa-3082813_960_720.jpg')
+        .col-12.col-md-5
+          h2.aos-init(data-aos='fade-up') Powerful, Affordable Inventory and Order Management
+          p.text-h3.mt-3.lead.aos-init(data-aos='fade-up')
+            | Understand who needs what, how much, and how often with purchase requests.
+          ol.list-unstyled.mt-4
+            li.d-flex.mb-2.mt-2.aos-init(data-aos='fade-up')
+              i.fas.fa-check-circle.fa-lg.text-info.mr-1.mt-2.mb-2.ml-0(aria-hidden='true')
+              span.pl-2.pt-1 Ordering
+            li.d-flex.mb-2.mt-2.aos-init(data-aos='fade-up')
+              i.fas.fa-check-circle.fa-lg.text-info.mr-1.mt-2.mb-2.ml-0(aria-hidden='true')
+              span.pl-2.pt-1 Approval
+            li.d-flex.mb-2.mt-2.aos-init(data-aos='fade-up')
+              i.fas.fa-check-circle.fa-lg.text-info.mr-1.mt-2.mb-2.ml-0(aria-hidden='true')
+              span.pl-2.pt-1 Billing
+  
+
+
+
+
+  section.pt-5.pb-5.bg-dark.position-relative(style='min-height:100vh; background-image: url(https://cdn.pixabay.com/photo/2018/01/17/04/14/industry-3087393_960_720.jpg); background-size: cover;')
+    .bg-overlay
+    .container.pt-5.pb-5.position-relative
+      .row.d-flex.justify-content-between.pt-lg-5.align-items-center
+        .col-xl-5.col-lg-6.col-md-7.text-center.text-lg-left.mb-5.mb-lg-0
+          h1.display-3.font-weight-bold.text-white.aos-init.aos-animate(data-aos='fade-up') Streamline Your Operations
+          .my-4.aos-init(data-aos='fade-up')
+            p.lead.text-white
+              | Whether you are manufacturing, distributing, selling, servicing, or just managing goods, Simplesec can handle your processes with ease.
+          .d-flex.justify-content-center.justify-content-lg-start.aos-init(data-aos='fade-up')
+            
+        .col
+          .row.justify-content-center
+            .col-xl-8.col-md-10
+              form.position-relative.d-block.aos-init.aos-animate(data-aos='fade-up')
+                
+
+  
+  .container-fluid.bg-gradient.p-5
+    .row.m-auto.text-center.w-75
+      .col-4.princing-item.red
+        .pricing-divider
+          h3.text-light START-UP
+          h4.my-0.display-2.text-light.font-weight-normal.mb-3
+            span.h3 $
+            |  120 
+            span.h5 /mo
+          svg#Layer_1.pricing-divider-img(enable-background='new 0 0 300 100' height='100px' preserveaspectratio='none' version='1.1' viewbox='0 0 300 100' width='300px' x='0px' xml:space='preserve' xmlns:xlink='http://www.w3.org/1999/xlink' xmlns='http://www.w3.org/2000/svg' y='0px')
+            path.deco-layer.deco-layer--1(d='M30.913,43.944c0,0,42.911-34.464,87.51-14.191c77.31,35.14,113.304-1.952,146.638-4.729\
+            c48.654-4.056,69.94,16.218,69.94,16.218v54.396H30.913V43.944z' fill='#FFFFFF' opacity='0.6')
+            path.deco-layer.deco-layer--2(d='M-35.667,44.628c0,0,42.91-34.463,87.51-14.191c77.31,35.141,113.304-1.952,146.639-4.729\
+            c48.653-4.055,69.939,16.218,69.939,16.218v54.396H-35.667V44.628z' fill='#FFFFFF' opacity='0.6')
+            path.deco-layer.deco-layer--3(d='M43.415,98.342c0,0,48.283-68.927,109.133-68.927c65.886,0,97.983,67.914,97.983,67.914v3.716\
+            H42.401L43.415,98.342z' fill='#FFFFFF' opacity='0.7')
+            path.deco-layer.deco-layer--4(d='M-34.667,62.998c0,0,56-45.667,120.316-27.839C167.484,57.842,197,41.332,232.286,30.428\
+            c53.07-16.399,104.047,36.903,104.047,36.903l1.333,36.667l-372-2.954L-34.667,62.998z' fill='#FFFFFF')
+        .card-body.bg-white.mt-0.shadow
+          ul.list-unstyled.mb-5.position-relative
+            li
+              b 10
+              |  users included
+            li
+              b 2 GB
+              |  of storage
+            li
+              b Free 
+              | 24/7 Support
+            li
+              b Help center access
+          a.btn.btn-lg.btn-block#btn-custom(type='button' href="/users/register") Sign up for free
+      .col-4.princing-item.blue
+        .pricing-divider
+          h3.text-light BUSINESS
+          h4.my-0.display-2.text-light.font-weight-normal.mb-3
+            span.h3 $
+            |  250 
+            span.h5 /mo
+          svg#Layer_1.pricing-divider-img(enable-background='new 0 0 300 100' height='100px' preserveaspectratio='none' version='1.1' viewbox='0 0 300 100' width='300px' x='0px' xml:space='preserve' xmlns:xlink='http://www.w3.org/1999/xlink' xmlns='http://www.w3.org/2000/svg' y='0px')
+            path.deco-layer.deco-layer--1(d='M30.913,43.944c0,0,42.911-34.464,87.51-14.191c77.31,35.14,113.304-1.952,146.638-4.729\
+            c48.654-4.056,69.94,16.218,69.94,16.218v54.396H30.913V43.944z' fill='#FFFFFF' opacity='0.6')
+            path.deco-layer.deco-layer--2(d='M-35.667,44.628c0,0,42.91-34.463,87.51-14.191c77.31,35.141,113.304-1.952,146.639-4.729\
+            c48.653-4.055,69.939,16.218,69.939,16.218v54.396H-35.667V44.628z' fill='#FFFFFF' opacity='0.6')
+            path.deco-layer.deco-layer--3(d='M43.415,98.342c0,0,48.283-68.927,109.133-68.927c65.886,0,97.983,67.914,97.983,67.914v3.716\
+            H42.401L43.415,98.342z' fill='#FFFFFF' opacity='0.7')
+            path.deco-layer.deco-layer--4(d='M-34.667,62.998c0,0,56-45.667,120.316-27.839C167.484,57.842,197,41.332,232.286,30.428\
+            c53.07-16.399,104.047,36.903,104.047,36.903l1.333,36.667l-372-2.954L-34.667,62.998z' fill='#FFFFFF')
+        .card-body.bg-white.mt-0.shadow
+          ul.list-unstyled.mb-5.position-relative
+            li
+              b 100 
+              | users included
+            li
+              b 10 GB
+              |  of storage
+            li
+              b Free
+              |  24/7 Support
+            li
+              b Help center access
+          a.btn.btn-lg.btn-block#btn-custom(type='button' href="/users/register") Sign up for free
+      .col-4.princing-item.green
+        .pricing-divider
+          h3.text-light PRO
+          h4.my-0.display-2.text-light.font-weight-normal.mb-3
+            span.h3 $
+            |  450 
+            span.h5 /mo
+          svg#Layer_1.pricing-divider-img(enable-background='new 0 0 300 100' height='100px' preserveaspectratio='none' version='1.1' viewbox='0 0 300 100' width='300px' x='0px' xml:space='preserve' xmlns:xlink='http://www.w3.org/1999/xlink' xmlns='http://www.w3.org/2000/svg' y='0px')
+            path.deco-layer.deco-layer--1(d='M30.913,43.944c0,0,42.911-34.464,87.51-14.191c77.31,35.14,113.304-1.952,146.638-4.729\
+            c48.654-4.056,69.94,16.218,69.94,16.218v54.396H30.913V43.944z' fill='#FFFFFF' opacity='0.6')
+            path.deco-layer.deco-layer--2(d='M-35.667,44.628c0,0,42.91-34.463,87.51-14.191c77.31,35.141,113.304-1.952,146.639-4.729\
+            c48.653-4.055,69.939,16.218,69.939,16.218v54.396H-35.667V44.628z' fill='#FFFFFF' opacity='0.6')
+            path.deco-layer.deco-layer--3(d='M43.415,98.342c0,0,48.283-68.927,109.133-68.927c65.886,0,97.983,67.914,97.983,67.914v3.716\
+            H42.401L43.415,98.342z' fill='#FFFFFF' opacity='0.7')
+            path.deco-layer.deco-layer--4(d='M-34.667,62.998c0,0,56-45.667,120.316-27.839C167.484,57.842,197,41.332,232.286,30.428\
+            c53.07-16.399,104.047,36.903,104.047,36.903l1.333,36.667l-372-2.954L-34.667,62.998z' fill='#FFFFFF')
+        .card-body.bg-white.mt-0.shadow
+          ul.list-unstyled.mb-5.position-relative
+            li
+              b 300
+              |  users included
+            li
+              b 20 GB
+              |  of storage
+            li
+              b Free
+              |  24/7 Support
+            li
+              b Help center access
+          a.btn.btn-lg.btn-block#btn-custom(type='button' href="/users/register") Sign up for free
+
+  brbrbr
