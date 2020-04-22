@@ -207,20 +207,11 @@ router.get('/sendmail/:iorderID', function(request, response) {
                     console.log(orderStatus);
                     
                     if(orderStatus=='Submitted')
-                        response.render('employeeIndex', { title: 'Welcome Employee', message: 'Your order was saved succesfully!', session: request.session, user: request.session.username});
-                    else if(orderStatus=='Approved'||orderStatus=='Rejected')
-                        response.render('supervisorIndex', { title: 'Welcome Supervisor', message: SuccMsg, session: request.session, user: request.session.username});
-                    else if(orderStatus=='Completed'||orderStatus=='Declined')
-                        response.render('ordersDeptIndex', { title: 'Welcome Orders Dept Supervisor', message: SuccMsg, session: request.session, user: request.session.username});
+                        response.render('employeeIndex', { title: 'Welcome Employee', message: 'Your order was saved succesfully!'});
+                    if(orderStatus=='Approved'||orderStatus=='Rejected')
+                        response.render('supervisorIndex', { title: 'Welcome Supervisor', message: SuccMsg});
 
-
-
-                } else {
-                    router.get('/errormsg', function(req, res, next) {
-                        res.render('errormsg', { title: 'ATTENTION!' , errormessage: 'There was a problem gettin the information to create a new order. Please try againg later.' , user: req.session.username, session: req.session});
-                    });
-
-                }
+                } else {        }
             }
             else{
                 response.send({"ERROR":err});

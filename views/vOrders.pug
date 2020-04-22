@@ -97,7 +97,8 @@ block content
               if session.role == 'Supervisor'
                 .row
                   .col-6.text-center
-                    a(class='btn submitbutton btn-' + btnType + ' btn-' + btnSize  href='/supervisor/order/approve/'+order[0].oOrderID) Verify and Sign 
+                    if order[0].oOrderStatus == 'Submitted'
+                      a(class='btn submitbutton btn-' + btnType + ' btn-' + btnSize  href='/supervisor/order/approve/'+order[0].oOrderID) Verify and Sign 
                   .col-6.text-center
                     a(class='btn btn-' + btnType + ' btn-' + btnSize  href='/orders/viewOrder?orderId='+order[0].oOrderID) Review Order
               if session.role == 'ordersupervisor'
@@ -110,7 +111,7 @@ block content
               if session.role == 'Employee'
                 .row
                   .col-4
-                  .col-4
+                  .col-4 
                     if order[0].oOrderStatus == 'In Progress'
                       a(class='btn btn-' + btnType + ' btn-' + btnSize  href='/employee/order/edit/'+order[0].oOrderID) Edit Order 
                   .col-4 
