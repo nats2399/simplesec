@@ -50,29 +50,34 @@ router.get('/account', function(req, res, next) {
   
   var user=req.session.username;
 
-  let sql = `CALL SELECT_USERINFO("`+ user + `")`;
-  console.log("HOLA"+user)
-
-  mysqlconnection.query(sql, function (err, result, fields) 
+  if(user)
   {
-    if (err) 
-      throw err; 
-    else
-      if (result.length > 0) 
-      {
-        var iuser= JSON.parse(JSON.stringify(result[0]))[0];
+    let sql = `CALL SELECT_USERINFO("`+ user + `")`;
+    console.log("HOLA"+user)
 
-        //console.log(iuser);
+    mysqlconnection.query(sql, function (err, result, fields) 
+    {
+      if (err) 
+        throw err; 
+      else
+        if (result.length > 0) 
+        {
+          var iuser= JSON.parse(JSON.stringify(result[0]))[0];
 
-        res.render('userProfile', { title: 'Your Account', userinfo:iuser, user: req.session.username, session: req.session });
+          //console.log(iuser);
 
-      } else {
-        router.get('/errormsg', function(req, res, next) {
-          res.render('errormsg', { title: 'ATTENTION!' , errormessage: 'There was a problem gettin the information to create a new order. Please try againg later.' , user: req.session.username});
-        });
-      }
-  }); 
+          res.render('userProfile', { title: 'Your Account', userinfo:iuser, user: req.session.username, session: req.session });
 
+        } else {
+          router.get('/errormsg', function(req, res, next) {
+            res.render('errormsg', { title: 'ATTENTION!' , errormessage: 'There was a problem gettin the information to create a new order. Please try againg later.' , user: req.session.username});
+          });
+        }
+    }); 
+  }
+  else{
+    res.redirect("/users/login");
+  }
 
   
 });
