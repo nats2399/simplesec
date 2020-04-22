@@ -15,35 +15,61 @@ block content
 			if messagee
 				li.alert.alert-danger #{messagee}
 
-	.div.linksSection
-		section.features-icons.text-center
-			.container
-				.row
-					.col-lg-3
-						.features-icons-item.mx-auto.mb-5.mb-lg-0.mb-lg-3
-							.features-icons-icon.d-flex
-								a.m-auto.text-primary(href='/orders/getOrders?status=all') 
-									i.icon-list.m-auto.d-flex
-							h3 View Orders
-							p.lead.mb-0  
-					.col-lg-3
-						.features-icons-item.mx-auto.mb-5.mb-lg-0.mb-lg-3
-							.features-icons-icon.d-flex
-								a.m-auto.text-primary(href='/employee/order/add') 
-									i.icon-plus.m-auto.d-flex
-							h3 Add Orders
-							p.lead.mb-0 
-					.col-lg-3
-						.features-icons-item.mx-auto.mb-5.mb-lg-0.mb-lg-3
-							.features-icons-icon.d-flex
-								a.m-auto.text-primary(href='/orders/getOrders?status=todo') 
-									i.icon-check.m-auto.d-flex
-							h3 Submit Orders
-							p.lead.mb-0  
-					.col-lg-3
-						.features-icons-item.mx-auto.mb-5.mb-lg-0.mb-lg-3
-							.features-icons-icon.d-flex
-								a.m-auto.text-primary(href='/users/account') 
-									i.icon-user.m-auto.d-flex
-							h3 Account
-							p.lead.mb-0  
+	.div
+		.container
+			.row
+				.col-lg-3.col-sm-6
+					.card-box.bg-blue
+						.inner
+							if (ordersA)
+								h3=ordersA
+							else
+								h3 0
+							p  Orders Approved 
+						.icon
+							i.fa.fa-list-alt(aria-hidden='true')
+						a.card-box-footer(href='/orders/getOrders?status=all')
+							| View Orders 
+							i.fa.fa-arrow-circle-right
+				.col-lg-3.col-sm-6
+					.card-box.bg-green
+						.inner
+							h3 Add 
+							p  New Order 
+						.icon
+							i.fa.fa-plus(aria-hidden='true')
+						a.card-box-footer(href='/employee/order/add')
+							| Add Order 
+							i.fa.fa-plus-circle
+				.col-lg-3.col-sm-6
+					.card-box.bg-orange
+						.inner
+							if (ordersS)
+								h3=ordersS
+							else
+								h3 0
+							p  Orders to Submit 
+						.icon
+							i.fa.fa-check(aria-hidden='true')
+						a.card-box-footer(href='/orders/getOrders?status=todo')
+							| Submit Order 
+							i.fa.fa-check-circle
+				.col-lg-3.col-sm-6
+					.card-box.bg-red
+						.inner
+							h3 Hi  
+							p=session.username  
+						.icon
+							i.fa.fa-user
+						a.card-box-footer(href='/users/account')
+							| My Account 
+							i.fa.fa-arrow-circle-right
+
+		br
+		br
+		br
+		br
+		br
+		br
+		
+		
