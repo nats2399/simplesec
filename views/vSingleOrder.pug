@@ -5,7 +5,10 @@ block content
     script(src="/utils.js")
     .jumbotron.text-center.registrationTitle
         .div
-            p #{title} #{session.role}
+            if session.role = "ordersupervisor"
+                p #{title} Dept Supervisor
+            else
+                p #{title} #{session.role}
         .div.dashboardbutton
             if session.role=='Employee'
                 .btn-group.btn-groupe_2

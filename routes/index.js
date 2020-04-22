@@ -8,17 +8,36 @@ router.get('/', function(req, res, next) {
 
 /* GET Supervisor home page. */
 router.get('/supervisorIndex', function(req, res, next) {
-  res.render('supervisorIndex', { title: 'Welcome Supervisor', user: req.session.username, session: req.session});
+  if(!req.session.username)
+	{
+		res.redirect('/users/login');
+  }
+  else{
+    res.render('supervisorIndex', { title: 'Welcome Supervisor', user: req.session.username, session: req.session});
+  }
 });
 
 /* GET Employee home page. */
 router.get('/employeeIndex', function(req, res, next) {
-  res.render('employeeIndex', { title: 'Welcome Employee', user: req.session.username, session: req.session});
+  if(!req.session.username)
+	{
+		res.redirect('/users/login');
+  }
+  else{
+    res.render('employeeIndex', { title: 'Welcome Employee', user: req.session.username, session: req.session});
+  }
 });
 
 /* GET Orders Department Supervisor home page. */
 router.get('/ordersDeptIndex', function(req, res, next) {
-  res.render('ordersDeptIndex', { title: 'Welcome Orders Dept Supervisor', user: req.session.username, session: req.session});
+  if(!req.session.username)
+	{
+		res.redirect('/users/login');
+  }
+  else{
+    res.render('ordersDeptIndex', { title: 'Welcome Orders Dept Supervisor', user: req.session.username, session: req.session});
+  }
+  
 });
 
 /* GET Employee home page. */
