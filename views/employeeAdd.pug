@@ -38,6 +38,8 @@ block content
 					img(src='/public/images/simpleseclogo.png' alt='SimpleSec logo' height='60' width='60')
 				.col-4.my-auto
 					h2 Order # #{order[0].orderNum}
+					label
+						input.input(type='hidden' name='ordernumber' value=order[0].orderNum onkeydown='return false;')
 			.div.orderdisplay
 				.row.h-25.card-header.justify-content-center
 					.col.pt-4

@@ -316,6 +316,7 @@ router.post('/order/accept', function(req, res, next) {
 				else
 				{
 					console.log("SUCCESS");
+					console.log("SQL3 "+sql3);
 					res.render('employeeIndex', { title: 'Welcome Employee', message: 'Your order was submitted succesfully!'});
 				}
 			});
@@ -332,6 +333,7 @@ router.post('/order/accept', function(req, res, next) {
 				else
 				{
 					console.log("SUCCESS");
+					console.log("SQL4 "+sql4);
 					res.render('employeeIndex', { title: 'Welcome Employee', message: 'Your order was submitted succesfully!'});
 				}
 			});
