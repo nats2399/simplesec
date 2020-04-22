@@ -50,6 +50,10 @@ html
               if session
                 li.nav-item.username
                   div #{session.username}
+              if session
+                li.nav-item
+                  a.nav-link(href="/dashboard")
+                    span.glyphicon.glyphicon-dashboard
               li.nav-item
                 a.nav-link(href='/users/register')  &nbsp; &nbsp;Sign up &nbsp; &nbsp;
               li.nav-item
@@ -59,7 +63,8 @@ html
                 .dropdown-menu.account(aria-labelledby='navbarDropdownMenuLink')
                   a.dropdown-item(href='/users/generateKeys') New Private Key
                   a.dropdown-item(href='/users/logout') Logout
-              
+  
+                        
                   
   body
             
