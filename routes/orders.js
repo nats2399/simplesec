@@ -69,11 +69,14 @@ router.get('/getOrders', function(request, response) {
           var orderdetails = (JSON.parse(JSON.stringify(results)))[0];
           
           request.session.orderdetails = orderdetails;
-          var orderlist=new Map(),i=0,  orderid=0;
+          var orderlist=new Object(),i=0,  orderid=0 ,j=0;
           var singleOrder = new Array();
           orderdetails.forEach(order => {
+           
             if(orderid!=order.oOrderID){
+              console.log("------"+order.oOrderID);
               i=0;
+              j++;
               singleOrder =  new Array();
             }            
             singleOrder[i++]=order;    
@@ -84,7 +87,7 @@ router.get('/getOrders', function(request, response) {
               orderid=order.oOrderID;
             }      
             if(orderid!=0){
-              orderlist[orderid]=singleOrder;
+              orderlist[j]=singleOrder;
             }     
           });
           
