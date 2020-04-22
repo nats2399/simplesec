@@ -43,8 +43,9 @@ html
                 a.nav-link(href='/support') Support
 
             ul.navbar-nav.float-right
-              li.nav-item.username
-                div #{user}
+              if session
+                li.nav-item.username
+                  div #{session.username}
               li.nav-item
                 a.nav-link(href='/users/register')  &nbsp; &nbsp;Sign up &nbsp; &nbsp;
               li.nav-item

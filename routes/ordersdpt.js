@@ -48,7 +48,7 @@ router.get('/order/complete/:iordernumber', function(req, res, next) {
 
 							} else {
 								router.get('/errormsg', function(req, res, next) {
-									res.render('errormsg', { title: 'ATTENTION!' , errormessage: 'There was a problem gettin the information to create a new order. Please try againg later.' , user: req.session.username});
+									res.render('errormsg', { title: 'ATTENTION!' , errormessage: 'There was a problem gettin the information to create a new order. Please try againg later.' , user: req.session.username, session: req.session});
 								});
 							}
 					}); 
@@ -56,7 +56,7 @@ router.get('/order/complete/:iordernumber', function(req, res, next) {
 			
 				} else {
 					router.get('/errormsg', function(req, res, next) {
-					res.render('errormsg', { title: 'ATTENTION!' , errormessage: 'There are not products available' , user: req.session.username});
+					res.render('errormsg', { title: 'ATTENTION!' , errormessage: 'There are not products available' , user: req.session.username, session: req.session});
 				});          
 			}			
 			//res.end();
