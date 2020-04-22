@@ -28,6 +28,7 @@ router.get('/getOrders', function(request, response) {
   var orderStatus = '';
   var orderdepartment = '';
   var status = request.query.status;
+  //console.log(req.session);
   if(request.session.username)
   {
     if( request.session.role=='Employee')
@@ -151,7 +152,7 @@ router.get('/viewOrder', function(request, response) {
             }            
             singleOrder[i++]=order;    
             
-            console.log("--------------"+order.oOrderID);  
+            //console.log("--------------"+order.oOrderID);  
             if(orderid!=order.oOrderID){
               
               orderid=order.oOrderID;
@@ -160,7 +161,7 @@ router.get('/viewOrder', function(request, response) {
               orderlist[orderid]=singleOrder;
             }     
           });
-          console.log("--------------"+orderlist[0]);  
+          //console.log("--------------"+orderlist[0]);  
           response.render('vSingleOrder', { title: 'View Orders',orderdetails: orderlist, session: request.session});
           //response.redirect('/orders/vOrders');
         } else {

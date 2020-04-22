@@ -5,7 +5,7 @@ block content
     script(src="/utils.js")
     .jumbotron.text-center.registrationTitle
         .div
-            if session.role = "ordersupervisor"
+            if session.role == "ordersupervisor"
                 p #{title} Dept Supervisor
             else
                 p #{title} #{session.role}
@@ -29,52 +29,46 @@ block content
     - var btnType = 'info';
     - var btnSize = 'lg';
    
-    .row
-        .col-2
-        .col-8.orderdisplay
-            each order in orderdetails
-                div(id="headingOne"+n class="card-header")
-                    h2.mb-0
-                    button.btn.btn-link(type='button' data-toggle='collapse' data-target='#collapse'+n aria-expanded='true' aria-controls='collapse'+n)
-                    b Order #                   
-                    | #{order[0].oOrderID}            &nbsp &nbsp &nbsp &nbsp &nbsp  &nbsp &nbsp &nbsp &nbsp &nbsp 
-                    b By:  
-                    | #{order[0].oFirstName}  #{order[0].oLastName}              &nbsp &nbsp &nbsp &nbsp &nbsp  &nbsp &nbsp &nbsp &nbsp &nbsp
-                    b Status:  
-                    | #{order[0].oOrderStatus}           
-                div(id="collapse"+n class="collapse "+show aria-labelledby="heading"+n data-parent='#accordionExample')
-                    div.row
-                        div.col 
-                            b Ordered by:
-                        div.col 
-                            | #{order[0].oFirstName}  #{order[0].oLastName} 
-                        div.col 
-                            b Department Name:
-                        div.col 
-                            | #{order[0].oDeptName}
-                    div.row
-                        div.col 
-                            b Role Name:
-                        div.col 
-                            | #{order[0].oRoleName} 
-                        div.col 
-                            b Order Status:
-                        div.col 
-                            | #{order[0].oOrderStatus}
-                    div.row
-                        div.col 
-                            b Shipping Address:
-                        div.col 
-                            | #{order[0].oShippingAddress} 
-                        div.col 
-                            b Total Amount: 
-                        div.col 
-                            | $ #{order[0].oTotalCost}
+    div.addorderform#addorderform
+        each order in orderdetails
+            .row.orderheader
+                    .col-4.text-center
+                    .col-4.text-center
+                        img(src='/public/images/simpleseclogo.png' alt='SimpleSec logo' height='60' width='60')
+                    .col-4.my-auto
+                        h2 Order # #{order[0].oOrderID}
+            .div.orderdisplay
+                .row.h-25.card-header.justify-content-center
+                    .col.pt-4
+                        label
+                            p.label-txt Ordered by:
+                            input.input.h2.strong(type='text' value=order[0].oFirstName+" "+order[0].oLastName onkeydown='return false;')
+                    .col.pt-4
+                        label
+                            p.label-txt Order Status:
+                            input.input.h2.strong(type='text' value=order[0].oOrderStatus onkeydown='return false;')
+                .row.pt-3
+                    .col-4
+                        label
+                            p.label-txt Shipping Address:
+                            input.input.h2.strong(type='text' value=order[0].oShippingAddress onkeydown='return false;')
+                    .col-4
+                        label
+                            p.label-txt Department:
+                            input.input.h2.strong(type='text' value=order[0].oDeptName onkeydown='return false;')
+                    .col-4
+                        label
+                            p.label-txt Total Amount ($): 
+                            input.input.h2.strong.w-90(type='text' value=order[0].oTotalCost onkeydown='return false;')
+                        h2.mb-0
+                        
+                div
                     br
                     - var x=0
-                    | List of items in the order
-                    table.table.table-striped
-                        thead
+                    p List of items in the order
+                    
+                    table.table.table-striped.table-borderless.table-hover#productstable(style='width:100%', border='1' name='productsdetail')
+                        thead.thead-dark
                             tr
                                 th(scope='col') #
                                 th(scope='col') Order ID
@@ -118,7 +112,7 @@ block content
                         .row
                             .col-3
                             .col-3
-                                if order[0].oOrderStatus == 'In Process'
+                                if order[0].oOrderStatus == 'In Progress'
                                     a(class='btn btn-' + btnType + ' btn-' + btnSize  href='/order/add?orderId='+order[0].oOrderID) Edit Order 
                             .col-3 
                                 a(class='btn btn-' + btnType + ' btn-' + btnSize  href='/orders/getOrders') Go Back 

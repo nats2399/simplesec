@@ -48,7 +48,7 @@ router.get('/order/add', function(req, res, next) {
 								
 								res.render('employeeAdd', { title: 'Add New Order', order:orderInfo, products:productlist, rows:initialrow, user: req.session.username, publickeyarea: orderInfo[0].userpublicKey, session: req.session});
 
-								console.log(session);
+								//console.log(session);
 
 
 							} else {
@@ -249,8 +249,8 @@ router.post('/order/accept', function(req, res, next) {
 			sig1.updateString(plaintext);
 			isValid = sig1.verify(sigValueHex);
 			
-			console.log("SIGNATURE "+sigValueHex);
-			console.log("isValid "+isValid);
+			//console.log("SIGNATURE "+sigValueHex);
+			//console.log("isValid "+isValid);
 
 			if(isValid==true){
 				console.log("the keys pair match");

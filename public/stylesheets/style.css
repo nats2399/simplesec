@@ -432,40 +432,61 @@ footer{
   background: #fff;
 }
 
-.addorderform {
-  width: 90%;
-  margin: auto;
-  margin-bottom: 10%;
-  background: #efefef;
-  padding: 10px 120px 80px 120px;
-  text-align: center;
-  -webkit-box-shadow: 2px 2px 3px rgba(0,0,0,0.1);
-  box-shadow: 2px 2px 3px rgba(0,0,0,0.1);
-}
-.addorderform label {
-  display: block;
-  position: relative;
-  margin: 40px 0px;
+.orderdisplay{
+  border: 1px solid #051153;
+  /*box-shadow: 6px 6px 7px #abacaf;*/
+  box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.2), 0 8px 20px 0 rgba(0, 0, 0, 0.19);
+  padding: 5%;
+  background-color: #fff;
 }
 
+.orderheader{
+  background-color: #0376af;
+  border: 1px solid #051153;
+  box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.2), 0 8px 20px 0 rgba(0, 0, 0, 0.19);
+  color: #fff;
+  text-align: right !important;
+  margin-bottom: 0px !important;
+  padding: 2%;
+  width: 100%;
+  margin: 0px !important;
+}
+
+.addorderform {
+  width: 80%;
+  margin: auto;
+  text-align: center;
+  margin-bottom: 10%;
+  font-family: 'Roboto', sans-serif;;
+}
+
+.orderdisplay input{
+  color: #0376AF;
+}
+
+
 .addorderform .label-txt {
-  position: absolute;
-  top: -1.6em;
-  padding: 10px;
-  font-family: sans-serif;
-  font-size: .8em;
+  text-align: left;
+  position: relative;
+  margin: -.1em;
+  font-size: 0.9em;
   letter-spacing: 1px;
   color: #000;
   font-weight: bold;
   transition: ease .3s;
 }
+
 .addorderform .input {
   width: 100%;
-  padding: 10px;
   background: transparent;
   border: none;
   outline: none;
 }
+
+.addorderform label {
+  width: 100% ;
+}
+
 
 .addorderform .line-box {
   position: relative;
@@ -527,6 +548,21 @@ footer{
   transition: ease .3s;  
 }
 
+.addorderbuttondel{
+  display: inline-block;
+  margin: 1em;
+  padding: 12px 24px;
+  background: rgb(220,220,220);
+  font-weight: bold;
+  color: rgb(120,120,120);
+  border: none;
+  outline: none;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: ease .3s; 
+  color: #fff !important 
+}
+
 .addorderform > div{
   margin-bottom: -5%;
 }
@@ -535,8 +571,9 @@ footer{
   padding: 10px 120px 0px 120px;
 }
 
-.qinput{
-  background-color: #fff !important;
+.qinputb{
+  background-color: #f8f9fa !important;
+  border: 1px solid #051153 !important;
 }
 
 #ProductSelected{
@@ -622,12 +659,10 @@ footer{
   color: #ffffff !important;
 }
 
-.orderdisplay{
-  border: 1px solid #051153;
-  /*box-shadow: 6px 6px 7px #abacaf;*/
-  box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.2), 0 8px 20px 0 rgba(0, 0, 0, 0.19);
-  padding: 10px;
-}
+
+
+
+
 
 
 
@@ -3687,5 +3722,23 @@ body{
   .bg-red {
       background-color: #FB3640 !important;
   }
+
   
+
+
+
+
+
+
   
+  #accordionExample h4{
+    color: #007bff;
+  }
+
+#accordionExample{
+  border: 1px solid #051153;
+  /*box-shadow: 6px 6px 7px #abacaf;*/
+  box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.2), 0 8px 20px 0 rgba(0, 0, 0, 0.19);
+  padding: 5%;
+  background-color: #fff;
+}

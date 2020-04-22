@@ -3,7 +3,7 @@ extends layout
 block content
   .jumbotron.text-center.registrationTitle
     .div
-      if session.role = "ordersupervisor"
+      if session.role == "ordersupervisor"
         p #{title} Dept Supervisor
       else
         p #{title} #{session.role}
@@ -31,54 +31,46 @@ block content
   - var btnSize = 'lg';
     
   .row
-    .col-2
-    .col-8
+    .col-1
+    .col-10
       #accordionExample.accordion
         each order in orderdetails
           .card
             div(id="headingOne"+n class="card-header")
               h2.mb-0
-                button.btn.btn-link(type='button' data-toggle='collapse' data-target='#collapse'+n aria-expanded='true' aria-controls='collapse'+n)
-                  b Order #                   
-                  | #{order[0].oOrderID}            &nbsp &nbsp &nbsp &nbsp &nbsp  &nbsp &nbsp &nbsp &nbsp &nbsp 
-                  b By:  
-                  | #{order[0].oFirstName}  #{order[0].oLastName}              &nbsp &nbsp &nbsp &nbsp &nbsp  &nbsp &nbsp &nbsp &nbsp &nbsp
-                  b Status:  
-                  | #{order[0].oOrderStatus}           
+                button.btn.btn-link.text-left(type='button' data-toggle='collapse' data-target='#collapse'+n aria-expanded='true' aria-controls='collapse'+n)
+                  b.h4 Order # #{order[0].oOrderID}                  
+                  |&nbsp &nbsp &nbsp &nbsp &nbsp  &nbsp &nbsp &nbsp &nbsp &nbsp 
+                  b.h5.text-secondary By:  #{order[0].oFirstName}  #{order[0].oLastName}
+                  |&nbsp &nbsp &nbsp &nbsp &nbsp  &nbsp &nbsp &nbsp &nbsp &nbsp
+                  b.h5.text-secondary Status: #{order[0].oOrderStatus}
+                  |            
             div(id="collapse"+n class="collapse "+show aria-labelledby="heading"+n data-parent='#accordionExample')
               .card-body  
                 div.row
-                  div.col 
-                    b Ordered by:
-                  div.col 
-                     | #{order[0].oFirstName}  #{order[0].oLastName} 
-                  div.col 
-                    b Department Name:
-                  div.col 
-                    | #{order[0].oDeptName}
+                  div.col-6
+                    | Ordered by:                   
+                    h4 #{order[0].oFirstName}  #{order[0].oLastName} 
+                  div.col-6
+                    | Order Status:
+                    h4 #{order[0].oOrderStatus}
+                br
                 div.row
-                  div.col 
-                    b Role Name:
-                  div.col 
-                     | #{order[0].oRoleName} 
-                  div.col 
-                    b Order Status:
-                  div.col 
-                    | #{order[0].oOrderStatus}
-                div.row
-                  div.col 
-                    b Shipping Address:
-                  div.col 
-                     | #{order[0].oShippingAddress} 
-                  div.col 
-                    b Total Amount: 
-                  div.col 
-                    | $ #{order[0].oTotalCost}
+                  div.col-4
+                    | Shipping Address:
+                    h4 #{order[0].oShippingAddress}
+                  div.col-4
+                    | Department Name:
+                    h4 #{order[0].oDeptName}
+                  div.col-4
+                    | Total Amount ($):
+                    h4 #{order[0].oTotalCost}                  
                 br
                 - var x=0
-                | List of items in the order
+                p.text-center List of items in the order
+                br
                 table.table.table-striped
-                  thead
+                  thead.thead-dark.table-borderless.table-hover(style='width:100%', border='1')
                     tr
                       th(scope='col') #
                       th(scope='col') Order ID

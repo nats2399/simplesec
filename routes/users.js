@@ -53,7 +53,7 @@ router.get('/account', function(req, res, next) {
   if(user)
   {
     let sql = `CALL SELECT_USERINFO("`+ user + `")`;
-    console.log("HOLA"+user)
+    //console.log("HOLA"+user)
 
     mysqlconnection.query(sql, function (err, result, fields) 
     {
@@ -241,7 +241,7 @@ router.post('/login/auth', function(request, response) {
 					
 					var userFound = (JSON.parse(JSON.stringify(results[0])))[0];
           console.log("userFound");
-          console.log(userFound);
+          //console.log(userFound);
 					request.session.valid = null; 
 					request.session.loggedin = true;
           request.session.username = userFound.oEmail;
@@ -262,8 +262,7 @@ router.post('/login/auth', function(request, response) {
           // if the roles is admin, deploy admin page
           
 					if(userFound.oRoleName=='Supervisor'){
-            response.redirect('/supervisorIndex');
-            console.log('SUPERVISOR LOG');
+            response.redirect('/supervisorIndex');            
 					}
 					else if(userFound.oRoleName=='Employee'){
 						response.redirect('/employeeIndex');

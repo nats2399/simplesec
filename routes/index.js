@@ -13,6 +13,7 @@ router.get('/supervisorIndex', function(req, res, next) {
 		res.redirect('/users/login');
   }
   else{
+    
     res.render('supervisorIndex', { title: 'Welcome Supervisor', user: req.session.username, session: req.session});
   }
 });
@@ -24,6 +25,7 @@ router.get('/employeeIndex', function(req, res, next) {
 		res.redirect('/users/login');
   }
   else{
+    
     res.render('employeeIndex', { title: 'Welcome Employee', user: req.session.username, session: req.session});
   }
 });
@@ -35,6 +37,7 @@ router.get('/ordersDeptIndex', function(req, res, next) {
 		res.redirect('/users/login');
   }
   else{
+    
     res.render('ordersDeptIndex', { title: 'Welcome Orders Dept Supervisor', user: req.session.username, session: req.session});
   }
   
@@ -42,6 +45,8 @@ router.get('/ordersDeptIndex', function(req, res, next) {
 
 /* GET Employee home page. */
 router.get('/dashboard', function(req, res, next) {
+  
+  
 
   if(req.session.role=='Employee')
     res.render('employeeIndex', { title: 'Welcome Employee', user: req.session.username, session: req.session});
