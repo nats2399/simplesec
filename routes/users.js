@@ -70,7 +70,7 @@ router.get('/account', function(req, res, next) {
 
         } else {
           router.get('/errormsg', function(req, res, next) {
-            res.render('errormsg', { title: 'ATTENTION!' , errormessage: 'There was a problem gettin the information to create a new order. Please try againg later.' , user: req.session.username});
+            res.render('errormsg', { title: 'ATTENTION!' , errormessage: 'There was a problem gettin the information to create a new order. Please try againg later.' , user: req.session.username, session: req.session});
           });
         }
     }); 
@@ -98,10 +98,10 @@ router.post('/saveProfile', function(req, response, next) {
     response.redirect('/ordersDeptIndex');
   }
   else if(!userEmail){
-    response.render('Login', { title: 'Login', messagee:"Incorrect Username and/or Password!"});
+    response.render('login', { title: 'Login', messagee:"Incorrect Username and/or Password!"});
   }
   else{
-    response.render('Login', { title: 'Login' });
+    response.render('login', { title: 'Login' });
   }
 
 });
@@ -263,10 +263,10 @@ router.post('/login/auth', function(request, response) {
 						response.redirect('/ordersDeptIndex');
           }
           else if(!userFound.oEmail){
-            response.render('Login', { title: 'Login', messagee:"Incorrect Username and/or Password!"});
+            response.render('login', { title: 'Login', messagee:"Incorrect Username and/or Password!"});
           }
           else{
-            response.render('Login', { title: 'Login' });
+            response.render('login', { title: 'Login' });
           }
 				} else {
           //response.send('Incorrect Username and/or Password!');
