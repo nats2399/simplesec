@@ -46,6 +46,62 @@ router.get('/generateKeys', function(req, res, next) {
 });
 
 
+router.get('/account', function(req, res, next) {
+  
+  var user=req.session.username;
+
+  let sql = `CALL SELECT_USERINFO("`+ user + `")`;
+  console.log("HOLA"+user)
+
+  mysqlconnection.query(sql, function (err, result, fields) 
+  {
+    if (err) 
+      throw err; 
+    else
+      if (result.length > 0) 
+      {
+        var iuser= JSON.parse(JSON.stringify(result[0]))[0];
+
+        //console.log(iuser);
+
+        res.render('userProfile', { title: 'Your Account', userinfo:iuser, user: req.session.username, session: req.session });
+
+      } else {
+        router.get('/errormsg', function(req, res, next) {
+          res.render('errormsg', { title: 'ATTENTION!' , errormessage: 'There was a problem gettin the information to create a new order. Please try againg later.' , user: req.session.username});
+        });
+      }
+  }); 
+
+
+  
+});
+
+
+router.post('/saveProfile', function(req, response, next) {
+
+  var userEmail = req.body.email;
+  var userRole = req.body.role;
+
+  if(userRole=='Supervisor'){
+    response.redirect('/supervisorIndex');    
+  }
+  else if(userRole=='Employee'){
+    response.redirect('/employeeIndex');
+  }
+  else if(userRole=='ordersupervisor'){
+    response.redirect('/ordersDeptIndex');
+  }
+  else if(!userEmail){
+    response.render('Login', { title: 'Login', messagee:"Incorrect Username and/or Password!"});
+  }
+  else{
+    response.render('Login', { title: 'Login' });
+  }
+
+});
+
+
 
 
 

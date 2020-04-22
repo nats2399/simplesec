@@ -11,13 +11,11 @@ block content
             .col-md-4
                 .portlet.light.profile-sidebar-portlet.bordered
                     .profile-userpic.text-center
-                        img.img-responsive(src='https://bootdey.com/img/Content/avatar/avatar6.png' alt='')
+                        img.img-responsive(src='https://cdn0.iconfinder.com/data/icons/kameleon-free-pack-rounded/110/Ninja-512.png' alt='')
                     .profile-usertitle
-                        .profile-usertitle-name  Marcus Doe 
-                        .profile-usertitle-job  Developer 
-                    .profile-userbuttons
-                        button.btn.btn-info.btn-sm(type='button') Follow
-                        button.btn.btn-info.btn-sm(type='button') Message
+                        .profile-usertitle-name=userinfo.FirstName+" "+userinfo.LastName
+                        .profile-usertitle-job=userinfo.RoleName
+                    
                     br
                     br
             .col-md-8
@@ -31,27 +29,29 @@ block content
                             // Tab panes
                             .tab-content
                                 #home.tab-pane.active(role='tabpanel')
-                                    form
+                                    form(method='post' action='/users/saveProfile/' dataType='json')
                                         .form-group
                                             label(for='inputName') Name
-                                            input#inputName.form-control(type='text' placeholder='Name')
+                                            input#inputName.form-control(type='text' placeholder='Name' value=userinfo.FirstName)                                                
                                         .form-group
                                             label(for='inputLastName') Last Name
-                                            input#inputLastName.form-control(type='text' placeholder='Last Name')
+                                            input#inputLastName.form-control(type='text' placeholder='Last Name' value=userinfo.LastName)
+                                        .form-group
+                                            label(for='inputDepartment') Department
+                                            input#inputLastName.form-control(type='text' placeholder='Department' value=userinfo.DeptName)
+                                        .form-group
+                                            label(for='inputRole') Role
+                                            input#inputLastName.form-control(name='role' type='text' placeholder='Role' value=userinfo.RoleName)
                                         .form-group
                                             label(for='exampleInputEmail1') Email address
-                                            input#exampleInputEmail1.form-control(type='email' placeholder='Email')
+                                            input#exampleInputEmail1.form-control(name='email' type='email' placeholder='Email' value=userinfo.Email)
                                         .form-group
-                                            label(for='exampleInputPassword1') Password
-                                            input#exampleInputPassword1.form-control(type='password' placeholder='Password')
+                                            label(for='exampleInputPhone') Phone
+                                            input#exampleInputPassword1.form-control(type='phone' placeholder='Phone' value=userinfo.Phone)
                                         .form-group
-                                            label(for='exampleInputFile') File input
-                                            input#exampleInputFile(type='file')
-                                            p.help-block Example block-level help text here.
-                                        .checkbox
-                                            label
-                                                input(type='checkbox')
-                                                |  Check me out
-                                        button.btn.btn-default.btn-success(type='submit') Submit
-                                        button.btn.btn-default.btn-danger(type='submit') Cancel
+                                            label(for='exampleAddress') Address
+                                            input#exampleInputPassword1.form-control(type='address' placeholder='Address' value=userinfo.ShippingAddress)
+                                        br
+                                        button#submitbutton.addorderbutton(type='submit') Save
+                                        button#cancelbutton.addorderbutton(type='submit') Cancel
                                     
