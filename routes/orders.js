@@ -129,8 +129,9 @@ router.get('/viewOrder', function(request, response) {
         orderdepartment = request.session.dept;
       } 
       if( request.session.role=='ordersupervisor'){
-        orderStatus = 'Approved';
+        //orderStatus = 'Approved';
       }  
+      console.log('"'+orderid+'","'+email+'","'+orderStatus+'","'+orderdepartment+'"');
     let sql = 'call FEATCH_ORDER_DETAILS("'+orderid+'","'+email+'","'+orderStatus+'","'+orderdepartment+'")';
     
     mysqlconnection.query(sql, function(err, results, fields) {
@@ -150,7 +151,7 @@ router.get('/viewOrder', function(request, response) {
             }            
             singleOrder[i++]=order;    
             
-            
+            console.log("--------------"+order.oOrderID);  
             if(orderid!=order.oOrderID){
               
               orderid=order.oOrderID;
@@ -159,8 +160,8 @@ router.get('/viewOrder', function(request, response) {
               orderlist[orderid]=singleOrder;
             }     
           });
-          
-          response.render('vSingleOrder', { title: 'View Order',orderdetails: orderlist, session: request.session});
+          console.log("--------------"+orderlist[0]);  
+          response.render('vSingleOrder', { title: 'View Order ',orderdetails: orderlist, session: request.session});
           //response.redirect('/orders/vOrders');
         } else {
           response.render('vSingleOrder', { title: 'No Orders Found'});
