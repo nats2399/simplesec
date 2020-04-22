@@ -207,11 +207,11 @@ router.get('/sendmail/:iorderID', function(request, response) {
                     console.log(orderStatus);
                     
                     if(orderStatus=='Submitted')
-                        response.render('employeeIndex', { title: 'Welcome Employee', message: 'Your order was saved succesfully!', session: request.session, user: req.session.username});
+                        response.render('employeeIndex', { title: 'Welcome Employee', message: 'Your order was saved succesfully!', session: request.session, user: request.session.username});
                     else if(orderStatus=='Approved'||orderStatus=='Rejected')
-                        response.render('supervisorIndex', { title: 'Welcome Supervisor', message: SuccMsg, session: request.session, user: req.session.username});
+                        response.render('supervisorIndex', { title: 'Welcome Supervisor', message: SuccMsg, session: request.session, user: request.session.username});
                     else if(orderStatus=='Completed'||orderStatus=='Declined')
-                        response.render('ordersDeptIndex', { title: 'Welcome Orders Dept Supervisor', message: SuccMsg, session: request.session, user: req.session.username});
+                        response.render('ordersDeptIndex', { title: 'Welcome Orders Dept Supervisor', message: SuccMsg, session: request.session, user: request.session.username});
 
 
 
