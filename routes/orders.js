@@ -125,7 +125,7 @@ router.get('/viewOrder', function(request, response) {
         email = request.session.username;
       }
       if( request.session.role=='Supervisor'){
-        //orderStatus = 'Submitted';
+       // orderStatus = 'Submitted';
         orderdepartment = request.session.dept;
       } 
       if( request.session.role=='ordersupervisor'){

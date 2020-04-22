@@ -96,7 +96,8 @@ block content
                             .col-4.text-center
                                 
                             .col-4.text-center
-                                a(class='btn submitbutton btn-' + btnType + ' btn-' + btnSize  href='/supervisor/order/approve/'+order[0].oOrderID) Verify and Sign 
+                                if order[0].oOrderStatus == 'Submitted'
+                                    a(class='btn submitbutton btn-' + btnType + ' btn-' + btnSize  href='/supervisor/order/approve/'+order[0].oOrderID) Verify and Sign 
                             .col-4.text-center
                                 a(class='btn cancelbutton btn-' + btnType + ' btn-' + btnSize  href='/orders/getOrders') Go Back
                              
