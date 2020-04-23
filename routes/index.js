@@ -51,7 +51,7 @@ router.get('/dashboard', function(req, res, next) {
   if(req.session.role=='Employee')
     res.render('employeeIndex', { title: 'Welcome Employee', user: req.session.username, session: req.session});
   else if(req.session.role=='Supervisor')
-    res.render('employeeIndex', { title: 'Welcome Supervisor', user: req.session.username, session: req.session});
+    res.render('SupervisorIndex', { title: 'Welcome Supervisor', user: req.session.username, session: req.session});
   else if(req.session.role=='ordersupervisor')
     res.render('ordersDeptIndex', { title: 'Welcome Orders Dept Supervisor', user: req.session.username, session: req.session});
   else
